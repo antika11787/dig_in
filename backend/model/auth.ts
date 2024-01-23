@@ -24,6 +24,11 @@ const authSchema = new Schema<IAuth>(
       required: true,
       default: "customer",
     },
+    address: {
+      type: String,
+      default: null,
+      required: [true, "Address should be provided"],
+    },
     isVerified: {
       type: Boolean,
       default: false,

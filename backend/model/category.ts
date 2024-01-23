@@ -9,7 +9,7 @@ const categorySchema = new Schema<ICategory>(
       unique: true,
       required: [true, "Category name should be provided"],
     },
-    image: {
+    file: {
       type: String,
       required: [true, "Image should be provided"],
     },

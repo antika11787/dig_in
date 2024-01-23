@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 const cors = require("cors");
 const dotenv = require("dotenv");
 const authRouter = require("../backend/routes/authRoutes");
+const categoryRouter = require("../backend/routes/categoryRoutes");
+const itemRouter = require("../backend/routes/itemRoutes");
 
 const databaseConnection = require("./config/database");
 
@@ -21,6 +23,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/auth", authRouter);
+app.use("/category", categoryRouter);
+app.use("/item", itemRouter);
 
 app
   .route("*")

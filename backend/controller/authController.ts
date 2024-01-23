@@ -37,9 +37,9 @@ class AuthController {
 
   async signup(req: Request, res: Response): Promise<Response> {
     try {
-      const { username, email, password } = req.body;
+      const { username, email, password,address } = req.body;
 
-      if (!username || !email || !password) {
+      if (!username || !email || !password || !address) {
         return res.status(400).send({ message: "All fields are required" });
       }
 
@@ -54,12 +54,14 @@ class AuthController {
       const user = await userModel.create({
         username,
         email,
+        address,
       });
       await user.save();
 
       const auth = new authModel({
         username,
         email,
+        address,
         password: hashedPassword,
         userId: user._id,
       });

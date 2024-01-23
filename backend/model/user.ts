@@ -20,6 +20,11 @@ const userSchema = new Schema<IUser>(
       required: true,
       default: "customer",
     },
+    address: {
+      type: String,
+      default: null,
+      required: [true, "Address should be provided"],
+    }
   },
   { timestamps: true }
 );
