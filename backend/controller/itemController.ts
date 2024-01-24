@@ -1,5 +1,6 @@
+import fs from "fs";
 import { Request, Response } from "express";
-import { ItemResponse } from "../types/interfaces";
+import { ItemResponse, updateItem } from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const itemModel = require("../model/items");
@@ -132,16 +133,16 @@ class ItemController {
   }
 
   async getItemById(req: Request, res: Response): Promise<Response> {
-    try{
+    try {
       const { id } = req.params;
 
-      if(!id) {
+      if (!id) {
         return res.status(400).send(failure("Item id is required"));
       }
 
       const item = await itemModel.findById(id);
 
-      if(!item) {
+      if (!item) {
         return res.status(404).send(failure("Item not found"));
       }
 
@@ -151,9 +152,112 @@ class ItemController {
         createdAt: undefined,
         updatedAt: undefined,
       };
-      
-      return res.status(200).send(success("Item fetched successfully", responseItem));
-    } catch(error) {
+
+      return res
+        .status(200)
+        .send(success("Item fetched successfully", responseItem));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
+  async deleteItem(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).send(failure("Item id is required"));
+      }
+
+      const item = await itemModel.findById(id);
+
+      if (!item) {
+        return res.status(404).send(failure("Item not found"));
+      }
+
+      const imagePath: string = item.banner;
+
+      fs.unlink(imagePath, async (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send(failure("Internal server error", err));
+        }
+      });
+
+      const itemImages: string[] = item.files;
+
+      if (itemImages.length > 0) {
+        for (const image of itemImages) {
+          fs.unlink(image, async (err) => {
+            if (err) {
+              console.log(err);
+              return res
+                .status(500)
+                .send(failure("Internal server error", err));
+            }
+          });
+        }
+      }
+
+      await itemModel.findByIdAndDelete(id);
+
+      return res.status(200).send(success("Item deleted successfully"));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
+  async updateItem(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const banner = req.file as Express.Multer.File | undefined;
+      const { title, description, price, categoryID } = req.body;
+
+      if (!id) {
+        return res.status(400).send(failure("Item id is required"));
+      }
+
+      const item = await itemModel.findById(id);
+
+      if (!item) {
+        return res.status(404).send(failure("Item not found"));
+      }
+
+      const existingTitle = await itemModel.findOne({ title });
+
+      if (existingTitle && existingTitle._id.toString() !== id) {
+        return res.status(400).send(failure("Title already exists"));
+      }
+
+      const imagePath: string = item.banner;
+
+      if (banner) {
+        fs.unlink(imagePath, async (err) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send(failure("Internal server error", err));
+          }
+        });
+      }
+
+      const updateFields: updateItem = {
+        title,
+        description,
+        price,
+        banner: banner ? banner.path : item.banner,
+      };
+  
+      // Only include categoryID if it is provided
+      if (categoryID) {
+        updateFields.categoryID = categoryID;
+      }
+
+      await itemModel.findByIdAndUpdate(id, updateFields);
+
+      return res.status(200).send(success("Item updated successfully"));
+    } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));
     }

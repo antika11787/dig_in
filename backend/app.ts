@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const authRouter = require("../backend/routes/authRoutes");
 const categoryRouter = require("../backend/routes/categoryRoutes");
 const itemRouter = require("../backend/routes/itemRoutes");
+const userRouter = require("../backend/routes/userRoutes");
+const cartRouter = require("../backend/routes/cartRoutes");
 
 const databaseConnection = require("./config/database");
 
@@ -25,6 +27,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 app.use("/auth", authRouter);
 app.use("/category", categoryRouter);
 app.use("/item", itemRouter);
+app.use("/users", userRouter);
+app.use("/cart", cartRouter);
 
 app
   .route("*")

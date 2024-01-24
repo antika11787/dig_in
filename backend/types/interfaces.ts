@@ -37,6 +37,24 @@ interface IItem extends Document {
   categoryID: Types.ObjectId;
 }
 
+interface ICartItem extends Document {
+  itemID: Types.ObjectId;
+  quantity: number;
+}
+
+interface ICart extends Document {
+  userID: Types.ObjectId;
+  items: ICartItem[];
+}
+
+interface updateItem {
+  title?: string;
+  description?: string;
+  price?: number;
+  banner?: string;
+  categoryID?: Types.ObjectId;
+}
+
 interface AuthResponse {
   username: string;
   email: string;
@@ -51,6 +69,10 @@ interface AuthResponse {
 
 interface CustomRequest extends Request {
   file_extension?: string;
+}
+
+interface IAuthMiddleware extends Request {
+  user: IAuth;
 }
 
 interface CategoryResponse {
@@ -69,8 +91,12 @@ export {
   IUser,
   ICategory,
   IItem,
+  ICartItem,
+  ICart,
+  updateItem,
   AuthResponse,
   CustomRequest,
+  IAuthMiddleware,
   CategoryResponse,
   ItemResponse
 };

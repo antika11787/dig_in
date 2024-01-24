@@ -63,7 +63,7 @@ class AuthController {
         email,
         address,
         password: hashedPassword,
-        userId: user._id,
+        userID: user._id,
       });
       await auth.save();
 
@@ -115,9 +115,13 @@ class AuthController {
 
   async verifyEmail(req: Request, res: Response): Promise<Response> {
     try {
-      const { userId, token } = req.params;
+      const { userID, token } = req.params;
 
-      const user = await authModel.findOne({ _id: userId });
+      console.log("userId", userID, "token", token);
+
+      const user = await authModel.findOne({ _id: userID });
+
+      console.log("user", user);
 
       if (!user) {
         return res.status(400).send({ message: "User does not exist" });
