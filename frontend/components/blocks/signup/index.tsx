@@ -1,22 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-// import { Link, useNavigate } from 'react-router-dom';
-// import Button from '../../atoms/Button';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-// import useAuth from '../../../hooks/useAuthHooks';
-// import { SignupApi } from '../../ApiCalls/Auth/AuthApi';
+import { FormData } from '@/types/interfaces';
+import useCustomHooks from '@/hooks/useCustomHooks';
+// import { SignupApi } from '@/apiEndpoints/auth';
 
-type FormData = {
-    username: string;
-    email: string;
-    role: string;
-    password: string;
-    confirm_password: string;
-};
+import './index.scss';
 
 const SignUpForm = () => {
+    const { signup } = useCustomHooks();
     const {
         handleSubmit,
         control,
@@ -28,6 +22,7 @@ const SignUpForm = () => {
             username: '',
             email: '',
             role: 'customer',
+            address: '',
             password: '',
             confirm_password: '',
         },
@@ -46,15 +41,15 @@ const SignUpForm = () => {
 
     const onSubmit = async (data: FormData) => {
         console.log(data);
+        signup(data);
     };
 
     return (
-        <div>
-            <h1>Create a New Account</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {/* form items container */}
-                <div>
-                    <label>Username</label>
+        <div className='form-container'>
+            <h1 className='signup-header'>Create a New Account</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className='signup-form'>
+                <div className='form-item'>
+                    <label className='form-label'>Username</label>
                     <Controller
                         name="username"
                         control={control}
@@ -73,15 +68,15 @@ const SignUpForm = () => {
                             <input
                                 placeholder="Enter username"
                                 {...field}
-                                // className={`w-full px-4 py-2 border rounded ${errors.username ? 'border-red-500' : ''}`}
+                                className='form-input'
                             />
                         )}
                     />
-                    {errors.username && <h5>{String(errors.username.message)}</h5>}
+                    {errors.username && <h5 className='error-message'>{String(errors.username.message)}</h5>}
                 </div>
 
-                <div>
-                    <label>Email</label>
+                <div className='form-item'>
+                    <label className='form-label'>Email</label>
                     <Controller
                         name="email"
                         control={control}
@@ -96,32 +91,51 @@ const SignUpForm = () => {
                             <input
                                 placeholder="Enter email"
                                 {...field}
-                                // className={`w-full px-4 py-2 border rounded ${errors.email ? 'border-red-500' : ''}`}
+                                className='form-input'
                             />
                         )}
                     />
-                    {errors.email && <h5>{errors.email.message}</h5>}
+                    {errors.email && <h5 className='error-message'>{errors.email.message}</h5>}
                 </div>
 
-                <div>
-                    <label>Role</label>
+                <div className='form-item'>
+                    <label className='form-label'>Role</label>
                     <Controller
                         name="role"
                         control={control}
                         render={({ field }) => (
                             <select
                                 {...field}
-                                // className={`w-full px-4 py-2 border rounded ${errors.role ? 'border-red-500' : ''}`}
+                                className='form-input'
                             >
-                                <option value="student">Student</option>
-                                <option value="teacher">Teacher</option>
+                                <option value="customer">Customer</option>
+                                <option value="author">Author</option>
                             </select>
                         )}
                     />
                 </div>
 
-                <div>
-                    <label>Password</label>
+                <div className='form-item'>
+                    <label className='form-label'>Address</label>
+                    <Controller
+                        name="address"
+                        control={control}
+                        rules={{
+                            required: 'Address is required',
+                        }}
+                        render={({ field }) => (
+                            <input
+                                placeholder="Enter address"
+                                {...field}
+                                className='form-input'
+                            />
+                        )}
+                    />
+                    {errors.address && <h5 className='error-message'>{errors.address.message}</h5>}
+                </div>
+
+                <div className="form-item">
+                    <label className="form-label">Password</label>
                     <Controller
                         name="password"
                         control={control}
@@ -134,16 +148,16 @@ const SignUpForm = () => {
                             },
                         }}
                         render={({ field }) => (
-                            <div className="relative">
+                            <div className="password-input">
                                 <input
                                     placeholder="Enter password"
                                     type={showPassword ? 'text' : 'password'}
                                     {...field}
-                                    // className={`w-full px-4 py-2 border rounded ${errors.password ? 'border-red-500' : ''}`}
+                                    className="form-input"
                                 />
                                 <button
                                     type="button"
-                                    // className="absolute top-1/2 right-4 transform -translate-y-1/2 focus:outline-none"
+                                    className='eye-button'
                                     onClick={togglePasswordVisibility}
                                 >
                                     {showPassword ? (
@@ -155,11 +169,11 @@ const SignUpForm = () => {
                             </div>
                         )}
                     />
-                    {errors.password && <h5 className="text-red-500">{errors.password.message}</h5>}
+                    {errors.password && <h5 className='error-message'>{errors.password.message}</h5>}
                 </div>
 
-                <div>
-                    <label>Confirm Password</label>
+                <div className="form-item">
+                    <label className="form-label">Confirm Password</label>
                     <Controller
                         name="confirm_password"
                         control={control}
@@ -169,16 +183,16 @@ const SignUpForm = () => {
                                 value === watch('password') || 'Confirm password should match given password',
                         }}
                         render={({ field }) => (
-                            <div className="relative">
+                            <div className="password-input">
                                 <input
                                     placeholder="Confirm password"
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     {...field}
-                                    className={`w-full px-4 py-2 border rounded ${errors.confirm_password ? 'border-red-500' : ''}`}
+                                    className="form-input"
                                 />
                                 <button
                                     type="button"
-                                    className="absolute top-1/2 right-4 transform -translate-y-1/2 focus:outline-none"
+                                    className='eye-button'
                                     onClick={toggleConfirmPasswordVisibility}
                                 >
                                     {showConfirmPassword ? (
@@ -191,15 +205,15 @@ const SignUpForm = () => {
                         )}
                     />
                     {errors.confirm_password && (
-                        <div className="mt-2">
-                            <h5 className="text-red-500">{errors.confirm_password.message}</h5>
+                        <div>
+                            <h5 className='error-message'>{errors.confirm_password.message}</h5>
                         </div>
                     )}
                 </div>
 
-                <div className="text-center flex flex-col justify-center">
-                    <button type="submit">Sign Up</button>
-                    <p className='text-grey-700'>Already have an account? Login</p>
+                <div className='submit-button-container'>
+                    <button type="submit" className='submit-button'>Sign Up</button>
+                    <p className='form-text'>Already have an account? Login</p>
                 </div>
             </form>
         </div>
