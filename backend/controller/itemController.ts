@@ -249,7 +249,6 @@ class ItemController {
         banner: banner ? banner.path : item.banner,
       };
   
-      // Only include categoryID if it is provided
       if (categoryID) {
         updateFields.categoryID = categoryID;
       }

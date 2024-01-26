@@ -24,9 +24,11 @@ const userSlice = createSlice({
     },
     saveLogin: (
       state,
-      action: PayloadAction<{ email: string; token: string }>
+      action: PayloadAction<{ email: string; isVerified: boolean; token: string }>
     ) => {
+      console.log("payload", action.payload.email);
       state.email = action.payload.email;
+      state.isVerified = action.payload.isVerified;
       state.token = action.payload.token;
     },
     removeLogin: (state) => {

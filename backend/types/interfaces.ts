@@ -47,12 +47,33 @@ interface ICart extends Document {
   items: ICartItem[];
 }
 
+interface IOrder extends Document {
+  cartID: Types.ObjectId;
+}
+
+interface IBlog extends Document {
+  title?: string;
+  content?: string;
+  banner?: string;
+  tags?: string[];
+  // icon: string;
+  author?: Types.ObjectId;
+}
+
 interface updateItem {
   title?: string;
   description?: string;
   price?: number;
   banner?: string;
   categoryID?: Types.ObjectId;
+}
+
+interface updateBlog {
+  title?: string;
+  content?: string;
+  banner?: string;
+  tags?: string[];
+  // icon: string;
 }
 
 interface AuthResponse {
@@ -93,7 +114,10 @@ export {
   IItem,
   ICartItem,
   ICart,
+  IOrder,
+  IBlog,
   updateItem,
+  updateBlog,
   AuthResponse,
   CustomRequest,
   IAuthMiddleware,

@@ -1,7 +1,7 @@
 @use "../../../styles/colors" as *;
 
 .form-container {
-  margin: auto;
+  margin: 50px auto;
   max-width: 400px;
   padding: 40px;
   border-radius: 10px;
@@ -9,22 +9,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+  height: 60vh;
 }
 
-.signup-header {
+.login-header {
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 20px;
   color: $color-dark;
 }
 
-.signup-form {
-  margin: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.login-form {
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .form-label {
@@ -118,7 +118,7 @@
 }
 
 .form-link {
-  text-decoration: none;
-  color: $color-activate;
-  font-weight: bold;
+    text-decoration: none;
+    color: $color-activate;
+    font-weight: bold;
 }

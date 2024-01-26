@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { FormData } from '@/types/interfaces';
-import useCustomHooks from '@/hooks/useCustomHooks';
-// import { SignupApi } from '@/apiEndpoints/auth';
+import { SignupApi } from '@/apiEndpoints/auth';
+import Link from 'next/link';
 
 import './index.scss';
 
 const SignUpForm = () => {
-    const { signup } = useCustomHooks();
     const {
         handleSubmit,
         control,
@@ -40,8 +39,11 @@ const SignUpForm = () => {
     };
 
     const onSubmit = async (data: FormData) => {
-        console.log(data);
-        signup(data);
+        try {
+            await SignupApi(data);
+        } catch (error) {
+            console.error('Error during signup:', error);
+        }
     };
 
     return (
@@ -153,7 +155,7 @@ const SignUpForm = () => {
                                     placeholder="Enter password"
                                     type={showPassword ? 'text' : 'password'}
                                     {...field}
-                                    className="form-input"
+                                    className="form-input-password"
                                 />
                                 <button
                                     type="button"
@@ -188,7 +190,7 @@ const SignUpForm = () => {
                                     placeholder="Confirm password"
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     {...field}
-                                    className="form-input"
+                                    className="form-input-password"
                                 />
                                 <button
                                     type="button"
@@ -213,7 +215,7 @@ const SignUpForm = () => {
 
                 <div className='submit-button-container'>
                     <button type="submit" className='submit-button'>Sign Up</button>
-                    <p className='form-text'>Already have an account? Login</p>
+                    <p className='form-text'>Already have an account? <Link href="/login" className='form-link'>Login</Link></p>
                 </div>
             </form>
         </div>

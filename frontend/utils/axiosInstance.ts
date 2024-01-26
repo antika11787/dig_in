@@ -1,18 +1,14 @@
 import axios from "axios";
-
-interface CustomImportMeta extends ImportMeta {
-  env: {
-    VITE_SERVER_URL: string;
-  };
-}
+import dotenv from 'dotenv';
+dotenv.config();
 
 const axiosInstance = axios.create({
-  baseURL: (import.meta as CustomImportMeta).env.VITE_SERVER_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 10000,
 });
 
 const axiosInstanceToken = axios.create({
-  baseURL: (import.meta as CustomImportMeta).env.VITE_SERVER_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 10000,
 });
 

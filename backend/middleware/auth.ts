@@ -71,7 +71,7 @@ const isUserAdmin = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const isUserAuthor = async (
-  req: IAuthMiddleware,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -87,7 +87,7 @@ const isUserAuthor = async (
       return res.status(400).send(failure("Authorization failed!"));
     }
 
-    if (decoded.role !== "author") {
+    if (decoded.role !== "author" && decoded.role !== "admin" && decoded.role !== "manager") {
       return res.status(400).send(failure("Authorization failed!"));
     }
 

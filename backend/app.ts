@@ -6,6 +6,7 @@ const categoryRouter = require("../backend/routes/categoryRoutes");
 const itemRouter = require("../backend/routes/itemRoutes");
 const userRouter = require("../backend/routes/userRoutes");
 const cartRouter = require("../backend/routes/cartRoutes");
+const blogRouter = require("../backend/routes/blogRoutes");
 
 const databaseConnection = require("./config/database");
 
@@ -29,6 +30,7 @@ app.use("/category", categoryRouter);
 app.use("/item", itemRouter);
 app.use("/users", userRouter);
 app.use("/cart", cartRouter);
+app.use("/blog", blogRouter);
 
 app
   .route("*")
