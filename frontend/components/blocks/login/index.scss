@@ -1,7 +1,7 @@
 @use "../../../styles/colors" as *;
 
-.form-container {
-  margin: 50px auto;
+.login-form-container {
+  margin: 70px auto;
   max-width: 400px;
   padding: 40px;
   border-radius: 10px;
@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  max-height: 60vh;
 }
 
 .login-header {
@@ -27,20 +27,20 @@
     gap: 10px;
 }
 
-.form-label {
+.login-form-label {
   font-size: 15px;
   font-weight: bold;
   color: $color-dark;
 }
 
-.form-item {
+.login-form-item {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.form-input {
+.login-form-input {
   padding: 10px 15px;
   border-radius: 10px;
   border: 1px solid $color-border;
@@ -48,7 +48,7 @@
   outline: none;
 }
 
-.form-input-password {
+.login-form-input-password {
   padding: 10px 15px;
   border: none;
   background-color: transparent;
@@ -56,14 +56,14 @@
   outline: none;
 }
 
-.password-input {
+.login-password-input {
   border-radius: 10px;
   border: 1px solid $color-border;
   width: 100%;
   position: relative;
 }
 
-.eye-button {
+.login-eye-button {
   position: absolute;
   top: 50%;
   right: 10px;
@@ -82,13 +82,13 @@
   transition: color 0.2s ease-in-out;
 }
 
-.error-message {
+.login-error-message {
   color: $color-danger;
   font-size: 14px;
   font-weight: normal;
 }
 
-.submit-button-container {
+.login-submit-button-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,7 +96,7 @@
   margin-top: 10px;
 }
 
-.submit-button {
+.login-submit-button {
   width: 100%;
   border: none;
   outline: none;
@@ -110,14 +110,14 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.form-text {
+.signup-form-text {
   font-size: 14px;
   color: $color-dark;
   text-align: center;
   margin-top: 10px;
 }
 
-.form-link {
+.signup-form-link {
     text-decoration: none;
     color: $color-activate;
     font-weight: bold;

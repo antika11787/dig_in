@@ -1,20 +1,57 @@
 @use "../../../styles/colors" as *;
 
 .header-container {
+  // margin
+  max-width: 100%;
+  padding: 10px 20px;
+  background-color: $color-background;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  position: sticky;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+
+  .header-ul {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    list-style: none;
+    gap: 20px;
 
-    .header-ul {
-        display: flex;
-        list-style: none;
-        gap: 20px;
+    .header-li {
+      .header-link {
+        text-decoration: none;
+        color: $color-dark;
+        transition: text-decoration 1s ease-in-out;
+      }
 
-        .header-li {
-            .header-link {
-                text-decoration: none;
-                color: $color-dark;
-            }
-        }
+      .header-link:hover {
+        text-decoration: underline;
+      }
     }
+  }
+
+  .header-buttons {
+    display: flex;
+    gap: 10px;
+
+    .login-button,
+    .signup-button,
+    .logout-button {
+      padding: 10px 15px;
+      font-size: 15px;
+      font-weight: normal;
+      border: 1px solid $color-dark;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: $color-background;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .login-button:hover,
+    .signup-button:hover,
+    .logout-button:hover {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+  }
 }

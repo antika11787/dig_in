@@ -45,11 +45,11 @@ const LoginForm = () => {
     };
 
     return (
-        <div className='form-container'>
+        <div className='login-form-container'>
             <h1 className='login-header'>Log In to Your Account</h1>
             <form onSubmit={handleSubmit(onSubmit)} className='login-form'>
-                <div className='form-item'>
-                    <label className='form-label'>Email</label>
+                <div className='login-form-item'>
+                    <label className='login-form-label'>Email</label>
                     <Controller
                         name="email"
                         control={control}
@@ -64,15 +64,15 @@ const LoginForm = () => {
                             <input
                                 placeholder="Enter email"
                                 {...field}
-                                className='form-input'
+                                className='login-form-input'
                             />
                         )}
                     />
-                    {errors.email && <h5 className='error-message'>{errors.email.message}</h5>}
+                    {errors.email && <h5 className='login-error-message'>{errors.email.message}</h5>}
                 </div>
 
-                <div className="form-item">
-                    <label className="form-label">Password</label>
+                <div className="login-form-item">
+                    <label className="login-form-label">Password</label>
                     <Controller
                         name="password"
                         control={control}
@@ -85,16 +85,16 @@ const LoginForm = () => {
                             },
                         }}
                         render={({ field }) => (
-                            <div className="password-input">
+                            <div className="login-password-input">
                                 <input
                                     placeholder="Enter password"
                                     type={showPassword ? 'text' : 'password'}
                                     {...field}
-                                    className="form-input-password"
+                                    className="login-form-input-password"
                                 />
                                 <button
                                     type="button"
-                                    className='eye-button'
+                                    className='login-eye-button'
                                     onClick={togglePasswordVisibility}
                                 >
                                     {showPassword ? (
@@ -106,12 +106,12 @@ const LoginForm = () => {
                             </div>
                         )}
                     />
-                    {errors.password && <h5 className='error-message'>{errors.password.message}</h5>}
+                    {errors.password && <h5 className='login-error-message'>{errors.password.message}</h5>}
                 </div>
 
-                <div className='submit-button-container'>
-                    <button type="submit" className='submit-button'>Login</button>
-                    <p className='form-text'>Don't have an account? <Link href="/signup" className='form-link'>Sign Up</Link></p>
+                <div className='login-submit-button-container'>
+                    <button type="submit" className='login-submit-button'>Login</button>
+                    <p className='signup-form-text'>Don't have an account? <Link href="/signup" className='signup-form-link'>Sign Up</Link></p>
                 </div>
             </form>
         </div>

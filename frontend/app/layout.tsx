@@ -9,6 +9,7 @@ import "./globals.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,10 +26,10 @@ export default function RootLayout({
           <PersistGate persistor={persistor}>
             <Header />
             {children}
+            <Footer />
           </PersistGate>
         </Provider>
       </body>
-
     </html>
   );
 }
