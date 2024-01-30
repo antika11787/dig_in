@@ -1,11 +1,32 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { IAuthMiddleware, ICartItem } from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const cartModel = require("../model/cart");
 const itemModel = require("../model/items");
+const orderModel = require("../model/order");
+const { validationResult } = require("express-validator");
 
 class CartController {
+  async createValidation(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void | Response> {
+    try {
+      const validation = validationResult(req).array();
+      if (validation.length > 0) {
+        return res
+          .status(400)
+          .send({ message: "Validation error", validation });
+      }
+      next();
+    } catch (error) {
+      console.log("Error has occurred", error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
   async addToCart(req: Request, res: Response): Promise<Response> {
     try {
       const { itemID, quantity } = req.body;
@@ -21,6 +42,8 @@ class CartController {
         return res.status(404).send(failure("Item not found"));
       }
 
+      const cost = existingItem.price * quantity;
+
       const existingCart = await cartModel.findOne({
         userID: customRequest.user,
       });
@@ -32,6 +55,7 @@ class CartController {
             {
               itemID,
               quantity,
+              cost,
             },
           ],
         });
@@ -46,6 +70,11 @@ class CartController {
       );
 
       if (existingCartItem) {
+        if (existingCartItem.quantity + quantity > 50) {
+          return res
+            .status(400)
+            .send(failure("Quantity cannot be greater than 50."));
+        }
         await cartModel.findOneAndUpdate(
           {
             _id: existingCart._id,
@@ -54,6 +83,7 @@ class CartController {
           {
             $inc: {
               "items.$.quantity": quantity,
+              "items.$.cost": cost,
             },
           }
         );
@@ -70,6 +100,7 @@ class CartController {
             items: {
               itemID,
               quantity,
+              cost,
             },
           },
         }
@@ -189,60 +220,49 @@ class CartController {
     }
   }
 
-  async increaseQuantity(req: Request, res: Response): Promise<Response> {
+  async updateQuantity(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { itemID, quantity } = req.body;
       const customRequest = req as IAuthMiddleware;
-
-      if (!id) {
-        return res.status(400).send(failure("Item ID is required"));
+  
+      const existingItem = await itemModel.findOne({ _id: itemID });
+      if (!existingItem) {
+        return res.status(404).send(failure("Item not found"));
       }
-
-      const cart = await cartModel.findOne({ userID: customRequest.user });
-
-      if (!cart) {
-        return res.status(404).send(failure("Cart not found"));
-      }
-
-      const existingCartItemIndex = cart.items.findIndex(
-        (item: ICartItem) => item.itemID.toString() === id.toString()
-      );
-
-      if (existingCartItemIndex === -1) {
-        return res.status(404).send(failure("Item not found in the cart"));
-      }
-
-      await cartModel.findOneAndUpdate(
-        { _id: cart._id },
+  
+      const existingCart = await cartModel.findOneAndUpdate(
+        { userID: customRequest.user },
         {
           $set: {
-            [`items.${existingCartItemIndex}.quantity`]:
-              cart.items[existingCartItemIndex].quantity + 1,
-          },
+            "items.$[elem].quantity": quantity,
+            "items.$[elem].cost": quantity * existingItem.price
+          }
         },
         {
-          new: true,
+          arrayFilters: [{ "elem.itemID": itemID }],
+          returnOriginal: false
         }
       );
-
-      const updatedCart = await cartModel.findById(cart._id);
-
-      return res
-        .status(200)
-        .send(success("Item quantity increased", updatedCart));
+  
+      if (!existingCart) {
+        return res.status(400).send(failure("Cart not found"));
+      }
+  
+      return res.status(200).send(success("Quantity updated successfully", existingCart));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));
     }
   }
+  
 
-  async decreaseQuantity(req: Request, res: Response): Promise<Response> {
+  async checkout(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { address } = req.body;
       const customRequest = req as IAuthMiddleware;
 
-      if (!id) {
-        return res.status(400).send(failure("Item ID is required"));
+      if (!address) {
+        return res.status(400).send(failure("Address is required"));
       }
 
       const cart = await cartModel.findOne({ userID: customRequest.user });
@@ -251,32 +271,21 @@ class CartController {
         return res.status(404).send(failure("Cart not found"));
       }
 
-      const existingCartItemIndex = cart.items.findIndex(
-        (item: ICartItem) => item.itemID.toString() === id.toString()
-      );
+      const estimatedCost = cart.items.reduce(
+        (acc: number, item: ICartItem) => acc + (item.cost ? item.cost : 0),
+        0
+      )
 
-      if (existingCartItemIndex === -1) {
-        return res.status(404).send(failure("Item not found in the cart"));
-      }
+      const order = new orderModel({
+        userID: customRequest.user,
+        items: cart.items,
+        address,
+        totalAmount: estimatedCost,
+      });
 
-      await cartModel.findOneAndUpdate(
-        { _id: cart._id },
-        {
-          $set: {
-            [`items.${existingCartItemIndex}.quantity`]:
-              cart.items[existingCartItemIndex].quantity - 1,
-          },
-        },
-        {
-          new: true,
-        }
-      );
+      await order.save();
 
-      const updatedCart = await cartModel.findById(cart._id);
-
-      return res
-        .status(200)
-        .send(success("Item quantity increased", updatedCart));
+      return res.status(200).send(success("Order placed successfully", order));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));

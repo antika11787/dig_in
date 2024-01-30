@@ -5,10 +5,18 @@ import {
   isUserAdmin,
   isUserCustomer,
 } from "../middleware/auth";
+import { cartValidators } from "../middleware/validation";
 
 const routes: Router = express.Router();
 
-routes.post("/add-to-cart", isUserLoggedIn, cartController.addToCart);
+routes.post(
+  "/add-to-cart",
+  isUserLoggedIn,
+  isUserCustomer,
+  cartValidators.addToCart,
+  cartController.createValidation,
+  cartController.addToCart
+);
 routes.get(
   "/get-all-carts",
   isUserLoggedIn,
@@ -23,5 +31,13 @@ routes.delete(
   cartController.removeFromCart
 );
 routes.delete("/clear-cart", isUserLoggedIn, cartController.clearCart);
+routes.patch(
+  "/update-quantity",
+  isUserLoggedIn,
+  cartValidators.addToCart,
+  cartController.createValidation,
+  cartController.updateQuantity
+);
+routes.post("/checkout", isUserLoggedIn, cartController.checkout);
 
 export = routes;

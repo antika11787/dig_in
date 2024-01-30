@@ -1,22 +1,28 @@
 @use "../../../styles/colors" as *;
 
 .footer-container {
-    max-width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 100px;
-    background-color: $color-dark;
-    color: $color-white;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  align-items: center;
+  justify-items: center;
+  padding: 10px;
+  background-color: $color-dark;
+  color: $color-white;
+//   position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 
-    .footer-columns {
-        .footer-text-heading {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .footer-text {
-            font-size: 14px;
-        }
+  .footer-columns {
+    .footer-text-heading {
+      font-size: 18px;
+      font-weight: bold;
     }
+
+    .footer-text {
+      font-size: 14px;
+    }
+  }
 }

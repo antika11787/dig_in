@@ -40,6 +40,7 @@ interface IItem extends Document {
 interface ICartItem extends Document {
   itemID: Types.ObjectId;
   quantity: number;
+  cost?: number;
 }
 
 interface ICart extends Document {
@@ -48,7 +49,14 @@ interface ICart extends Document {
 }
 
 interface IOrder extends Document {
-  cartID: Types.ObjectId;
+  userID: Types.ObjectId;
+  items: ICartItem[];
+  totalAmount: number;
+  status: string;
+  address: string;
+  // paymentType: string;
+  // paymentStatus: string;
+  // paymentDetails: string;
 }
 
 interface IBlog extends Document {

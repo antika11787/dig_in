@@ -5,7 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "@/redux/store/Store";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "@/components/layout/header";
@@ -24,9 +24,17 @@ export default function RootLayout({
         <ToastContainer />
         <Provider store={store}>
           <PersistGate persistor={persistor}>
-            <Header />
-            {children}
-            <Footer />
+            <div className="layout">
+              <div className="layout__header">
+                <Header />
+              </div>
+              <div className="layout__body">
+                {children}
+              </div>
+              <div className="layout__footer">
+                <Footer />
+              </div>
+            </div>
           </PersistGate>
         </Provider>
       </body>

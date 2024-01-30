@@ -30,6 +30,8 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.isVerified = action.payload.isVerified;
       state.token = action.payload.token;
+
+      localStorage.setItem("token", action.payload.token);
     },
     removeLogin: (state) => {
       state.email = "";

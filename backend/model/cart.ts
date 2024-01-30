@@ -19,6 +19,9 @@ const cartSchema = new Schema<ICart>(
           type: Number,
           required: true,
         },
+        cost: {
+          type: Number
+        }
       }
     ]
   },

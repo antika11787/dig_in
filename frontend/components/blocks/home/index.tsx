@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeLogin } from "@/redux/slices/UserSlice";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import './index.scss';

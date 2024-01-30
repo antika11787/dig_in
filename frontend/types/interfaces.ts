@@ -1,5 +1,3 @@
-// import { Types } from "mongoose";
-
 interface FormData {
   username: string;
   email: string;
@@ -27,6 +25,35 @@ interface CategoryResponse {
   file: string;
 }
 
+interface ItemResponse {
+  banner: string;
+  categoryID: string;
+  createdAt: string;
+  description: string;
+  files: string[];
+  price: number;
+  title: string;
+  updatedAt: string;
+  __v: number;
+  _id: string;
+}
+
+interface CartItems {
+  itemID: string;
+  quantity: number;
+  cost: number;
+  _id: string;
+}
+
+interface CartResponse {
+  _id: string;
+  userID: string;
+  items: CartItems[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 interface BlogResponse {
   _id: string;
   title: string;
@@ -36,4 +63,12 @@ interface BlogResponse {
   updatedAt: string;
 }
 
-export type { FormData, FormDataLogin, ButtonProps, CategoryResponse, BlogResponse };
+export type {
+  FormData,
+  FormDataLogin,
+  ButtonProps,
+  CategoryResponse,
+  BlogResponse,
+  ItemResponse,
+  CartResponse,
+};

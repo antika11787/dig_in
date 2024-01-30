@@ -1,16 +1,18 @@
 @use "../../../styles/colors" as *;
 
 .header-container {
-  // margin
   max-width: 100%;
   padding: 10px 20px;
   background-color: $color-background;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  position: sticky;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1;
+  z-index: 50;
 
   .header-ul {
     display: flex;
@@ -32,7 +34,19 @@
 
   .header-buttons {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
+
+    .cart-icon {
+      color: $color-box-shadow-pure-black;
+      cursor: pointer;
+      height: 40px;
+      width: 40px;
+    }
+
+    .profile-image {
+      cursor: pointer;
+    }
 
     .login-button,
     .signup-button,

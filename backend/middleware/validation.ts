@@ -43,3 +43,13 @@ export const authValidators = {
     }),
   ],
 };
+
+export const cartValidators = {
+  addToCart: [
+    body("itemID").isString().withMessage("Item ID must be a string."),
+
+    body("quantity")
+      .isInt({ min: 1, max: 50 })
+      .withMessage("Quantity must be a number and must be between 1 to 50."),
+  ],
+};
