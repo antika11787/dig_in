@@ -5,6 +5,8 @@ import { ItemResponse, updateItem } from "../types/interfaces";
 const { success, failure } = require("../utils/successError");
 const itemModel = require("../model/items");
 const categoryModel = require("../model/category");
+// const fileTypes = require("../constants/fileTypes")
+// const path = require('path')
 
 class ItemController {
   async createItem(req: Request, res: Response): Promise<Response> {
@@ -28,12 +30,14 @@ class ItemController {
         return res.status(400).send(failure("Category does not exist"));
       }
 
+      const pathParts = banner?.path.split(`\\`).pop();
+
       const item = new itemModel({
         title,
         description,
         price,
         categoryID,
-        banner: banner?.path,
+        banner: pathParts,
       });
 
       await item.save();
@@ -77,7 +81,9 @@ class ItemController {
 
       const filePaths = files.map((file) => file.path);
 
-      item.files = [...item.files, ...filePaths];
+      const pathParts = files?.map((file) => file.path.split(`\\`).pop());
+
+      item.files = [...item.files, ...pathParts];
 
       await item.save();
 
@@ -242,13 +248,15 @@ class ItemController {
         });
       }
 
+      const pathParts = banner?.path.split(`\\`).pop();
+
       const updateFields: updateItem = {
         title,
         description,
         price,
-        banner: banner ? banner.path : item.banner,
+        banner: pathParts,
       };
-  
+
       if (categoryID) {
         updateFields.categoryID = categoryID;
       }

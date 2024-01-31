@@ -20,12 +20,9 @@ const blogSchema = new Schema<IBlog>(
     tags: {
       type: [String],
     },
-    // icon: {
-    //   type: String,
-    // },
     author: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Auth",
       required: true,
     },
   },

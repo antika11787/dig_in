@@ -45,11 +45,7 @@ const HomePage = () => {
         GetBlogsApi().then((response) => {
             setBlogs(response);
         })
-    }, [])
-
-    console.log("blogs from page", blogs);
-
-    
+    }, []);
 
     return (
         <div className="container">
@@ -93,12 +89,14 @@ const HomePage = () => {
                         return (
                             <div key={blog._id}>
                                 <div className="blog-card">
-                                    <Image className="blog-image" src={'/back1.jpg'} alt="blog" width={350} height={300} />
-                                    <PiHamburgerFill className="blog-icon" />
-                                    <h3>{blog.title}</h3>
-                                    <p>
-                                        {truncateText(blog.content ?? "", 100)}</p>
-                                    <Button type="button" value="Read More" additionalStyle="read-more-button" />
+                                    <img src={`http://localhost:3000/uploads/${blog.banner}`} className="banner-image" />
+                                    <div className="blog-details">
+                                        <PiHamburgerFill className="blog-icon" />
+                                        <h3>{blog.title}</h3>
+                                        <p>
+                                            {truncateText(blog.content ?? "", 100)}</p>
+                                        <Button type="button" value="Read More" additionalStyle="read-more-button" />
+                                    </div>
                                 </div>
                             </div>
                         )
@@ -106,7 +104,7 @@ const HomePage = () => {
 
                 </div>
             </div>
-            
+
         </div>
     )
 }

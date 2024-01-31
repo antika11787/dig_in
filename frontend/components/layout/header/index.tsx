@@ -16,7 +16,6 @@ import { GetMyCartApi } from "@/apiEndpoints/cart";
 const Header = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    // const { id } = useParams();
     const state = useSelector((state: any) => state.user);
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [cart, setCart] = useState<CartResponse[]>([]);
@@ -33,7 +32,7 @@ const Header = () => {
         })
     }, []);
 
-    console.log("cart", cart.length > 0 ? cart[0].items : []);
+    // console.log("cart", cart.length > 0 ? cart[0].items : []);
 
     const logout = () => {
         dispatch(removeLogin());
@@ -47,7 +46,7 @@ const Header = () => {
             <ul className="header-ul">
                 <li className="header-li"><Link href={'/'} className="header-link">Home</Link></li>
                 <li className="header-li">
-                    {categories.length > 0 && <Link href={`/categories/${categories[0]._id}`} className="header-link">Categories</Link>}
+                    {categories && categories.length > 0 && <Link href={`/categories/${categories[0]._id}`} className="header-link">Categories</Link>}
                 </li>
                 <li className="header-li"><Link href={'/items'} className="header-link">Items</Link></li>
                 <li className="header-li"><Link href={'/blogs'} className="header-link">Blogs</Link></li>
@@ -55,7 +54,7 @@ const Header = () => {
 
             {state.isVerified ?
                 <div className="header-buttons">
-                    {cart.length > 0 && <Link href={'/cart'}><BsCart3 className="cart-icon" /></Link>}
+                    {cart && cart.length > 0 && <Link href={'/cart'}><BsCart3 className="cart-icon" /></Link>}
                     <BsCart3 className="cart-icon" />
                     <Image className="profile-image" height={35} width={35} src={'/user.png'} alt="profile" onClick={() => { router.push('/profile') }} />
                     <Button type="button" value="Logout" additionalStyle="logout-button" onClick={() => {

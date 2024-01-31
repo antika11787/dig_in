@@ -8,7 +8,7 @@ const fileTypes: string[] = [".png", ".jpg", ".jpeg", ".gif", ".avif", ".webp"];
 
 const upload: Multer = multer({
   limits: {
-    fileSize: 1000000 / 2,
+    fileSize: 2000000 * 5,
   },
 
   storage: multer.diskStorage({
@@ -17,7 +17,7 @@ const upload: Multer = multer({
       file: Express.Multer.File,
       callback: (error: Error | null, destination: string) => void
     ) {
-      callback(null, path.join(__dirname, "../server/uploads"));
+      callback(null, path.join(__dirname, "../uploads"));
     },
     filename: function (
       req: Request,

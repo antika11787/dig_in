@@ -5,6 +5,7 @@ import { IAuthMiddleware } from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const blogModel = require("../model/blog");
+const userModel = require("../model/user");
 
 class BlogController {
   async createBlog(req: Request, res: Response): Promise<Response> {
@@ -25,11 +26,12 @@ class BlogController {
 
       const tagsArray = tags.split(",").map((tag: string) => tag.trim());
 
+      const pathParts = banner?.path.split(`\\`).pop();
+
       const blog = new blogModel({
         title,
         content,
-        banner: banner?.path,
-        // icon: icon?.path,
+        banner: pathParts,
         tags: tagsArray,
         author: customRequest.user._id,
       });
@@ -54,7 +56,12 @@ class BlogController {
 
   async getAllBlogs(req: Request, res: Response): Promise<Response> {
     try {
-      const blogs = await blogModel.find();
+      const blogs = await blogModel
+        .find()
+        .populate({
+          path: "author",
+          select: "_id username email",
+      });
 
       if (blogs.length === 0) {
         return res.status(404).send({ message: "No blogs found" });
@@ -70,7 +77,9 @@ class BlogController {
   async getMyBlogs(req: Request, res: Response): Promise<Response> {
     try {
       const customRequest = req as IAuthMiddleware;
-      const blogs = await blogModel.find({ author: customRequest.user });
+      const blogs = await blogModel
+        .find({ author: customRequest.user })
+        .populate("author");
 
       if (blogs.length === 0) {
         return res.status(404).send({ message: "No blogs found" });
@@ -91,7 +100,7 @@ class BlogController {
         return res.status(400).send({ message: "Blog id is required" });
       }
 
-      const blog = await blogModel.findById(id);
+      const blog = await blogModel.findById(id).populate("author");
 
       if (!blog) {
         return res.status(404).send({ message: "Blog not found" });
@@ -121,7 +130,7 @@ class BlogController {
         return res.status(400).send({ message: "Author id is required" });
       }
 
-      const blogs = await blogModel.find({ author: id });
+      const blogs = await blogModel.find({ author: id }).populate("author");
 
       if (blogs.length === 0) {
         return res.status(404).send({ message: "No blogs found" });
@@ -203,11 +212,13 @@ class BlogController {
         });
       }
 
+      const pathParts = banner?.path.split(`\\`).pop();
+
       const updateFields: updateBlog = {
         title,
         content,
         tags: tagsArray,
-        banner: banner ? banner.path : blog.banner,
+        banner: pathParts,
       };
 
       await blogModel.findByIdAndUpdate(id, updateFields);

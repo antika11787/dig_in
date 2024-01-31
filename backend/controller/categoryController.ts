@@ -21,9 +21,11 @@ class CategoryController {
         return res.status(400).send({ message: "Category already exists" });
       }
 
+      const pathParts = file?.path.split(`\\`).pop();
+
       const category = new categoryModel({
         categoryName,
-        file: file.path,
+        file: pathParts,
       });
 
       await category.save();
@@ -153,9 +155,11 @@ class CategoryController {
         }
       });
 
+      const pathParts = file?.path.split(`\\`).pop();
+
       const updatedCategory = await categoryModel.findByIdAndUpdate(id, {
         categoryName: req.body.categoryName,
-        file: file ? file.path : category.file,
+        file: pathParts,
       }, { new: true });
 
       return res

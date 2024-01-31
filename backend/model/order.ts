@@ -24,7 +24,15 @@ const orderSchema = new Schema<IOrder>(
         }
       },
     ],
-    address: {
+    house: {
+      type: String,
+      required: true,
+    },
+    street: {
+      type: String,
+      required: true,
+    },
+    area: {
       type: String,
       required: true,
     },

@@ -224,44 +224,45 @@ class CartController {
     try {
       const { itemID, quantity } = req.body;
       const customRequest = req as IAuthMiddleware;
-  
+
       const existingItem = await itemModel.findOne({ _id: itemID });
       if (!existingItem) {
         return res.status(404).send(failure("Item not found"));
       }
-  
+
       const existingCart = await cartModel.findOneAndUpdate(
         { userID: customRequest.user },
         {
           $set: {
             "items.$[elem].quantity": quantity,
-            "items.$[elem].cost": quantity * existingItem.price
-          }
+            "items.$[elem].cost": quantity * existingItem.price,
+          },
         },
         {
           arrayFilters: [{ "elem.itemID": itemID }],
-          returnOriginal: false
+          returnOriginal: false,
         }
       );
-  
+
       if (!existingCart) {
         return res.status(400).send(failure("Cart not found"));
       }
-  
-      return res.status(200).send(success("Quantity updated successfully", existingCart));
+
+      return res
+        .status(200)
+        .send(success("Quantity updated successfully", existingCart));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));
     }
   }
-  
 
   async checkout(req: Request, res: Response): Promise<Response> {
     try {
-      const { address } = req.body;
+      const { house, street, area } = req.body;
       const customRequest = req as IAuthMiddleware;
 
-      if (!address) {
+      if (!house || !street || !area) {
         return res.status(400).send(failure("Address is required"));
       }
 
@@ -274,12 +275,14 @@ class CartController {
       const estimatedCost = cart.items.reduce(
         (acc: number, item: ICartItem) => acc + (item.cost ? item.cost : 0),
         0
-      )
+      );
 
       const order = new orderModel({
         userID: customRequest.user,
         items: cart.items,
-        address,
+        house,
+        street,
+        area,
         totalAmount: estimatedCost,
       });
 

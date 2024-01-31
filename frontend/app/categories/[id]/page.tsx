@@ -1,4 +1,4 @@
-import CategoryItems from "@/components/blocks/category-items";
+import CategoryItems from "@/components/blocks/categoryItems";
 
 const CategoryPage = () => {
     return (

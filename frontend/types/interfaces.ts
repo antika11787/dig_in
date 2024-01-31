@@ -54,13 +54,25 @@ interface CartResponse {
   __v: number;
 }
 
+interface Author {
+  _id: string;
+  username: string;
+  email: string;
+}
+
 interface BlogResponse {
   _id: string;
   title: string;
   content: string;
   banner: string;
-  author: string;
+  author: Author;
   updatedAt: string;
+}
+
+interface PriceSliderProps {
+  min: number;
+  max: number;
+  onChange: (min: number, max: number) => void;
 }
 
 export type {
@@ -71,4 +83,5 @@ export type {
   BlogResponse,
   ItemResponse,
   CartResponse,
+  PriceSliderProps
 };

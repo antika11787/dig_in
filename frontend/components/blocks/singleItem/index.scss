@@ -1,0 +1,19 @@
+@use "../../../styles/colors";
+
+.single-item-container {
+  margin: 100px 80px 50px 80px;
+  display: flex;
+  gap: 30px;
+
+  .single-item-banner {
+    width: 100%;
+    height: 300px;
+    border-radius: 5px 5px 0 0;
+    object-fit: cover;
+  }
+
+  .single-item-details {
+    display: flex;
+    flex-direction: column;
+  }
+}

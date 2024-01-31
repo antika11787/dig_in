@@ -17,6 +17,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads"));
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof SyntaxError && "body" in err) {
@@ -49,6 +50,6 @@ app
 
 databaseConnection(() => {
   app.listen(3000, () => {
-    console.log("Server is running on 3000...");
+    console.log("Server is running on port 3000...");
   });
 });

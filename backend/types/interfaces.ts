@@ -53,7 +53,9 @@ interface IOrder extends Document {
   items: ICartItem[];
   totalAmount: number;
   status: string;
-  address: string;
+  house: string;
+  street: string;
+  area: string;
   // paymentType: string;
   // paymentStatus: string;
   // paymentDetails: string;
