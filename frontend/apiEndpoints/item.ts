@@ -5,7 +5,7 @@ dotenv.config();
 
 export const GetAllItemsApi = async () => {
   try {
-    const response = await axiosInstance("/item/get-all-items");
+    const response = await axiosInstance("/app/v1/item/get-all-items");
     const data = response.data;
 
     if (data.success === false) {
@@ -23,7 +23,7 @@ export const GetAllItemsApi = async () => {
 
 export const GetItemsByCategoryIDApi = async (id: string) => {
   try {
-    const response = await axiosInstance(`/item/get-items-by-category/${id}`);
+    const response = await axiosInstance(`/app/v1/item/get-items-by-category/${id}`);
     const data = response.data;
 
     if (data.success === false) {
@@ -40,7 +40,7 @@ export const GetItemsByCategoryIDApi = async (id: string) => {
 
 export const GetItemByIdApi = async (id: string) => {
   try {
-    const response = await axiosInstance(`/item/get-item-by-id/${id}`);
+    const response = await axiosInstance(`/app/v1/item/get-item-by-id/${id}`);
     const data = response.data;
 
     if (data.success === false) {

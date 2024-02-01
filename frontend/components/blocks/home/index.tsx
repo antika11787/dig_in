@@ -1,28 +1,28 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import './index.scss';
 import { Button } from "@/components/elements/button";
 import { GetCategoriesApi } from "@/apiEndpoints/category";
+import { GetItemsByCategoryIDApi } from "@/apiEndpoints/item";
 import { GetBlogsApi } from "@/apiEndpoints/blog";
-import { CategoryResponse, BlogResponse } from "@/types/interfaces";
+import { CategoryResponse, BlogResponse, ItemResponse } from "@/types/interfaces";
 import helper from "@/utils/helper";
 import { PiHamburgerFill } from "react-icons/pi";
 
 const HomePage = () => {
-    const dispatch = useDispatch();
     const router = useRouter();
     const { truncateText } = helper();
-    // const { categoryId } = router.query;
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
+    const [categoryID, setCategoryID] = useState<string>("");
+    const [items, setItems] = useState<ItemResponse[]>([]);
     const [blogs, setBlogs] = useState<BlogResponse[]>([]);
 
     const handleScroll = () => {
-        const scrollTop = window.pageYOffset;
-        const parallaxFactor = 0.5;
+        const scrollTop = window.scrollY;
+        const parallaxFactor = 0.8;
         const image = document.querySelector(".image-wrapper img") as HTMLElement;
 
         if (image) {
@@ -42,10 +42,28 @@ const HomePage = () => {
     }, []);
 
     useEffect(() => {
+        if (categories && categories.length > 0) {
+            setCategoryID(categories[0]._id);
+        }
+    }, [categories]);
+
+    useEffect(() => {
         GetBlogsApi().then((response) => {
             setBlogs(response);
         })
     }, []);
+
+    useEffect(() => {
+        if (categoryID) {
+            GetItemsByCategoryIDApi(categoryID).then((response) => {
+                setItems(response);
+            })
+        }
+    }, [categoryID]);
+
+    const handleCategoryClick = (categoryId: string) => {
+        setCategoryID(categoryId);
+    };
 
     return (
         <div className="container">
@@ -66,19 +84,40 @@ const HomePage = () => {
                     <Button type="button" value="Explore" additionalStyle="explore-button" />
                 </div>
             </div>
-            <div className="category-container">
+            <div className="category-container-home">
                 <h2 className="category-title">Categories</h2>
                 <div className="category-tags">
-                    {categories.map((category) => {
-                        return (
+                    <div className="category-names">
+                        {categories.map((category) => (
                             <div key={category._id}>
-                                <p className={`category-tag`}
-                                    onClick={() => router.push(`/category/${category._id}`)}>
+                                <p
+                                    className={`category-tag ${categoryID === category._id ? "active" : ""
+                                        }`}
+                                    onClick={() => handleCategoryClick(category._id)}
+                                >
                                     {category.categoryName}
                                 </p>
+
                             </div>
-                        )
-                    })}
+                        ))}
+                    </div>
+                    <div className="category-items">
+                        {items.map((item) => {
+                            return (
+                                <div key={item._id} className='item-card-home'
+                                    onClick={() => router.push(`/items/${item._id}`)}>
+                                    <img src={`http://localhost:3000/uploads/${item.banner}`}
+                                        alt="banner"
+                                        className='item-banner-home' />
+                                    <div className='item-details-home'>
+                                        <h3 className='item-title-home'>{item.title}</h3>
+                                        <p className='item-description-home'>{truncateText(item.description, 100)}</p>
+                                        <p className='item-price-home'>${item.price}</p>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
             <div className="blog-container">

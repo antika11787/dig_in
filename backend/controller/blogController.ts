@@ -56,11 +56,9 @@ class BlogController {
 
   async getAllBlogs(req: Request, res: Response): Promise<Response> {
     try {
-      const blogs = await blogModel
-        .find()
-        .populate({
-          path: "author",
-          select: "_id username email",
+      const blogs = await blogModel.find().populate({
+        path: "author",
+        select: "_id username email",
       });
 
       if (blogs.length === 0) {
@@ -79,7 +77,10 @@ class BlogController {
       const customRequest = req as IAuthMiddleware;
       const blogs = await blogModel
         .find({ author: customRequest.user })
-        .populate("author");
+        .populate({
+          path: "author",
+          select: "_id username email",
+        });
 
       if (blogs.length === 0) {
         return res.status(404).send({ message: "No blogs found" });
@@ -100,7 +101,10 @@ class BlogController {
         return res.status(400).send({ message: "Blog id is required" });
       }
 
-      const blog = await blogModel.findById(id).populate("author");
+      const blog = await blogModel.findById(id).populate({
+        path: "author",
+        select: "_id username email",
+      });
 
       if (!blog) {
         return res.status(404).send({ message: "Blog not found" });
@@ -130,7 +134,10 @@ class BlogController {
         return res.status(400).send({ message: "Author id is required" });
       }
 
-      const blogs = await blogModel.find({ author: id }).populate("author");
+      const blogs = await blogModel.find({ author: id }).populate({
+        path: "author",
+        select: "_id username email",
+      });
 
       if (blogs.length === 0) {
         return res.status(404).send({ message: "No blogs found" });
@@ -158,8 +165,9 @@ class BlogController {
       }
 
       const imagePath: string = blog.banner;
+      console.log(process.env.DIRNAME);
 
-      fs.unlink(imagePath, async (err) => {
+      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
         if (err) {
           console.log(err);
           return res.status(500).send(failure("Internal server error", err));
@@ -204,7 +212,7 @@ class BlogController {
       }
 
       if (banner) {
-        fs.unlink(blog.banner, (err) => {
+        fs.unlink(`${process.env.DIRNAME}/${blog.banner}`, (err) => {
           if (err) {
             console.log(err);
             return res.status(500).send(failure("Internal server error", err));

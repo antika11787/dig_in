@@ -66,7 +66,6 @@ interface IBlog extends Document {
   content?: string;
   banner?: string;
   tags?: string[];
-  // icon: string;
   author?: Types.ObjectId;
 }
 
@@ -83,7 +82,6 @@ interface updateBlog {
   content?: string;
   banner?: string;
   tags?: string[];
-  // icon: string;
 }
 
 interface AuthResponse {
@@ -117,6 +115,11 @@ interface ItemResponse {
   price: number;
 }
 
+interface ItemQuantity {
+  itemID: Types.ObjectId;
+  quantity: number;
+}
+
 export {
   IAuth,
   IUser,
@@ -132,5 +135,6 @@ export {
   CustomRequest,
   IAuthMiddleware,
   CategoryResponse,
-  ItemResponse
+  ItemResponse,
+  ItemQuantity
 };

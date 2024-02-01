@@ -21,7 +21,7 @@ const orderSchema = new Schema<IOrder>(
         },
         cost: {
           type: Number,
-        }
+        },
       },
     ],
     house: {
@@ -41,6 +41,7 @@ const orderSchema = new Schema<IOrder>(
     },
     status: {
       type: String,
+      enum: ["Pending", "Delivered", "Cancelled"],
       default: "Pending",
     },
   },

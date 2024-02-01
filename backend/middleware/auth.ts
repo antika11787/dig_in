@@ -1,6 +1,7 @@
 import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { IAuthMiddleware } from "../types/interfaces";
+const { handleJSONTokenError } = require("../utils/errorHandler");
 
 const { failure } = require("../utils/successError");
 
@@ -16,7 +17,7 @@ const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
     if (!decoded) {
-      return res.status(400).send(failure("Authorization failed (login)!"));
+      return res.status(400).send(failure("Authorization failed!"));
     }
 
     const customRequest = req as IAuthMiddleware;
@@ -24,12 +25,7 @@ const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     console.log("error found", error);
-    if (error instanceof JsonWebTokenError) {
-      return res.status(500).send(failure("Token is invalid", error));
-    }
-    if (error instanceof TokenExpiredError) {
-      return res.status(500).send(failure("Token is expired", error));
-    }
+    handleJSONTokenError(error, req, res, next);
     return res.status(500).send(failure("Internal server error"));
   }
 };
@@ -60,12 +56,7 @@ const isUserAdmin = async (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     console.log("error found", error);
-    if (error instanceof JsonWebTokenError) {
-      return res.status(500).send(failure("Token is invalid", error));
-    }
-    if (error instanceof TokenExpiredError) {
-      return res.status(500).send(failure("Token is expired", error));
-    }
+    handleJSONTokenError(error, req, res, next);
     return res.status(500).send(failure("Internal server error"));
   }
 };
@@ -87,7 +78,11 @@ const isUserAuthor = async (
       return res.status(400).send(failure("Authorization failed!"));
     }
 
-    if (decoded.role !== "author" && decoded.role !== "admin" && decoded.role !== "manager") {
+    if (
+      decoded.role !== "author" &&
+      decoded.role !== "admin" &&
+      decoded.role !== "manager"
+    ) {
       return res.status(400).send(failure("Authorization failed!"));
     }
 
@@ -100,12 +95,7 @@ const isUserAuthor = async (
     next();
   } catch (error) {
     console.log("error found", error);
-    if (error instanceof JsonWebTokenError) {
-      return res.status(500).send(failure("Token is invalid", error));
-    }
-    if (error instanceof TokenExpiredError) {
-      return res.status(500).send(failure("Token is expired", error));
-    }
+    handleJSONTokenError(error, req, res, next);
     return res.status(500).send(failure("Internal server error"));
   }
 };
@@ -140,12 +130,7 @@ const isUserCustomer = async (
     next();
   } catch (error) {
     console.log("error found", error);
-    if (error instanceof JsonWebTokenError) {
-      return res.status(500).send(failure("Token is invalid", error));
-    }
-    if (error instanceof TokenExpiredError) {
-      return res.status(500).send(failure("Token is expired", error));
-    }
+    handleJSONTokenError(error, req, res, next);
     return res.status(500).send(failure("Internal server error"));
   }
 };

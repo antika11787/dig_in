@@ -107,7 +107,7 @@ class CategoryController {
 
       const imagePath: string = category.file;
 
-      fs.unlink(imagePath, async (err) => {
+      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
         if (err) {
           console.error("Error deleting image:", err);
           return res.status(500).send("Internal Server Error");
@@ -148,7 +148,7 @@ class CategoryController {
 
       const imagePath: string = category.file;
 
-      fs.unlink(imagePath, async (err) => {
+      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
         if (err) {
           console.error("Error deleting image:", err);
           return res.status(500).send("Internal Server Error");

@@ -6,7 +6,7 @@ dotenv.config();
 
 export const SignupApi = async (formData: FormData) => {
   try {
-    const response = await axiosInstance.post(`/auth/signup`, formData);
+    const response = await axiosInstance.post(`/app/v1/auth/signup`, formData);
     const data = response.data;
 
     if (data.success === false) {
@@ -22,7 +22,7 @@ export const SignupApi = async (formData: FormData) => {
 
 export const LoginApi = async (formData: FormDataLogin) => {
   try {
-    const response = await axiosInstance.post(`/auth/login`, formData);
+    const response = await axiosInstance.post(`/app/v1/auth/login`, formData);
     const data = response.data;
 
     if (data.success === false) {

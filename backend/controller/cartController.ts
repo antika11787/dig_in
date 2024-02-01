@@ -288,7 +288,36 @@ class CartController {
 
       await order.save();
 
+      await cartModel.findOneAndDelete({ _id: cart._id });
+
       return res.status(200).send(success("Order placed successfully", order));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
+  async changeStatus(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const customRequest = req as IAuthMiddleware;
+      const order = await orderModel.findOne({ _id: id });
+
+      if (!order) {
+        return res.status(404).send(failure("Order not found"));
+      }
+
+      if (!status) {
+        return res.status(400).send(failure("Status is required"));
+      }
+
+      order.status = status;
+      await order.save();
+
+      return res
+        .status(200)
+        .send(success("Order status updated successfully", order));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));

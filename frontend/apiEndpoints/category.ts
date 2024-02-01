@@ -5,7 +5,7 @@ dotenv.config();
 
 export const GetCategoriesApi = async () => {
   try {
-    const response = await axiosInstance("/category/get-categories");
+    const response = await axiosInstance("/app/v1/category/get-categories");
     const data = response.data;
 
     if (data.success === false) {

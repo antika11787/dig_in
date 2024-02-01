@@ -23,9 +23,9 @@ const SingleItem = () => {
         <div className='single-item-container'>
             <img src={`http://localhost:3000/uploads/${item?.banner}`} className='single-item-banner'/>
             <div className='single-item-details'>
-                <h1>{item?.title}</h1>
-                <p>{item?.description}</p>
-                <p>${item?.price}</p>
+                <h1 className='single-item-title'>{item?.title}</h1>
+                <p className='single-item-description'>{item?.description}</p>
+                <p className='single-item-price'>${item?.price}</p>
             </div>
         </div>
     )

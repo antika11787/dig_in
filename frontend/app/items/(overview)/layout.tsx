@@ -5,12 +5,14 @@ const ItemsLayout = ({ children }: Readonly<{
 }>) => {
 
     return (
-        <div className="item-wrapper">
-            <ItemFilter />
+        // <div className="item-wrapper">
+        //     <div className="item-filter">
+        //         <ItemFilter />
+        //     </div>
             <div className="item-body">
                 {children}
             </div>
-        </div>
+        // </div>
     );
 };
 

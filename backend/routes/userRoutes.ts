@@ -6,6 +6,6 @@ import { isUserLoggedIn, isUserAdmin, isUserCustomer } from "../middleware/auth"
 const routes: Router = express.Router();
 
 routes.get("/get-all-users", userController.getAllUsers);
-routes.patch("/update-user/:id", isUserLoggedIn, isUserAdmin || isUserCustomer, userController.updateUserInfo);
+routes.patch("/update-user/:id", isUserLoggedIn, isUserAdmin, userController.updateUserInfo);
 
 export = routes;

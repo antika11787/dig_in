@@ -5,20 +5,31 @@ import { FormData, FormDataLogin } from "../types/interfaces";
 import dotenv from "dotenv";
 dotenv.config();
 
+// export const GetBlogsApi = async () => {
+//     try {
+//         const response = await axiosInstance("/app/v1/blog/get-all-blogs");
+//         const data = response.data;
+//         console.log("blogs", data.data);
+
+//         if (data.success === false) {
+//             console.log("Error: ", data.message);
+//         }
+
+//         return data.data;
+//     } catch (error:any) {
+//         console.error(
+//             error.message || "An unknown error occurred during fetching data"
+//           );
+//     }
+// }
+
 export const GetBlogsApi = async () => {
-    try {
-        const response = await axiosInstance("/blog/get-all-blogs");
-        const data = response.data;
-        console.log("blogs", data.data);
-
-        if (data.success === false) {
-            console.log("Error: ", data.message);
-        }
-
-        return data.data;
-    } catch (error:any) {
-        console.error(
-            error.message || "An unknown error occurred during fetching data"
-          );
-    }
-}
+  return axiosInstance
+    .get("/app/v1/blog/get-all-blogs")
+    .then((response) => {
+      return response.data.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

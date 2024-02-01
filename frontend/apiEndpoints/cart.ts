@@ -5,7 +5,7 @@ dotenv.config();
 
 export const GetMyCartApi =async ()=>{
     try {
-        const response = await axiosInstanceToken(`/cart/get-my-cart`);
+        const response = await axiosInstanceToken(`/app/v1/cart/get-my-cart`);
         const data = response.data;
         
         if (data.success === false) {

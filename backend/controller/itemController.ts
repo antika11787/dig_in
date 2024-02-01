@@ -184,7 +184,7 @@ class ItemController {
 
       const imagePath: string = item.banner;
 
-      fs.unlink(imagePath, async (err) => {
+      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
         if (err) {
           console.log(err);
           return res.status(500).send(failure("Internal server error", err));
@@ -240,7 +240,7 @@ class ItemController {
       const imagePath: string = item.banner;
 
       if (banner) {
-        fs.unlink(imagePath, async (err) => {
+        fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
           if (err) {
             console.log(err);
             return res.status(500).send(failure("Internal server error", err));

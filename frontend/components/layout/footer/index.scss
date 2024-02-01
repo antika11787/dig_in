@@ -6,12 +6,10 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   align-items: end;
-  justify-items: end;
+  justify-items: center;
   padding: 10px;
   background-color: $color-dark;
   color: $color-white;
-  bottom: 0;
-  left: 0;
 
   .footer-columns {
     .footer-text-heading {

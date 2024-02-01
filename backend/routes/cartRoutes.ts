@@ -39,5 +39,6 @@ routes.patch(
   cartController.updateQuantity
 );
 routes.post("/checkout", isUserLoggedIn, cartController.checkout);
+routes.post("/set-status/:id", isUserLoggedIn, isUserAdmin, cartController.changeStatus);
 
 export = routes;

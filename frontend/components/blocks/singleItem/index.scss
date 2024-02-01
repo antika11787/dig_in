@@ -15,5 +15,9 @@
   .single-item-details {
     display: flex;
     flex-direction: column;
+
+    .single-item-price {
+      font-weight: bold;
+    }
   }
 }
