@@ -111,7 +111,7 @@ const HomePage = () => {
                                         className='item-banner-home' />
                                     <div className='item-details-home'>
                                         <h3 className='item-title-home'>{item.title}</h3>
-                                        <p className='item-description-home'>{truncateText(item.description, 100)}</p>
+                                        <p className='item-description-home'>{truncateText(item.description || '', 60)}</p>
                                         <p className='item-price-home'>${item.price}</p>
                                     </div>
                                 </div>
@@ -131,9 +131,9 @@ const HomePage = () => {
                                     <img src={`http://localhost:3000/uploads/${blog.banner}`} className="banner-image" />
                                     <div className="blog-details">
                                         <PiHamburgerFill className="blog-icon" />
-                                        <h3>{blog.title}</h3>
-                                        <p>
-                                            {truncateText(blog.content ?? "", 100)}</p>
+                                        <h4>{blog.title}</h4>
+                                        <p className="blog-card-content">
+                                            {truncateText(blog.content ?? "", 60)}</p>
                                         <Button type="button" value="Read More" additionalStyle="read-more-button" />
                                     </div>
                                 </div>

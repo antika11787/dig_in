@@ -14,15 +14,22 @@ body {
   min-height: 100vh;
 }
 
-.category-wrapper {
-  margin-top: 70px;
+.category-body {
   display: flex;
   padding: 20px;
   gap: 10px;
+  position: relative;
 }
 
 .item-body {
-  margin-top: 70px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  min-height: 160vh;
 }
 
 .item-wrapper {
@@ -30,9 +37,4 @@ body {
   display: flex;
   padding: 20px;
   gap: 10px;
-
-  .item-filter {
-    width: 300px;
-    max-height: 100vh;
-  }
 }

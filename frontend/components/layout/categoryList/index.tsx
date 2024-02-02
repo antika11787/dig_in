@@ -17,7 +17,7 @@ const CategoryList = () => {
 
     return (
         <div className="category-container">
-            <h3>Categories</h3>
+            <h3 className="category-title">Categories</h3>
             {categoryList.map((category) => (
                 <div className="category-card" key={category._id}>
                     <Link className="category-link" href={`/categories/${category._id}`}>

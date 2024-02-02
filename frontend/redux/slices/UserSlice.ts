@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface UserState {
-  email: string;
-  token: string;
-  isVerified: boolean;
-}
+import { UserState } from "../../types/interfaces";
 
 const initialState: UserState = {
   email: "",
   token: "",
+  role: "",
   isVerified: false,
 };
 
@@ -24,19 +20,25 @@ const userSlice = createSlice({
     },
     saveLogin: (
       state,
-      action: PayloadAction<{ email: string; isVerified: boolean; token: string }>
+      action: PayloadAction<{ email: string; isVerified: boolean; token: string, role: string }>
     ) => {
       console.log("payload", action.payload.email);
       state.email = action.payload.email;
       state.isVerified = action.payload.isVerified;
       state.token = action.payload.token;
+      state.role = action.payload.role;
 
       localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("role", action.payload.role);
     },
     removeLogin: (state) => {
       state.email = "";
       state.token = "";
+      state.role = "";
       state.isVerified = false;
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
     },
   },
 });

@@ -6,6 +6,7 @@ import { ItemResponse } from "@/types/interfaces";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import helper from "@/utils/helper";
+import CategoryList from "../../layout/categoryList";
 import './index.scss';
 
 const categoryItems = () => {
@@ -23,8 +24,9 @@ const categoryItems = () => {
     }, [id]);
 
     return (
-        <>
-            <h2 className="category-items-title">Category Items</h2>
+        <div className="category-wrapper">
+            <CategoryList/>
+            {/* <h2 className="category-items-title">Category Items</h2> */}
             <div className="items-container-category">
                 {/* {categoryItems && categoryItems?.length > 0 ? ( */}
                     {categoryItems.map((item) => {
@@ -36,8 +38,8 @@ const categoryItems = () => {
                                     className='item-banner' />
                                 <div className='item-details'>
                                     <h3 className='item-title'>{item.title}</h3>
-                                    <p className='item-description'>{truncateText(item.description, 100)}</p>
-                                    <p className='item-price'>${item.price}</p>
+                                    <p className='item-description'>{truncateText(item.description || '', 60)}</p>
+                                    <p className='item-price'>Price: ${item.price}</p>
                                 </div>
                             </div>
                         )
@@ -46,7 +48,7 @@ const categoryItems = () => {
                     <p>No items found</p>
                 )} */}
             </div>
-        </>
+        </div>
     )
 }
 

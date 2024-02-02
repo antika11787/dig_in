@@ -5,7 +5,7 @@ import { IAuthMiddleware } from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const blogModel = require("../model/blog");
-const userModel = require("../model/user");
+const { appConfig } = require("../config/constant");
 
 class BlogController {
   async createBlog(req: Request, res: Response): Promise<Response> {
@@ -165,9 +165,8 @@ class BlogController {
       }
 
       const imagePath: string = blog.banner;
-      console.log(process.env.DIRNAME);
 
-      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
+      fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
         if (err) {
           console.log(err);
           return res.status(500).send(failure("Internal server error", err));
@@ -212,7 +211,7 @@ class BlogController {
       }
 
       if (banner) {
-        fs.unlink(`${process.env.DIRNAME}/${blog.banner}`, (err) => {
+        fs.unlink(`${appConfig.dirname}/${blog.banner}`, (err) => {
           if (err) {
             console.log(err);
             return res.status(500).send(failure("Internal server error", err));

@@ -2,6 +2,7 @@ import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { IAuthMiddleware } from "../types/interfaces";
 const { handleJSONTokenError } = require("../utils/errorHandler");
+const { appConfig } = require("../config/constant");
 
 const { failure } = require("../utils/successError");
 
@@ -14,7 +15,7 @@ const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     }
     const token = req.headers.authorization?.split(" ")[1] ?? "";
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded: any = jwt.verify(token, appConfig.jwtSecret!);
 
     if (!decoded) {
       return res.status(400).send(failure("Authorization failed!"));
@@ -37,7 +38,7 @@ const isUserAdmin = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(400).send(failure("Authorization failed!"));
     }
     const token = req.headers.authorization?.split(" ")[1] ?? "";
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded: any = jwt.verify(token, appConfig.jwtSecret!);
 
     if (!decoded) {
       return res.status(400).send(failure("Authorization failed!"));
@@ -72,7 +73,7 @@ const isUserAuthor = async (
       return res.status(400).send(failure("Authorization failed!"));
     }
     const token = req.headers.authorization?.split(" ")[1] ?? "";
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded: any = jwt.verify(token, appConfig.jwtSecret!);
 
     if (!decoded) {
       return res.status(400).send(failure("Authorization failed!"));
@@ -111,7 +112,7 @@ const isUserCustomer = async (
       return res.status(400).send(failure("Authorization failed!"));
     }
     const token = req.headers.authorization?.split(" ")[1] ?? "";
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded: any = jwt.verify(token, appConfig.jwtSecret!);
 
     if (!decoded) {
       return res.status(400).send(failure("Authorization failed!"));

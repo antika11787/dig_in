@@ -1,14 +1,15 @@
 import axios from "axios";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import appConfig from "../config/constants";
 dotenv.config();
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: appConfig.nextPublicApiBaseUrl,
   timeout: 10000,
 });
 
 const axiosInstanceToken = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: appConfig.nextPublicApiBaseUrl,
   timeout: 10000,
 });
 

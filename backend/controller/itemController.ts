@@ -1,12 +1,17 @@
 import fs from "fs";
 import { Request, Response } from "express";
 import { ItemResponse, updateItem } from "../types/interfaces";
+import { ParsedQs } from "qs";
 
 const { success, failure } = require("../utils/successError");
 const itemModel = require("../model/items");
 const categoryModel = require("../model/category");
-// const fileTypes = require("../constants/fileTypes")
-// const path = require('path')
+const { appConfig } = require("../config/constant");
+
+interface FilterType {
+  price?: { $gte?: number | undefined; $lte?: number | undefined } | undefined;
+  $or?: Array<{ [key: string]: { $regex: string; $options: string } }>;
+}
 
 class ItemController {
   async createItem(req: Request, res: Response): Promise<Response> {
@@ -63,8 +68,6 @@ class ItemController {
       const files = req.files as Express.Multer.File[] | undefined;
       const { id } = req.params;
 
-      console.log("files", files, id);
-
       if (!id) {
         return res.status(400).send(failure("Item id is required"));
       }
@@ -78,8 +81,6 @@ class ItemController {
       if (!item) {
         return res.status(404).send(failure("Item not found"));
       }
-
-      const filePaths = files.map((file) => file.path);
 
       const pathParts = files?.map((file) => file.path.split(`\\`).pop());
 
@@ -96,13 +97,98 @@ class ItemController {
 
   async getAllItems(req: Request, res: Response): Promise<Response> {
     try {
-      const items = await itemModel.find();
+      let { sortParam, priceMin, priceMax, search } = req.query;
+      let page: string | string[] | ParsedQs | ParsedQs[] | undefined | number =
+        req.query.page;
+      let limit:
+        | string
+        | string[]
+        | ParsedQs
+        | ParsedQs[]
+        | undefined
+        | number = req.query.limit;
 
-      if (items.length === 0) {
-        return res.status(404).send(failure("No items found"));
+      let result = 0;
+      const totalRecords = await itemModel.countDocuments({});
+
+      if (!page || !limit) {
+        page = 1;
+        limit = 6;
       }
 
-      return res.status(200).send(success("Items fetched successfully", items));
+      // sorting
+      if (
+        sortParam &&
+        sortParam !== "priceAsc" &&
+        sortParam !== "updatedAtAsc" &&
+        sortParam !== "updatedAtDesc" &&
+        sortParam !== "priceDesc"
+      ) {
+        return res
+          .status(400)
+          .send(failure("Invalid sort parameters provided."));
+      }
+
+      // Filtering
+      const filter: FilterType = {};
+
+      if (priceMin && priceMax) {
+        if (priceMin > priceMax) {
+          return res
+            .status(400)
+            .send(
+              failure("Minimum price cannot be greater than maximum price.")
+            );
+        }
+        filter.price = {
+          $gte: parseFloat(priceMin.toString()),
+          $lte: parseFloat(priceMax.toString()),
+        };
+      }
+      if (priceMin && !priceMax) {
+        filter.price = { $gte: parseFloat(priceMin.toString()) };
+      }
+      if (!priceMin && priceMax) {
+        filter.price = { $lte: parseFloat(priceMax.toString()) };
+      }
+
+      // search
+      if (search) {
+        filter["$or"] = [
+          { title: { $regex: String(search), $options: "i" } },
+          { description: { $regex: String(search), $options: "i" } },
+        ];
+      }
+
+      // Pagination
+      result = await itemModel
+        .find(filter)
+        .sort(
+          sortParam
+            ? {
+                priceAsc: { price: 1 },
+                updatedAtAsc: { updatedAt: 1 },
+                updatedAtDesc: { updatedAt: -1 },
+                priceDesc: { price: -1 },
+              }[sortParam]
+            : { _id: 1 }
+        )
+        .skip(((page as number) - 1) * (limit as number))
+        .limit(limit)
+        .select("-__v");
+
+      if (Array.isArray(result) && result.length > 0) {
+        const paginationResult = {
+          items: result,
+          totalInCurrentPage: result.length,
+          currentPage: parseInt(page.toString()),
+          totalRecords: totalRecords,
+        };
+        return res
+          .status(200)
+          .send(success("Successfully received all items", paginationResult));
+      }
+      return res.status(400).send(failure("No item was found"));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));
@@ -184,7 +270,7 @@ class ItemController {
 
       const imagePath: string = item.banner;
 
-      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
+      fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
         if (err) {
           console.log(err);
           return res.status(500).send(failure("Internal server error", err));
@@ -240,7 +326,7 @@ class ItemController {
       const imagePath: string = item.banner;
 
       if (banner) {
-        fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
+        fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
           if (err) {
             console.log(err);
             return res.status(500).send(failure("Internal server error", err));

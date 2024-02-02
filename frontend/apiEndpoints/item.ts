@@ -3,16 +3,22 @@ import { toast } from "react-toastify";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const GetAllItemsApi = async () => {
+export const GetAllItemsApi = async (
+  page: number,
+  searchQuery: string,
+  sortParam: string
+) => {
   try {
-    const response = await axiosInstance("/app/v1/item/get-all-items");
+    const response = await axiosInstance(
+      `/app/v1/item/get-all-items?page=${page}&limit=6&search=${searchQuery}&sortParam=${sortParam}`
+    );
     const data = response.data;
+    console.log("items", data);
 
     if (data.success === false) {
       console.log("Error: ", data.message);
     }
 
-    console.log("items", data.data);
     return data.data;
   } catch (error: any) {
     console.error(
@@ -23,7 +29,9 @@ export const GetAllItemsApi = async () => {
 
 export const GetItemsByCategoryIDApi = async (id: string) => {
   try {
-    const response = await axiosInstance(`/app/v1/item/get-items-by-category/${id}`);
+    const response = await axiosInstance(
+      `/app/v1/item/get-items-by-category/${id}`
+    );
     const data = response.data;
 
     if (data.success === false) {

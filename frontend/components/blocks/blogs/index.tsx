@@ -30,7 +30,7 @@ const Blogs = () => {
                                 className='blog-banner' />
                             <div className='blog-details'>
                                 <h3 className='blog-title'>{blog.title}</h3>
-                                <p className='blog-description'>{truncateText(blog.content, 100)}</p>
+                                <p className='blog-description'>{truncateText(blog.content, 60)}</p>
                                 <Button type="button" value="Read More" additionalStyle="read-more-button" />
                             </div>
                         </div>

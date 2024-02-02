@@ -5,12 +5,12 @@ const CategoryLayout = ({ children }: Readonly<{
 }>) => {
 
     return (
-        <div className="category-wrapper">
-            <CategoryList />
+        // <div className="category-wrapper">
+        //     <CategoryList />
             <div className="category-body">
                 {children}
             </div>
-        </div>
+        // </div>
     );
 };
 

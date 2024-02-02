@@ -9,6 +9,7 @@ const { promisify } = require("util");
 const ejs = require("ejs");
 const ejsRenderFile = promisify(ejs.renderFile);
 const { sendMail } = require("../config/sendMail");
+const { appConfig } = require("../config/constant");
 
 const authModel = require("../model/auth");
 const userModel = require("../model/user");
@@ -76,7 +77,7 @@ class AuthController {
       await auth.save();
 
       const emailVerificationURL = `${
-        process.env.BACKEND_URI
+        appConfig.backendUrl
       }/auth/verify-email/${auth._id.toString()}/${token}`;
 
       const htmlBody = await ejsRenderFile(
@@ -187,7 +188,7 @@ class AuthController {
       await auth.save();
 
       const resetPasswordURL = `${
-        process.env.BACKEND_URI
+        appConfig.backendUrl
       }/auth/reset-password/${auth._id.toString()}/${resetToken}`;
 
       const htmlBody = await ejsRenderFile(
@@ -315,7 +316,7 @@ class AuthController {
         resetPasswordExpired: undefined,
       };
 
-      const generatedToken = jwt.sign(responseAuth, process.env.JWT_SECRET!, {
+      const generatedToken = jwt.sign(responseAuth, appConfig.jwtSecret!, {
         expiresIn: "30d",
       });
 

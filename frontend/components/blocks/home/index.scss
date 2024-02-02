@@ -98,26 +98,29 @@
           display: flex;
           flex-direction: column;
           justify-content: center;
+          align-items: center;
           box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
             rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
           border-radius: 5px;
+          cursor: pointer;
 
           .item-details-home {
             padding: 0 20px;
-      
+
             .item-description-home {
-              font-size: 15px;
+              font-size: 14px;
               color: $color-dark;
             }
-      
+
             .item-price-home {
               font-weight: bold;
+              font-size: 14px;
             }
           }
 
           .item-banner-home {
             width: 100%;
-            height: 300px;
+            height: 250px;
             border-radius: 5px 5px 0 0;
             object-fit: cover;
           }
@@ -152,12 +155,25 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
           rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
         border-radius: 5px;
+        cursor: pointer;
 
         .blog-details {
           padding: 0 20px;
+          margin-top: 5px;
+
+          .blog-card-content {
+            font-size: 14px;
+          }
+
+          h4,
+          p {
+            margin-top: 0px;
+            padding: 0;
+          }
         }
 
         .banner-image {
@@ -165,19 +181,12 @@
           height: 250px;
           border-radius: 5px 5px 0 0;
           object-fit: cover;
-          margin-bottom: 5px;
         }
 
         .blog-icon {
           width: 22px;
           height: 22px;
           animation: floatAnimation 1s infinite alternate;
-        }
-
-        h3,
-        p {
-          margin-top: 0;
-          padding: 0;
         }
 
         .read-more-button {

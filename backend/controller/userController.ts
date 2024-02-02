@@ -1,6 +1,4 @@
-import fs from "fs";
 import { Request, Response } from "express";
-import { ItemResponse, updateItem } from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const userModel = require("../model/user");

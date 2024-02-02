@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+const { appConfig } = require("../config/constant");
 
 const databaseConnection = async (callback: () => void) => {
     try {
-        if(process.env.DATABASE_URL) {
-            const client = await mongoose.connect(process.env.DATABASE_URL);
+        if(appConfig.databaseUrl) {
+            const client = await mongoose.connect(appConfig.databaseUrl);
             if(client) {
                 console.log("Database connected successfully.");
                 callback();

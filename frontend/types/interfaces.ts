@@ -26,16 +26,16 @@ interface CategoryResponse {
 }
 
 interface ItemResponse {
-  banner: string;
-  categoryID: string;
-  createdAt: string;
-  description: string;
-  files: string[];
-  price: number;
-  title: string;
-  updatedAt: string;
-  __v: number;
-  _id: string;
+  banner?: string;
+  categoryID?: string;
+  description?: string;
+  files?: string[];
+  price?: number;
+  title?: string;
+  _id?: string;
+  __v?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface CartItems {
@@ -75,6 +75,20 @@ interface PriceSliderProps {
   onChange: (min: number, max: number) => void;
 }
 
+interface DropdownProps {
+  title?: string;
+  options?: { value: string; label: string }[];
+  selectedOption?: string;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
+
+interface UserState {
+  email: string;
+  token: string;
+  role: string;
+  isVerified: boolean;
+}
+
 export type {
   FormData,
   FormDataLogin,
@@ -83,5 +97,7 @@ export type {
   BlogResponse,
   ItemResponse,
   CartResponse,
-  PriceSliderProps
+  PriceSliderProps,
+  DropdownProps,
+  UserState
 };

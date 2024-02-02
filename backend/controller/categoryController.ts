@@ -4,6 +4,7 @@ import { CategoryResponse } from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const categoryModel = require("../model/category");
+const { appConfig } = require("../config/constant");
 
 class CategoryController {
   async createCategory(req: Request, res: Response): Promise<Response> {
@@ -107,7 +108,7 @@ class CategoryController {
 
       const imagePath: string = category.file;
 
-      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
+      fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
         if (err) {
           console.error("Error deleting image:", err);
           return res.status(500).send("Internal Server Error");
@@ -148,7 +149,7 @@ class CategoryController {
 
       const imagePath: string = category.file;
 
-      fs.unlink(`${process.env.DIRNAME}/${imagePath}`, async (err) => {
+      fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
         if (err) {
           console.error("Error deleting image:", err);
           return res.status(500).send("Internal Server Error");
