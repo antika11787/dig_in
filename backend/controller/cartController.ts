@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { IAuthMiddleware, ICartItem } from "../types/interfaces";
+import {
+  IAuthMiddleware,
+  ICartItem,
+  ItemQuantity,
+  ItemResponse,
+} from "../types/interfaces";
 
 const { success, failure } = require("../utils/successError");
 const cartModel = require("../model/cart");
@@ -32,7 +37,7 @@ class CartController {
       const { itemID, quantity } = req.body;
       const customRequest = req as IAuthMiddleware;
 
-      if (!itemID || !quantity) {
+      if (!itemID) {
         return res.status(400).send(failure("All fields are required"));
       }
 
@@ -58,6 +63,7 @@ class CartController {
               cost,
             },
           ],
+          totalAmount: cost, // Set totalAmount when creating new cart
         });
 
         await cart.save();
@@ -68,6 +74,8 @@ class CartController {
       const existingCartItem = existingCart.items.find(
         (item: ICartItem) => item.itemID.toString() === itemID
       );
+
+      let updatedCart;
 
       if (existingCartItem) {
         if (existingCartItem.quantity + quantity > 50) {
@@ -88,25 +96,32 @@ class CartController {
           }
         );
 
-        const updatedCart = await cartModel.findById(existingCart._id);
+        updatedCart = await cartModel.findById(existingCart._id);
+      } else {
+        await cartModel.findOneAndUpdate(
+          { _id: existingCart._id },
+          {
+            $push: {
+              items: {
+                itemID,
+                quantity,
+                cost,
+              },
+            },
+          }
+        );
 
-        return res.status(200).send(success("Item added to cart", updatedCart));
+        updatedCart = await cartModel.findById(existingCart._id);
       }
 
-      await cartModel.findOneAndUpdate(
-        { _id: existingCart._id },
-        {
-          $push: {
-            items: {
-              itemID,
-              quantity,
-              cost,
-            },
-          },
-        }
+      // Calculate totalAmount
+      updatedCart.totalAmount = updatedCart.items.reduce(
+        (total: number, item: ICartItem) => total + (item.cost ?? 0),
+        0
       );
 
-      const updatedCart = await cartModel.findById(existingCart._id);
+      // Save the updated cart
+      await updatedCart.save();
 
       return res.status(200).send(success("Item added to cart", updatedCart));
     } catch (error) {
@@ -133,7 +148,13 @@ class CartController {
   async getMyCart(req: Request, res: Response): Promise<Response> {
     try {
       const customRequest = req as IAuthMiddleware;
-      const cart = await cartModel.findOne({ userID: customRequest.user });
+      const cart = await cartModel
+        .findOne({ userID: customRequest.user })
+        .populate({
+          path: "items.itemID",
+          model: "Item",
+          select: "banner title price",
+        });
 
       if (!cart) {
         return res.status(404).send(failure("Cart not found"));
@@ -247,6 +268,13 @@ class CartController {
       if (!existingCart) {
         return res.status(400).send(failure("Cart not found"));
       }
+
+      existingCart.totalAmount = existingCart.items.reduce(
+        (total: number, item: ItemQuantity) => total + (item.quantity * existingItem.price),
+        0
+      );
+
+      await existingCart.save();
 
       return res
         .status(200)

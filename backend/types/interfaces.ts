@@ -46,6 +46,7 @@ interface ICartItem extends Document {
 interface ICart extends Document {
   userID: Types.ObjectId;
   items: ICartItem[];
+  totalAmount: number;
 }
 
 interface IOrder extends Document {
@@ -118,6 +119,7 @@ interface ItemResponse {
 interface ItemQuantity {
   itemID: Types.ObjectId;
   quantity: number;
+  cost?: number;
 }
 
 export {

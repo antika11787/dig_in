@@ -29,7 +29,7 @@ body {
   position: relative;
   top: 0;
   left: 0;
-  min-height: 160vh;
+  min-height: 165vh;
 }
 
 .item-wrapper {
@@ -37,4 +37,8 @@ body {
   display: flex;
   padding: 20px;
   gap: 10px;
+}
+
+.no-items {
+  margin-left: 10px;
 }

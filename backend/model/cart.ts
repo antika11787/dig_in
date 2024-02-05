@@ -17,13 +17,17 @@ const cartSchema = new Schema<ICart>(
         },
         quantity: {
           type: Number,
-          required: true,
+          default: 1,
         },
         cost: {
-          type: Number
-        }
-      }
-    ]
+          type: Number,
+        },
+      },
+    ],
+    totalAmount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

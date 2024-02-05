@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { CategoryResponse, CartResponse } from "@/types/interfaces";
 import { BsCart3 } from "react-icons/bs";
 import { GetMyCartApi } from "@/apiEndpoints/cart";
+import HeaderCart from "@/components/elements/headerCart";
 
 const Header = () => {
     const router = useRouter();
@@ -32,7 +33,7 @@ const Header = () => {
         })
     }, []);
 
-    // console.log("cart", cart.length > 0 ? cart[0].items : []);
+    console.log("cart", cart);
 
     const logout = () => {
         dispatch(removeLogin());
@@ -52,10 +53,9 @@ const Header = () => {
                 <li className="header-li"><Link href={'/blogs'} className="header-link">Blogs</Link></li>
             </ul>
 
-            {state.isVerified ?
+            {state.token ?
                 <div className="header-buttons">
-                    {cart && cart.length > 0 && <Link href={'/cart'}><BsCart3 className="cart-icon" /></Link>}
-                    <BsCart3 className="cart-icon" />
+                    <HeaderCart />
                     <Image className="profile-image" height={35} width={35} src={'/user.png'} alt="profile" onClick={() => { router.push('/profile') }} />
                     <Button type="button" value="Logout" additionalStyle="logout-button" onClick={() => {
                         logout();

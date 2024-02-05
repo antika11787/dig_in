@@ -25,7 +25,7 @@ interface CategoryResponse {
   file: string;
 }
 
-interface ItemResponse {
+type ItemResponse = {
   banner?: string;
   categoryID?: string;
   description?: string;
@@ -36,7 +36,9 @@ interface ItemResponse {
   __v?: number;
   createdAt?: string;
   updatedAt?: string;
-}
+  quantity?: number;
+  cost?: number;
+} & { itemID?: string };
 
 interface CartItems {
   itemID: string;
@@ -52,6 +54,20 @@ interface CartResponse {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+interface MyCartResponse {
+  _id: string;
+  userID: string;
+  items: ItemResponse[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface AddToCartResponse {
+  itemID?: string;
+  quantity?: number;
 }
 
 interface Author {
@@ -80,7 +96,7 @@ interface DropdownProps {
   options?: { value: string; label: string }[];
   selectedOption?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-};
+}
 
 interface UserState {
   email: string;
@@ -97,7 +113,9 @@ export type {
   BlogResponse,
   ItemResponse,
   CartResponse,
+  AddToCartResponse,
   PriceSliderProps,
   DropdownProps,
-  UserState
+  UserState,
+  MyCartResponse,
 };
