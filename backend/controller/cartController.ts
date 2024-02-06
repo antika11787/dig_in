@@ -325,7 +325,7 @@ class CartController {
 
       const lineItems = cart.items.map((item: IPayment) => ({
         price_data: {
-          currency: "usd",
+          currency: "bdt",
           product_data: {
             name: item.itemID.title,
             images: [item.itemID.banner],
@@ -343,8 +343,6 @@ class CartController {
         cancel_url: `${appConfig.frontendUrl}/paymentFail/${order._id}`,
       });
 
-      await cartModel.findOneAndDelete({ _id: cart._id });
-
       await order.save();
 
       return res
@@ -356,45 +354,47 @@ class CartController {
     }
   }
 
-  // async paymentSuccess(req: Request, res: Response) {
-  //   try {
-  //     const { id } = req.params;
-  //     const customRequest = req as IAuthMiddleware;
+  async paymentSuccess(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const customRequest = req as IAuthMiddleware;
 
-  //     const order = await orderModel.findOne({ id });
-  //     const cart = await cartModel.findOne({ userID: customRequest.user });
+      const order = await orderModel.findById(id);
+      // const cart = await cartModel.findOne({ userID: customRequest.user });
 
-  //     if (!order) {
-  //       return res.status(404).send(failure("Order not found"));
-  //     }
+      // console.log("order", order);
 
-  //     await cartModel.findOneAndDelete({ _id: cart._id });
+      if (!order) {
+        return res.status(404).send(failure("Order not found"));
+      }
 
-  //     return res.redirect(`http://localhost:6002/paymentSuccess/${order._id}`);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(500).send(failure("Internal server error", error));
-  //   }
-  // }
+      await cartModel.findOneAndDelete({ userID: customRequest.user });
 
-  // async paymentFail(req: Request, res: Response) {
-  //   try {
-  //     const { id } = req.params;
+      return res.redirect(`${appConfig.frontendUrl}/paymentSuccess/${order._id}`);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
 
-  //     const order = await orderModel.findOne({ id });
+  async paymentFail(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
 
-  //     if (!order) {
-  //       return res.status(404).send(failure("Order not found"));
-  //     }
+      const order = await orderModel.findOne({ id });
 
-  //     await orderModel.findOneAndDelete({ _id: order._id });
+      if (!order) {
+        return res.status(404).send(failure("Order not found"));
+      }
 
-  //     return res.redirect(`http://localhost:6002/paymentFail/${order._id}`);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(500).send(failure("Internal server error", error));
-  //   }
-  // }
+      await orderModel.findOneAndDelete({ _id: order._id });
+
+      return res.redirect(`${appConfig.frontendUrl}/paymentFail/${order._id}`);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
 
   async changeStatus(req: Request, res: Response): Promise<Response> {
     try {

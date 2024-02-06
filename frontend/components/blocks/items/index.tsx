@@ -36,7 +36,7 @@ const Items = () => {
         GetMyCartApi().then((response) => {
             setCartData(response);
         });
-    }, [cartData]);
+    }, []);
 
     useEffect(() => {
         GetAllItemsApi(currentPage, searchQuery, sortParam).then((response) => {

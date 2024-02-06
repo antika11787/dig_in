@@ -39,8 +39,8 @@ routes.patch(
   cartController.updateQuantity
 );
 routes.post("/checkout", isUserLoggedIn, cartController.checkout);
-// routes.get("/payment-success/:id", cartController.paymentSuccess);
-// routes.get("/payment-failed/:id", cartController.paymentFail);
+routes.get("/payment-success/:id", cartController.paymentSuccess);
+routes.get("/payment-failed/:id", cartController.paymentFail);
 routes.post("/set-status/:id", isUserLoggedIn, isUserAdmin, cartController.changeStatus);
 
 export = routes;

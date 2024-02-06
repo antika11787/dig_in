@@ -15,7 +15,7 @@ const CartItems = () => {
         GetMyCartApi().then((response) => {
             setCartData(response);
         });
-    }, [cartData]);
+    }, []);
 
     return (
         <div className="cart-dropdown custom-scrollbar">

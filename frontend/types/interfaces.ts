@@ -52,9 +52,9 @@ interface CartResponse {
   userID: string;
   items: CartItems[];
   totalAmount: number;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
 }
 
 interface MyCartResponse {
@@ -106,6 +106,12 @@ interface UserState {
   isVerified: boolean;
 }
 
+interface CartState {
+  cart: {
+    numberOfItems: number;
+  };
+}
+
 interface AddressData {
   house: string;
   area: string;
@@ -126,4 +132,5 @@ export type {
   UserState,
   MyCartResponse,
   AddressData,
+  CartState,
 };

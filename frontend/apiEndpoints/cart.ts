@@ -166,10 +166,10 @@ export const PaymentSuccessApi = async (id: string) => {
     toast.success("Cart cleared");
     return responseData.data;
   } catch (error: any) {
-    toast.error(
-      error.response.data.message ||
-        "An unknown error occurred during fetching data"
-    );
+    // toast.error(
+    //   error.response.data.message ||
+    //     "An unknown error occurred during fetching data"
+    // );
     console.error(error || "An unknown error occurred during fetching data");
   }
 };
