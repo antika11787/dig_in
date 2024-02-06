@@ -51,6 +51,7 @@ interface CartResponse {
   _id: string;
   userID: string;
   items: CartItems[];
+  totalAmount: number;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -105,6 +106,12 @@ interface UserState {
   isVerified: boolean;
 }
 
+interface AddressData {
+  house: string;
+  area: string;
+  street: string;
+}
+
 export type {
   FormData,
   FormDataLogin,
@@ -118,4 +125,5 @@ export type {
   DropdownProps,
   UserState,
   MyCartResponse,
+  AddressData,
 };

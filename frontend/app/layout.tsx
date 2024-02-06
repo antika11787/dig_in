@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ToastContainer />
+        <ToastContainer position="bottom-center" />
         <Provider store={store}>
           <PersistGate persistor={persistor}>
             <div className="layout">

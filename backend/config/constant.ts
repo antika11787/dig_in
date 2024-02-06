@@ -9,7 +9,9 @@ const appConfig = {
     gmailPassword: process.env.GMAIL_PASSWORD,
     gmailId: process.env.GMAIL_ID,
     backendUrl: process.env.BACKEND_URL,
+    frontendUrl: process.env.FRONTEND_URL,
     dirname: process.env.DIRNAME,
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
 };
 
 module.exports = {

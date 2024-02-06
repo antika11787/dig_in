@@ -4,8 +4,11 @@ import {
   ICartItem,
   ItemQuantity,
   ItemResponse,
+  IPayment,
 } from "../types/interfaces";
 
+const { appConfig } = require("../config/constant");
+const stripe = require("stripe")(appConfig.stripeSecretKey);
 const { success, failure } = require("../utils/successError");
 const cartModel = require("../model/cart");
 const itemModel = require("../model/items");
@@ -270,7 +273,8 @@ class CartController {
       }
 
       existingCart.totalAmount = existingCart.items.reduce(
-        (total: number, item: ItemQuantity) => total + (item.quantity * existingItem.price),
+        (total: number, item: ItemQuantity) =>
+          total + item.quantity * existingItem.price,
         0
       );
 
@@ -294,7 +298,12 @@ class CartController {
         return res.status(400).send(failure("Address is required"));
       }
 
-      const cart = await cartModel.findOne({ userID: customRequest.user });
+      const cart = await cartModel
+        .findOne({ userID: customRequest.user })
+        .populate({
+          path: "items.itemID",
+          model: "Item",
+        });
 
       if (!cart) {
         return res.status(404).send(failure("Cart not found"));
@@ -314,16 +323,78 @@ class CartController {
         totalAmount: estimatedCost,
       });
 
-      await order.save();
+      const lineItems = cart.items.map((item: IPayment) => ({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.itemID.title,
+            images: [item.itemID.banner],
+          },
+          unit_amount: item.cost * 100,
+        },
+        quantity: item.quantity,
+      }));
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: lineItems,
+        mode: "payment",
+        success_url: `${appConfig.frontendUrl}/paymentSuccess/${order._id}`,
+        cancel_url: `${appConfig.frontendUrl}/paymentFail/${order._id}`,
+      });
 
       await cartModel.findOneAndDelete({ _id: cart._id });
 
-      return res.status(200).send(success("Order placed successfully", order));
+      await order.save();
+
+      return res
+        .status(200)
+        .send(success("Order placed successfully", session.url));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));
     }
   }
+
+  // async paymentSuccess(req: Request, res: Response) {
+  //   try {
+  //     const { id } = req.params;
+  //     const customRequest = req as IAuthMiddleware;
+
+  //     const order = await orderModel.findOne({ id });
+  //     const cart = await cartModel.findOne({ userID: customRequest.user });
+
+  //     if (!order) {
+  //       return res.status(404).send(failure("Order not found"));
+  //     }
+
+  //     await cartModel.findOneAndDelete({ _id: cart._id });
+
+  //     return res.redirect(`http://localhost:6002/paymentSuccess/${order._id}`);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.status(500).send(failure("Internal server error", error));
+  //   }
+  // }
+
+  // async paymentFail(req: Request, res: Response) {
+  //   try {
+  //     const { id } = req.params;
+
+  //     const order = await orderModel.findOne({ id });
+
+  //     if (!order) {
+  //       return res.status(404).send(failure("Order not found"));
+  //     }
+
+  //     await orderModel.findOneAndDelete({ _id: order._id });
+
+  //     return res.redirect(`http://localhost:6002/paymentFail/${order._id}`);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.status(500).send(failure("Internal server error", error));
+  //   }
+  // }
 
   async changeStatus(req: Request, res: Response): Promise<Response> {
     try {

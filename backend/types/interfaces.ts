@@ -49,7 +49,17 @@ interface ICart extends Document {
   totalAmount: number;
 }
 
+interface IPayment extends Document {
+  cost: number;
+  quantity: number;
+  itemID: {
+    title: string;
+    banner: string;
+  };
+}
+
 interface IOrder extends Document {
+  // orderId: string;
   userID: Types.ObjectId;
   items: ICartItem[];
   totalAmount: number;
@@ -138,5 +148,6 @@ export {
   IAuthMiddleware,
   CategoryResponse,
   ItemResponse,
-  ItemQuantity
+  ItemQuantity,
+  IPayment,
 };

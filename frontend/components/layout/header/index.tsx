@@ -27,13 +27,11 @@ const Header = () => {
         })
     }, []);
 
-    useEffect(() => {
-        GetMyCartApi().then((response) => {
-            setCart(response);
-        })
-    }, []);
-
-    console.log("cart", cart);
+    // useEffect(() => {
+    //     GetMyCartApi().then((response) => {
+    //         setCart(response);
+    //     })
+    // }, [cart]);
 
     const logout = () => {
         dispatch(removeLogin());

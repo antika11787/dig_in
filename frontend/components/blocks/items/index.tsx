@@ -5,6 +5,8 @@ import { GetAllItemsApi } from "@/apiEndpoints/item";
 import { ItemResponse } from '@/types/interfaces';
 import { useState, useEffect } from 'react';
 import React, { ChangeEvent } from 'react';
+import { GetMyCartApi } from '@/apiEndpoints/cart';
+import { CartResponse } from '@/types/interfaces';
 import helper from '@/utils/helper';
 import { useRouter } from 'next/navigation';
 import Search from '@/components/elements/search';
@@ -16,6 +18,7 @@ const Items = () => {
     const router = useRouter();
     const { truncateText } = helper();
     const [items, setItems] = useState<ItemResponse[]>([]);
+    const [cartData, setCartData] = useState<CartResponse>();
 
     //pagination
     const [currentPage, setCurrentPage] = useState<number>(1)
@@ -28,6 +31,12 @@ const Items = () => {
     const handleSortParam = (e: ChangeEvent<HTMLSelectElement>) => {
         setSortParam(e.target.value);
     };
+
+    useEffect(() => {
+        GetMyCartApi().then((response) => {
+            setCartData(response);
+        });
+    }, [cartData]);
 
     useEffect(() => {
         GetAllItemsApi(currentPage, searchQuery, sortParam).then((response) => {

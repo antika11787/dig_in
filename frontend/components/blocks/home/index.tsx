@@ -124,7 +124,7 @@ const HomePage = () => {
                 <h2 className="blog-title">Our Stories</h2>
                 <p className="blog-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                 <div className="blog-cards">
-                    {blogs.map((blog) => {
+                    {blogs && blogs.map((blog) => {
                         return (
                             <div key={blog._id}>
                                 <div className="blog-card">

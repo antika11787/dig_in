@@ -3,6 +3,11 @@ import { IOrder } from "../types/interfaces";
 
 const orderSchema = new Schema<IOrder>(
   {
+    // orderId: {
+    //   type: String,
+    //   required: true,
+    //   unique: true,
+    // },
     userID: {
       type: Schema.Types.ObjectId,
       ref: "User",

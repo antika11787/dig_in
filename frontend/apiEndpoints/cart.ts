@@ -123,10 +123,61 @@ export const ClearCartApi = async () => {
   }
 };
 
-export const CheckoutApi = async () => {
+export const CheckoutApi = async ({
+  house,
+  area,
+  street,
+}: {
+  house: string;
+  area: string;
+  street: string;
+}) => {
   try {
     const response: AxiosResponse = await axiosInstanceToken.post(
-      `/app/v1/cart/checkout`
+      `/app/v1/cart/checkout`,
+      { house, area, street }
+    );
+    const responseData = response.data;
+
+    if (responseData.success === false) {
+      toast.error("Error: ", responseData.message);
+    }
+    toast.success("Cart cleared");
+    return responseData.data;
+  } catch (error: any) {
+    toast.error(
+      error.response.data.message ||
+        "An unknown error occurred during fetching data"
+    );
+    console.error(error || "An unknown error occurred during fetching data");
+  }
+};
+
+export const PaymentSuccessApi = async (id: string) => {
+  try {
+    const response: AxiosResponse = await axiosInstanceToken.get(
+      `/app/v1/cart/payment-success/${id}`
+    );
+    const responseData = response.data;
+
+    if (responseData.success === false) {
+      toast.error("Error: ", responseData.message);
+    }
+    toast.success("Cart cleared");
+    return responseData.data;
+  } catch (error: any) {
+    toast.error(
+      error.response.data.message ||
+        "An unknown error occurred during fetching data"
+    );
+    console.error(error || "An unknown error occurred during fetching data");
+  }
+};
+
+export const PaymentFailApi = async (id: string) => {
+  try {
+    const response: AxiosResponse = await axiosInstanceToken.get(
+      `/app/v1/cart/payment-fail/${id}`
     );
     const responseData = response.data;
 

@@ -20,8 +20,7 @@ const HeaderCart = () => {
         GetMyCartApi().then((response) => {
             setCartData(response);
         });
-    }, []);
-
+    }, [cartData]);
 
     return (
         <div className="header-cart">
@@ -30,9 +29,9 @@ const HeaderCart = () => {
                 <div className="cart-count">{cartData.items.length}</div>
             )}
             {showCart && (
-                <div className="cart-dropdown">
+                <div className="cart-dropdown custom-scrollbar">
                     {cartData && cartData.items.length > 0 ? (
-                        <div className="cart-items">
+                        <div className="cart-items" key={cartData._id}>
                             {cartData.items.map((item: ItemResponse) => (
                                 <div>
                                     <div key={item._id} className="cart-item">
@@ -47,6 +46,7 @@ const HeaderCart = () => {
                                 </div>
                             ))}
                             <div className='cart-buttons'>
+                            <p className='total-cost'>Total: ${cartData.totalAmount}</p>
                                 <button className='checkout-button'
                                     onClick={() => { router.push('/checkout') }}>Checkout</button>
                                 <button className='clear-cart-button'
