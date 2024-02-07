@@ -1,0 +1,124 @@
+@use "../../../styles/colors" as *;
+
+.login-form-container {
+  margin: 100px auto;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 60vh;
+}
+
+.login-header {
+  font-size: 32px;
+  font-weight: bold;
+  color: $color-dark;
+}
+
+.login-form {
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form-label {
+  font-size: 15px;
+  font-weight: bold;
+  color: $color-dark;
+}
+
+.login-form-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.login-form-input {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid $color-border;
+  font-size: 16px;
+  outline: none;
+}
+
+.login-form-input-password {
+  padding: 10px 15px;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  outline: none;
+}
+
+.login-password-input {
+  border-radius: 10px;
+  border: 1px solid $color-border;
+  width: 100%;
+  position: relative;
+}
+
+.login-eye-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease-in-out;
+}
+
+.login-error-message {
+  color: $color-danger;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.login-submit-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.login-submit-button {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  background-color: $color-activate;
+  color: $color-white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.signup-form-text {
+  font-size: 14px;
+  color: $color-dark;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.signup-form-link {
+    text-decoration: none;
+    color: $color-activate;
+    font-weight: bold;
+}
