@@ -1,0 +1,7 @@
+@use "../../../styles/colors" as *;
+
+.slider {
+    padding: 150px;
+    // box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px;
+    background-color: $color-activate;
+}
