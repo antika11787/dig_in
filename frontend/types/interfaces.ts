@@ -112,9 +112,9 @@ interface CartState {
   };
 }
 
-interface CategoryState {
-  category: {
-    categoryLength: number;
+interface updateContentState {
+  content: {
+    contentLength: number;
   };
 }
 
@@ -135,8 +135,34 @@ interface ProfileInfo {
 }
 
 interface CreateCategoryForm {
-  categoryName: string;
-  file: FileList | null;
+  _id?: string;
+  categoryName?: string;
+  file?: File | null;
+}
+
+interface CreateUserForm {
+  _id?: string;
+  username: string;
+  address: string;
+  role: string;
+}
+
+interface CreateBlogForm {
+  _id?: string;
+  title?: string;
+  content?: string;
+  banner?: File | null;
+  tags?: string;
+}
+
+interface UserResponse {
+  _id: string;
+  email: string;
+  username: string;
+  role: string;
+  address: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type {
@@ -154,7 +180,10 @@ export type {
   MyCartResponse,
   AddressData,
   CartState,
-  CategoryState,
+  updateContentState,
   ProfileInfo,
   CreateCategoryForm,
+  UserResponse,
+  CreateUserForm,
+  CreateBlogForm,
 };

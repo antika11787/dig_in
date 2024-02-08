@@ -14,12 +14,12 @@ const CartIcon = ({ itemID, quantity, showText }: { itemID: string, quantity: nu
     return (
         <div className="cart-icon-container" onClick={async () => {
             if (state.token) {
-              const response = await  AddToCartApi({ itemID, quantity });
-              if (response) {
-                 dispatch(saveNumberOfItems({
-                    numberOfItems: -1
-                 }))
-              }
+                const response = await AddToCartApi({ itemID, quantity });
+                if (response) {
+                    dispatch(saveNumberOfItems({
+                        numberOfItems: -1
+                    }))
+                }
 
             }
             else {

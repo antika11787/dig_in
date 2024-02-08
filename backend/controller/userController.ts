@@ -8,7 +8,9 @@ const authModel = require("../model/auth");
 class UserController {
   async getAllUsers(req: Request, res: Response): Promise<Response> {
     try {
-      const users = await userModel.find();
+      const users = await authModel
+        .find()
+        .select("_id username email address role createdAt updatedAt");
 
       if (users.length === 0) {
         return res.status(404).send({ message: "No users found" });
@@ -40,6 +42,29 @@ class UserController {
     }
   }
 
+  async getUserById(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).send({ message: "User id is required" });
+      }
+
+      const user = await authModel
+        .findById(id)
+        .select("_id username email address role createdAt updatedAt");
+
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+
+      return res.status(200).send(success("User fetched successfully", user));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
   async updateUserInfo(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
@@ -49,7 +74,9 @@ class UserController {
         return res.status(400).send({ message: "User id is required" });
       }
 
-      const user = await authModel.findById(id);
+      const user = await authModel
+        .findById(id)
+        .select("_id username email role address createdAt updatedAt");
 
       if (!user) {
         return res.status(404).send({ message: "User not found" });
@@ -57,25 +84,29 @@ class UserController {
 
       const existingUser = await userModel.findOne({ email });
 
-      if (existingUser && existingUser._id.toString() !== id) {
+      if (user && user._id.toString() !== id) {
         return res
           .status(400)
           .send({ message: "User email address already exists" });
       }
 
-      const updatedUser = await authModel.findByIdAndUpdate(
-        id,
-        {
-          username,
-          email,
-          address,
-          role,
-        },
-        { new: true }
-      );
+      const updatedUser = await authModel
+        .findByIdAndUpdate(
+          id,
+          {
+            username,
+            email,
+            address,
+            role,
+          },
+          { new: true }
+        )
+        .select("_id username email address role userID createdAt updatedAt");
 
-      await userModel.findOneAndUpdate(
-        { _id: updatedUser.userID },
+      console.log(updatedUser);
+
+      await userModel.findByIdAndUpdate(
+        updatedUser.userID,
         {
           username,
           email,
@@ -88,6 +119,39 @@ class UserController {
       return res
         .status(200)
         .send(success("User updated successfully", updatedUser));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
+  async deleteUser(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).send({ message: "User id is required" });
+      }
+
+      const user = await authModel.findById(id);
+
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+
+      const existingUser = await userModel.findOne({ _id: user.userID });
+
+      if (!existingUser) {
+        return res.status(400).send({ message: "Cannot delete user" });
+      }
+      const deletedUser = await authModel
+        .findByIdAndDelete(id)
+        .select("_id username email address role createdAt updatedAt");
+      await userModel.findByIdAndDelete(user.userID);
+
+      return res
+        .status(200)
+        .send(success("User deleted successfully", deletedUser));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));

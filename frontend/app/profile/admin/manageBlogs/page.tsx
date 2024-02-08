@@ -1,10 +1,9 @@
+import ManageBlogs from "@/components/blocks/manageBlogs";
 
 
 const ManageBlogsPage = () => {
     return (
-        <div>
-            Manage Blogs Page
-        </div>
+        <ManageBlogs />
     )
 }
 

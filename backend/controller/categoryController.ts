@@ -152,12 +152,14 @@ class CategoryController {
 
       const imagePath: string = category.file;
 
-      fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
-        if (err) {
-          console.error("Error deleting image:", err);
-          return res.status(500).send("Internal Server Error");
-        }
-      });
+      if(file) {
+        fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
+          if (err) {
+            console.error("Error deleting image:", err);
+            return res.status(500).send("Internal Server Error");
+          }
+        });
+      }
 
       const pathParts = file?.path.split(`\\`).pop();
 
