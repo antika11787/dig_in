@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface InitialCartState{
-    numberOfItems: number
+interface InitialCartState {
+  numberOfItems: number;
 }
 
 const initialState: InitialCartState = {
@@ -21,6 +21,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const {saveNumberOfItems} = cartSlice.actions;
+export const { saveNumberOfItems } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -9,10 +9,20 @@
   padding: 0 60px;
 
   .single-item-banner {
-    width: 100%;
-    height: 350px;
     border-radius: 5px;
     object-fit: contain;
+  }
+  .single-item-images{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    width: 300px;
+
+    .single-item-image {
+      border-radius: 50%;
+      object-fit: cover;
+    }
   }
 
   .single-item-details {

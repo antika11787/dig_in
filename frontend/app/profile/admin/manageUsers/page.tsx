@@ -1,10 +1,9 @@
+import ManageUsers from "@/components/blocks/manageUsers";
 
 
 const ManageUsersPage = () => {
     return (
-        <div>
-            Manage Users Page
-        </div>
+        <ManageUsers />
     )
 }
 

@@ -1,10 +1,9 @@
+import ManageItems from "@/components/blocks/manageItems";
 
 
 const ManageItemsPage = () => {
     return (
-        <div>
-            Manage Items Page
-        </div>
+        <ManageItems />
     )
 }
 

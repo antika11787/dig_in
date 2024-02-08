@@ -18,13 +18,13 @@ import { useState, useEffect, useCallback } from "react";
 import { RiFileEditFill } from "react-icons/ri";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { CategoryState } from "@/types/interfaces";
-import { saveCategoryLength } from "@/redux/slices/CategorySlice";
+import { updateContentState } from "@/types/interfaces";
+import { saveContentLength } from "@/redux/slices/ContentSlice";
 
 const ManageCategory = () => {
   const dispatch = useDispatch();
-  const categoryLength = useSelector(
-    (state: CategoryState) => state.category.categoryLength
+  const contentLength = useSelector(
+    (state: updateContentState) => state.content.contentLength
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -43,7 +43,7 @@ const ManageCategory = () => {
     mode: "onChange",
     defaultValues: {
       categoryName: "",
-      file: [] as unknown as FileList,
+      file: "" as unknown as File,
     },
   });
 
@@ -66,7 +66,7 @@ const ManageCategory = () => {
   const openEditModal = (categoryId: string) => {
     GetCategoryByIdApi(categoryId).then((response) => {
       setValue("categoryName", response?.categoryName || "");
-      setValue("file", response?.file || null);
+      setValue("file", response?.file || "");
       setEditModalCategory(response);
     });
     setIsEditModalOpen(true);
@@ -75,7 +75,7 @@ const ManageCategory = () => {
   const closeEditModal = () => {
     setIsEditModalOpen(false);
     setValue("categoryName", "");
-      setValue("file", null!);
+    setValue("file", "" as unknown as File);
   };
 
   const onDrop = useCallback((acceptedFiles: any) => {
@@ -89,12 +89,9 @@ const ManageCategory = () => {
     formData.append("categoryName", data.categoryName || "");
     formData.append("file", file[0]);
 
-    console.log("file", file[0]);
-
     const response = await CreateCategoryApi(formData);
-    dispatch(saveCategoryLength({ categoryLength: -1 }));
+    dispatch(saveContentLength({ contentLength: -1 }));
 
-    console.log("response", response);
     setIsModalOpen(false);
   };
 
@@ -103,15 +100,12 @@ const ManageCategory = () => {
     formData.append("categoryName", data.categoryName || "");
     formData.append("file", file[0]);
 
-    console.log("file", file[0]);
-
     const response = await UpdateCategoryApi(
       editModalCategory && editModalCategory._id ? editModalCategory._id : "",
       formData
     );
-    dispatch(saveCategoryLength({ categoryLength: -1 }));
+    dispatch(saveContentLength({ contentLength: -1 }));
 
-    console.log("response", response);
     setIsEditModalOpen(false);
   };
 
@@ -119,8 +113,8 @@ const ManageCategory = () => {
     GetCategoriesApi().then((response) => {
       setCategories(response);
     });
-    dispatch(saveCategoryLength({ categoryLength: categories.length || 0 }));
-  }, [categoryLength]);
+    dispatch(saveContentLength({ contentLength: categories.length || 0 }));
+  }, [contentLength]);
 
   return (
     <div className="manage-category-container">
@@ -135,19 +129,19 @@ const ManageCategory = () => {
               backgroundColor: "rgba(0, 0, 0, 0.5)",
             },
             content: {
-              width: "50%",
-              height: "50%",
+              width: "45%",
+              height: "55%",
               margin: "auto",
               borderRadius: "10px",
               overflow: "auto",
             },
           }}
         >
-          <div>
-            <h2>Create Category</h2>
+          <div className="create-category-form-container">
+            <h3>Create Category</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="login-form-item">
-                <label className="login-form-label">Category Name: </label>
+              <div className="create-category-form-item">
+                <label className="create-category-form-label">Category Name: </label>
                 <Controller
                   name="categoryName"
                   control={control}
@@ -158,27 +152,36 @@ const ManageCategory = () => {
                     <input
                       placeholder="Enter category name"
                       {...field}
-                      className="login-form-input"
+                      className="create-category-form-input"
                     />
                   )}
                 />
                 {errors.categoryName && <h5>{errors.categoryName.message}</h5>}
               </div>
 
-              <div>
-                <label>Upload a Banner Image for the Category</label>
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p>Drop the files here ...</p>
+              <div className="create-category-form-upload">
+                <div className="upload">
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {isDragActive ? (
+                      <p>Drop the files here ...</p>
+                    ) : (
+                      <img src="/upload.png" className="upload-icon" />
+                    )}
+                  </div>
+                  <label>Upload a Banner Image for the Category</label>
+                </div>
+                <div>
+                  {file[0] ? (
+                    <img src={URL.createObjectURL(file[0])} alt="image" className="upload-image" />
                   ) : (
-                    <img src="/upload.png" />
+                    <div></div>
                   )}
                 </div>
               </div>
 
               <div>
-                <button>Submit</button>
+                <button className="submit-button">Submit</button>
               </div>
             </form>
           </div>
@@ -218,21 +221,19 @@ const ManageCategory = () => {
                       backgroundColor: "rgba(0, 0, 0, 0.5)",
                     },
                     content: {
-                      width: "50%",
-                      height: "50%",
+                      width: "45%",
+                      height: "55%",
                       margin: "auto",
                       borderRadius: "10px",
                       overflow: "auto",
                     },
                   }}
                 >
-                  <div>
-                    <h2>Edit Category</h2>
+                  <div className="create-category-form-container">
+                    <h3>Edit Category</h3>
                     <form onSubmit={handleSubmit(onEditSubmit)}>
-                      <div className="login-form-item">
-                        <label className="login-form-label">
-                          Category Name:{" "}
-                        </label>
+                      <div className="create-category-form-item">
+                        <label className="create-category-form-label">Category Name: </label>
                         <Controller
                           name="categoryName"
                           control={control}
@@ -243,29 +244,41 @@ const ManageCategory = () => {
                             <input
                               placeholder="Enter category name"
                               {...field}
-                              className="login-form-input"
+                              className="create-category-form-input"
                             />
                           )}
                         />
-                        {errors.categoryName && (
-                          <h5>{errors.categoryName.message}</h5>
-                        )}
+                        {errors.categoryName && <h5>{errors.categoryName.message}</h5>}
                       </div>
 
-                      <div>
-                        <label>Upload a Banner Image for the Category</label>
-                        <div {...getRootProps()}>
-                          <input {...getInputProps()} />
-                          {isDragActive ? (
-                            <p>Drop the files here ...</p>
+                      <div className="create-category-form-upload">
+                        <div className="upload">
+                          <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            {isDragActive ? (
+                              <p>Drop the files here ...</p>
+                            ) : (
+                              <img src="/upload.png" className="upload-icon" />
+                            )}
+                          </div>
+                          <label>Upload a Banner Image for the Category</label>
+                        </div>
+                        <div>
+                          {file[0] ? (
+                            <img src={URL.createObjectURL(file[0])} alt="image" className="upload-image" />
                           ) : (
-                            <img src="/upload.png" />
+                            category.file ? (
+                              <img src={`http://localhost:3000/uploads/${category.file}`} alt="image" className="upload-image" />
+                            ) : (
+                              <div>No image available</div>
+                            )
                           )}
+
                         </div>
                       </div>
 
                       <div>
-                        <button>Submit</button>
+                        <button className="submit-button">Submit</button>
                       </div>
                     </form>
                   </div>
@@ -301,7 +314,7 @@ const ManageCategory = () => {
                         className="yes-button"
                         onClick={() => {
                           DeleteCategoryApi(category._id);
-                          dispatch(saveCategoryLength({ categoryLength: -1 }));
+                          dispatch(saveContentLength({ contentLength: -1 }));
                           closeDeleteModal();
                         }}
                       >

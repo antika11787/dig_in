@@ -82,6 +82,9 @@ class ItemController {
         return res.status(404).send(failure("Item not found"));
       }
 
+      //push item.banner inside files
+      files.push(item.banner);
+
       const pathParts = files?.map((file) => file.path.split(`\\`).pop());
 
       item.files = [...item.files, ...pathParts];
