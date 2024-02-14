@@ -1,0 +1,209 @@
+@use "../../../styles/colors" as *;
+
+.manage-orders-container {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  .manage-orders-header {
+    width: 100%;
+    min-height: 70px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+
+    .manage-orders-title {
+      font-size: 24px;
+      color: $color-dark;
+    }
+
+    .manage-orders-sort {
+      margin-right: 20px;
+    }
+  }
+
+  .manage-orders-body {
+    width: 100%;
+    max-height: 290px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+
+    .manage-orders-card {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // background-color: $color-black-box-shadow-light;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      border-radius: 10px;
+      padding: 10px 0;
+
+      .manage-orders-img-details {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .manage-orders-img {
+          padding: 10px;
+        }
+
+        .manage-orders-card-details {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+
+          .manage-orders-card-customer,
+          .manage-orders-card-price,
+          .manage-orders-card-items,
+          .manage-orders-card-date {
+            margin: 0;
+            padding: 0;
+          }
+
+          .manage-orders-card-customer {
+            font-size: 15px;
+            font-weight: bold;
+
+            .manage-orders-card-ordered {
+              font-weight: normal;
+            }
+          }
+
+          .manage-orders-card-date {
+            font-size: 14px;
+            color: $color-dark;
+          }
+        }
+      }
+
+      .manage-orders-card-actions {
+        .manage-orders-card-status {
+          margin: 0;
+          padding: 5px;
+          border-radius: 5px;
+        }
+
+        .manage-orders-card-status.Pending {
+          background-color: $color-danger-light;
+        }
+        .manage-orders-card-status.In-progress {
+          background-color: $color-warning;
+        }
+        .manage-orders-card-status.Delivered {
+          background-color: $color-activate-light;
+        }
+      }
+
+      .eye-button {
+        font-size: 20px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: $color-dark;
+        margin-right: 10px;
+        cursor: pointer;
+        margin-right: 50px;
+      }
+    }
+  }
+}
+
+.modal-card-title {
+  text-align: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  .modal-card {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+    width: 250px;
+    background-color: $color-black-box-shadow-light;
+    padding: 10px;
+    border-radius: 5px;
+
+    .modal-img {
+      width: 55px;
+      height: 55px;
+      object-fit: cover;
+      margin-right: 12px;
+      border-radius: 50%;
+    }
+
+    .modal-card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .modal-card-title {
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        font-weight: bold;
+
+        .modal-card-quantity {
+          font-size: 14px;
+          color: $color-dark;
+          font-weight: normal;
+        }
+      }
+
+      .modal-card-cost {
+        font-size: 13px;
+        margin: 0;
+        padding: 0;
+        color: $color-text-copyright;
+      }
+    }
+  }
+}
+
+.modal-card-status-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-card-status {
+    width: 30%;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: $color-black-box-shadow;
+
+    .modal-card-status-option {
+      font-size: 15px;
+    }
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+}

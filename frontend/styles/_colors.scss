@@ -1,0 +1,68 @@
+// colors
+$color-primary: #4650dd;
+$color-primary-light: #7e85e7;
+$color-secondary: #6c757d;
+$color-background: #f8f9fa;
+$color-dark: #343a40;
+$color-dark-light: #718096;
+$color-text-primary: #6c757d;
+$color-text-light: #adb5bd;
+$color-sidebar-hover: #ededed;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-danger: #dc3545;
+$color-danger-light: #ff909b;
+$color-danger-hover: #bd2130;
+$color-success: #b5f7ec;
+$color-success-text: #3bb6a5;
+$color-warning: #fae094;
+$color-warning-text: #ffc107;
+$color-text-error: #e53e3e;
+$color-text-form: #2d3748;
+$color-border: #c3cad2;
+$color-text-copyright: #26252e;
+$color-modal-background: #000000b3;
+$color-card-background: #cfe2ff;
+$color-card-text-v2: #35b653;
+$color-card-background-v2: #d7f0dd;
+$color-card-text-v3: #dc3545;
+$color-card-background-v3: #f8d7da;
+$color-card-text-v4: #7151c2;
+$color-card-background-v4: #ded5f8;
+$color-card-text-v5: #ecc550;
+$color-card-background-v5: #f8edcc;
+$color-scrolltrack: #f1f1f1;
+$color-activate: #1eb482;
+$color-activate-light: #3fd5a3;
+$color-activate-hover: #1c9f73;
+$color-deactivate: #d73232;
+$color-hawkes-blue: #dadcf8;
+$color-gray: #e7e7e7;
+$color-palatinate-blue: #303cd9;
+$color-persian-blue: #2530cb;
+$color-pale-copper: #d88a6b;
+$color-geraldine: #f08989;
+$color-ultramarine-blue: #3d5af1;
+$color-lilac: #c3a8fa;
+$color-artyclick-red: #ff0000;
+$color-content-border: #f0f0f0;
+//rgb
+$color-light-black: rgba(0, 0, 0, 0.1);
+$color-black-box-shadow: rgba(100, 100, 111, 0.2);
+$color-black-box-shadow-light: rgba(100, 100, 111, 0.1);
+$color-light-box-shadow: rgba(0, 0, 0, 0.075);
+$color-box-shadow-pure-black: rgba(0, 0, 0, 0.7);
+$color-carbon-black: rgba(0, 0, 0, 0.25);
+
+// sidebar items background
+$color-sidebar-active: linear-gradient(
+  72.47deg,
+  #7367f0 22.16%,
+  rgba(115, 103, 240, 0.8) 76.47%
+);
+$color-sidebar-active-light: linear-gradient(
+  72.47deg,
+  #7367f0 22.16%,
+  rgba(115, 103, 240, 0.7) 76.47%
+);
+$color-sidebar-boxshadow: 0px 2px 6px 0px rgba(115, 103, 240, 0.48);

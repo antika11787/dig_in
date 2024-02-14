@@ -1,0 +1,27 @@
+@use "../../../styles/colors" as *;
+
+.footer-container {
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  // gap: 30px;
+  // align-items: end;
+  // justify-items: center;
+  padding: 10px;
+  background-color: $color-dark;
+  color: $color-white;
+
+  .footer-columns {
+    .footer-text-heading {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .footer-text {
+      font-size: 14px;
+    }
+  }
+}

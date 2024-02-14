@@ -1,0 +1,92 @@
+@use "../styles/colors" as *;
+
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+
+  &__footer {
+    flex: 1;
+  }
+}
+
+.category-body {
+  display: flex;
+  padding: 20px;
+  gap: 10px;
+  position: relative;
+}
+
+.item-body {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  min-height: 165vh;
+}
+
+.item-wrapper {
+  margin-top: 70px;
+  display: flex;
+  padding: 20px;
+  gap: 10px;
+}
+
+.no-items {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.checkout-page {
+  margin: 90px auto 30px auto;
+  display: flex;
+  gap: 90px;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-wrapper {
+  margin-top: 70px;
+  display: flex;
+  padding: 30px;
+  gap: 50px;
+}
+
+.unauthenticated-conatiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+
+  .unauthenticated-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: $color-dark;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 9px;
+  height: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c8c8c8;
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
