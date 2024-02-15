@@ -33,7 +33,7 @@ const SingleBlog = () => {
                         <hr className="single-blog-line"></hr>
                         <Image src={`/writer.png`} alt="banner" width={50} height={50} className="single-blog-author-img" />
                         <p className="single-blog-username">{blog.author.username}</p>
-                        <p className="single-blog-email">{blog.author.email}</p>
+                        <p className="single-blog-email">Email: {blog.author.email}</p>
                     </div>
                     <div className="single-blog-content">
                         {blog.content}

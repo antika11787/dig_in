@@ -313,8 +313,8 @@ class ItemController {
   async updateItem(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      // const banner = req.file as Express.Multer.File | undefined;
-      const { title, description, price, categoryID } = req.body;
+      const { title, description, price, categoryID, banner } = req.body;
+      console.log("title", banner);
 
       if (!id) {
         return res.status(400).send(failure("Item id is required"));
@@ -332,33 +332,24 @@ class ItemController {
         return res.status(400).send(failure("Title already exists"));
       }
 
-      const imagePath: string = item.banner;
-
-      // if (banner) {
-      //   fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
-      //     if (err) {
-      //       console.log(err);
-      //       return res.status(500).send(failure("Internal server error", err));
-      //     }
-      //   });
-      // }
-
-      // const pathParts = banner?.path.split(`\\`).pop();
-
-      const updateFields: updateItem = {
+      let updateFields: updateItem = {
         title,
         description,
         price,
-        // banner: pathParts,
+        banner: item.files[banner],
       };
 
       if (categoryID) {
         updateFields.categoryID = categoryID;
       }
 
-      await itemModel.findByIdAndUpdate(id, updateFields);
+      const updatedItem = await itemModel.findByIdAndUpdate(id, updateFields, {
+        new: true,
+      });
 
-      return res.status(200).send(success("Item updated successfully"));
+      return res
+        .status(200)
+        .send(success("Item updated successfully", updatedItem));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));
@@ -380,11 +371,16 @@ class ItemController {
         return res.status(404).send(failure("Item not found"));
       }
 
+      if (item.files.length === 1) {
+        return res
+          .status(400)
+          .send(failure("Item must have at least one image"));
+      }
+
       const updatedFiles = item.files.filter(
         (file: string) => file !== filename
       );
 
-      // Update the item with the new files array
       item.files = updatedFiles;
 
       fs.unlink(`${appConfig.dirname}/${filename}`, async (err) => {
@@ -394,10 +390,32 @@ class ItemController {
         }
       });
 
-      // Save the updated item
       await item.save();
 
       return res.status(200).send(success("Image removed successfully", item));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
+  async categoryItemCount(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).send(failure("Category id is required"));
+      }
+
+      const item = await itemModel.find({ categoryID: id });
+
+      if (!item) {
+        return res.status(404).send(failure("Item not found"));
+      }
+
+      return res
+        .status(200)
+        .send(success("Item fetched successfully", item.length));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));

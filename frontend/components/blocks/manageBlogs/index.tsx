@@ -167,8 +167,6 @@ const ManageBlogs = () => {
         dispatch(saveContentLength({ contentLength: updatedBlogs.length || 0 }));
     };
 
-    console.log("blog", blogs, contentLength);
-
     return (
         <div className='manage-blogs-container'>
             <div className='manage-blogs-header'>
@@ -284,7 +282,7 @@ const ManageBlogs = () => {
                 </button>
             </div>
             <div className='manage-blogs-body custom-scrollbar'>
-                {blogs &&
+                {blogs && blogs.length > 0 ? (
                     blogs.map((blog) => (
                         <div key={blog._id} className="manage-blogs-card">
                             <div className='manage-blogs-card-container'>
@@ -475,7 +473,10 @@ const ManageBlogs = () => {
                                 />
                             </div>
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <div>No blogs found</div>
+                )}
             </div>
         </div>
     );

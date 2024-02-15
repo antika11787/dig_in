@@ -1,0 +1,55 @@
+@use "../styles/colors" as *;
+
+@mixin item-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+//   justify-items: center;
+  align-items: center;
+
+  .no-items {
+    grid-column: span 3;
+    margin-bottom: -30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .item-card {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border-radius: 5px;
+
+    .item-details {
+      padding: 0 20px;
+
+      .item-title-cart {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .item-description {
+        font-size: 14px;
+        color: $color-dark;
+      }
+
+      .item-price {
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+
+    .item-banner {
+      width: 100%;
+      height: 250px;
+      border-radius: 5px 5px 0 0;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+}

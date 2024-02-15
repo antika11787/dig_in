@@ -13,6 +13,7 @@ import {
   DeleteCategoryApi,
   UpdateCategoryApi,
 } from "@/apiEndpoints/category";
+// import { CategoryItemCountApi } from "@/apiEndpoints/item";
 import { CategoryResponse } from "@/types/interfaces";
 import { useState, useEffect, useCallback } from "react";
 import { RiFileEditFill } from "react-icons/ri";
@@ -36,6 +37,7 @@ const ManageCategory = () => {
   const [isFileSet, setIsFileSet] = useState<boolean>(false);
   const [categories, setCategories] = useState<CategoryResponse[]>([]);
   const [categoryID, setCategoryID] = useState<string>("");
+  // const [itemCount, setItemCount] = useState<number>(0);
   const {
     handleSubmit,
     control,
@@ -138,7 +140,7 @@ const ManageCategory = () => {
   const fetchCategories = async () => {
     const response = await GetCategoriesApi();
     setCategories(response);
-    dispatch(saveContentLength({ contentLength: response.length || 0 }));
+    dispatch(saveContentLength({ contentLength: response?.length || 0 }));
   };
 
   const deleteCategory = async (categoryId: string) => {
@@ -151,6 +153,26 @@ const ManageCategory = () => {
       saveContentLength({ contentLength: updatedCategories.length || 0 })
     );
   };
+
+  // useEffect(() => {
+  //   const fetchItemCountForAllCategories = async () => {
+  //     const itemCountPromises = categories.map((category) => {
+  //       return CategoryItemCountApi(category._id);
+  //     });
+
+  //     const itemCounts = await Promise.all(itemCountPromises);
+  //     const updatedCategories = categories.map((category, index) => {
+  //       return {
+  //         ...category,
+  //         itemCount: itemCounts[index],
+  //       };
+  //     });
+
+  //     setCategories(updatedCategories);
+  //   };
+
+  //   fetchItemCountForAllCategories();
+  // }, [categories]);
 
   return (
     <div className="manage-category-container">
@@ -231,7 +253,7 @@ const ManageCategory = () => {
         </button>
       </div>
       <div className="manage-category-body custom-scrollbar">
-        {categories &&
+        {categories ? (
           categories.map((category) => (
             <div key={category._id} className="manage-category-card">
               <div className="manage-category-image-title">
@@ -239,7 +261,14 @@ const ManageCategory = () => {
                   src={`http://localhost:3000/uploads/${category.file}`}
                   className="manage-category-image"
                 />
-                <p className="manage-category-name">{category.categoryName}</p>
+                <div className="manage-category-details">
+                  <p className="manage-category-name">{category.categoryName}</p>
+                  {/* <p className="manage-category-total">
+                    Total <span className="manage-category-total-number">
+                      {itemCount}
+                    </span> items
+                  </p> */}
+                </div>
               </div>
 
               <div className="manage-category-button">
@@ -312,7 +341,7 @@ const ManageCategory = () => {
                               alt="image"
                               className="upload-image"
                             />
-                            
+
                           ) : editModalCategory ? (
                             <img
                               src={`http://localhost:3000/uploads/${editModalCategory.file}`}
@@ -385,7 +414,10 @@ const ManageCategory = () => {
                 />
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div>No categories found</div>
+        )}
       </div>
     </div>
   );

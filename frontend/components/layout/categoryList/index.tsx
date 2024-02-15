@@ -16,15 +16,19 @@ const CategoryList = () => {
     }, []);
 
     return (
-        <div className="category-container">
+        <div className="category-container custom-scrollbar">
             <h3 className="category-title">Categories</h3>
-            {categoryList.map((category) => (
-                <div className="category-card" key={category._id}>
-                    <Link className="category-link" href={`/categories/${category._id}`}>
-                        <p>{category.categoryName}</p>
-                    </Link>
-                </div>
-            ))}
+                {categoryList ? (
+                    categoryList.map((category) => (
+                        <div className="category-card" key={category._id}>
+                            <Link className="category-link" href={`/categories/${category._id}`}>
+                                <p>{category.categoryName}</p>
+                            </Link>
+                        </div>
+                    ))
+                ) : (
+                    <div>No categories found</div>
+                )}
         </div>
     )
 }

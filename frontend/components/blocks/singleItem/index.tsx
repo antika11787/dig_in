@@ -58,7 +58,8 @@ const SingleItem = () => {
     <div className="single-item-container">
       {item && (
         <>
-          <div className="single-item">
+          <div className="single-item-banner-details">
+            {/* <div className="single-item-banner-container"> */}
             <Image
               src={`http://localhost:3000/uploads/${banner}`}
               className="single-item-banner"
@@ -66,78 +67,83 @@ const SingleItem = () => {
               width={400}
               alt="banner"
             />
+            {/* </div> */}
 
-            <div className="single-item-images custom-scrollbar">
-              {item.files && item.files.length > 0 ? (
-                <Splide
-                  aria-label="Categories"
-                  className="slider"
-                  options={{
-                    type: 'carousel',
-                    perPage: 5,
-                    perMove: 1,
-                    // gap: '1rem',
-                    marginRight: '0px',
-                    padding: '0 15px',
-                    pagination: false,
-                    arrows: true,
-                    drag: 'free',
-                  }}
-                >
-                  {item.files?.map((file: any) => {
-                    return (
-                      <SplideSlide key={item._id}>
-                        <Image
-                          src={`http://localhost:3000/uploads/${file}`}
-                          className="single-item-image"
-                          onClick={() =>
-                            setBanner(file)
-                          }
-                          height={50}
-                          width={50}
-                          alt="banner"
-                        />
-                      </SplideSlide>
-                    );
-                  })}
-                </Splide>
-              ) : (
-                <div></div>
-              )}
-            </div>
-          </div>
-
-          <div className="single-item-details">
-            <h1 className="single-item-title">{item.title}</h1>
-            <p className="single-item-description">{item.description}</p>
-            <div className="price-and-quantity">
-              <p className="single-item-price">Price: ${item.price}</p>
-              <div className="add-to-cart">
-                <CartIcon
-                  itemID={item._id || ""}
-                  quantity={1}
-                  showText={true}
-                />
-              </div>
-              <div className="quantity-increment">
-                <button
-                  className="quantity-button"
-                  onClick={() => updateQuantity(-1)}
-                  disabled={quantity === 0}
-                >
-                  -
-                </button>
-                <p className="quantity">{quantity}</p>
-                <button
-                  className="quantity-button"
-                  onClick={() => updateQuantity(1)}
-                  disabled={quantity === 50}
-                >
-                  +
-                </button>
+            <div className="single-item-details">
+              <h1 className="single-item-title">{item.title}</h1>
+              <p className="single-item-description">{item.description}</p>
+              <div className="price-and-quantity">
+                <p className="single-item-price">Price: ${item.price}</p>
+                <div className="add-to-cart">
+                  <CartIcon
+                    itemID={item._id || ""}
+                    quantity={1}
+                    showText={true}
+                  />
+                </div>
+                <div className="quantity-increment">
+                  <button
+                    className="quantity-button"
+                    onClick={() => updateQuantity(-1)}
+                    disabled={quantity === 0}
+                  >
+                    -
+                  </button>
+                  <p className="quantity">{quantity}</p>
+                  <button
+                    className="quantity-button"
+                    onClick={() => updateQuantity(1)}
+                    disabled={quantity === 50}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* <div className="single-item-images-cart"> */}
+          <div className="single-item-images">
+            {item.files && item.files.length > 0 ? (
+              <Splide
+                aria-label="Categories"
+                className="slider"
+                options={{
+                  type: 'carousel',
+                  perPage: 3,
+                  perMove: 1,
+                  marginRight: '0px',
+                  marginBottom: '0px',
+                  padding: '0px 15px',
+                  pagination: false,
+                  arrows: true,
+                  drag: 'free',
+                }}
+              >
+                {item.files?.map((file: any) => {
+                  return (
+                    <SplideSlide key={item._id}>
+                      <Image
+                        src={`http://localhost:3000/uploads/${file}`}
+                        className="single-item-image"
+                        onClick={() =>
+                          setBanner(file)
+                        }
+                        height={50}
+                        width={50}
+                        alt="banner"
+                      />
+                    </SplideSlide>
+                  );
+                })}
+              </Splide>
+            ) : (
+              <div></div>
+            )}
+          </div>
+
+
+
         </>
       )}
     </div>

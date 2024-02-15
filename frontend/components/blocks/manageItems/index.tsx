@@ -7,7 +7,8 @@ import {
   GetAllItemsApi,
   GetItemByIdApi,
   RemoveImageFromItemApi,
-  UploadImageToItemApi
+  UpdateItemApi,
+  UploadImageToItemApi,
 } from "@/apiEndpoints/item";
 import {
   CategoryResponse,
@@ -95,7 +96,6 @@ const ManageItems = () => {
 
       setEditModalItem(response);
     });
-
   };
 
   const closeEditModal = () => {
@@ -130,7 +130,6 @@ const ManageItems = () => {
     setValue("categoryID", "");
 
     setFile([]);
-    console.log("form after", file[0]);
 
     setIsModalOpen(false);
   };
@@ -142,23 +141,26 @@ const ManageItems = () => {
     formData.append("description", data.description || "");
     formData.append("price", data.price.toString() || "");
     formData.append("categoryID", data.categoryID || "");
+    // console.log("index in oneditsubmit", imageIndex)
     formData.append("banner", imageIndex.toString() || "0");
 
-    GetItemByIdApi(itemID).then((response) => {
-      const existingFiles = response?.files || [];
-      setFile(existingFiles);
-    });
+    // GetItemByIdApi(itemID).then((response) => {
+    //   const existingFiles = response?.files || [];
+    //   setFile(existingFiles);
+    // });
     // if (file) {
     //   formData.append("file", file);
     // }
 
-    // await UpdateItems(
-    //   editModalCategory && editModalCategory._id ? editModalCategory._id : "",
-    //   formData
-    // );
-    // const updatedCateogries = await GetCategoriesApi();
-    // setCategories(updatedCateogries);
-    // dispatch(saveContentLength({ contentLength: updatedCateogries.length || 0 }));
+    await UpdateItemApi(
+      itemID,
+      formData
+    );
+    const updatedItems = await GetAllItemsApi(searchQuery);
+    setItems(updatedItems);
+    dispatch(saveContentLength({ contentLength: updatedItems?.length || 0 }));
+
+    console.log("cat", categories)
 
     reset();
     // setFile([]);
@@ -167,11 +169,16 @@ const ManageItems = () => {
 
   const handleImageUpload = async () => {
     try {
+      console.log("id out", itemID);
       if (file.length > 0) {
-        const response = await UploadImageToItemApi(itemID, file[0]);
-        console.log("response", response);
+        console.log("id in", itemID);
+        console.log("file in", file);
+        const response = await UploadImageToItemApi(itemID, file);
+        console.log("resp", response);
         // Handle response if needed
       } else {
+        console.log("id err", itemID);
+
         console.error("No file selected for upload.");
       }
     } catch (error) {
@@ -179,12 +186,22 @@ const ManageItems = () => {
     }
   };
 
+  useEffect(() => {
+    if (isEditModalOpen) {
+      handleImageUpload().then(() => {
+        GetItemByIdApi(itemID).then((response) => {
+          console.log("res-re", response);
+          setEditModalItem(response);
+        });
+      });
+    }
+  }, [file]);
+
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setFile(acceptedFiles);
     setIsFileAvailable(true);
 
     // Call handleImageUpload when files are dropped
-    await handleImageUpload();
   }, []);
 
   console.log("file", file.length);
@@ -192,17 +209,21 @@ const ManageItems = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleDeleteImage = async (index: number) => {
-    const fileId = (editModalItem?.files && editModalItem?.files[index]) || '';
-    const itemId = editModalItem?._id ?? '';
+    const fileId = (editModalItem?.files && editModalItem?.files[index]) || "";
+    const itemId = editModalItem?._id ?? "";
 
     try {
       await RemoveImageFromItemApi(itemId, fileId);
 
-      if (editModalItem && editModalItem.files && editModalItem.files.length > 1) {
-        const updatedFiles = [...editModalItem.files]; updatedFiles.splice(index, 1);
+      if (
+        editModalItem &&
+        editModalItem.files &&
+        editModalItem.files.length > 1
+      ) {
+        const updatedFiles = [...editModalItem.files];
+        updatedFiles.splice(index, 1);
         setEditModalItem({ ...editModalItem, files: updatedFiles });
       }
-
     } catch (error) {
       console.error("Error deleting image:", error);
     }
@@ -249,7 +270,7 @@ const ManageItems = () => {
     dispatch(saveContentLength({ contentLength: updatedItems.length || 0 }));
   };
 
-  console.log("index", imageIndex)
+  console.log("index", imageIndex);
 
   return (
     <div className="manage-items-container">
@@ -274,11 +295,12 @@ const ManageItems = () => {
         >
           <div className="create-item-form-container">
             <h3>Create Item</h3>
-            <form onSubmit={handleSubmit(onSubmit)} className="create-item-form">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="create-item-form"
+            >
               <div className="create-item-form">
-                <label className="create-item-form-label">
-                  Item Name:{" "}
-                </label>
+                <label className="create-item-form-label">Item Name: </label>
                 <Controller
                   name="title"
                   control={control}
@@ -366,26 +388,33 @@ const ManageItems = () => {
                       <img src="/upload.png" className="upload-icon" />
                     )}
                   </div>
-                  <label>Select images and click on an image to make it the banner.</label>
+                  <label>
+                    Select images and click on an image to make it the banner.
+                  </label>
                 </div>
                 <div className="upload-image-container">
-                  {file.length > 0
-                    ? file.map((f: any, index) => {
+                  {isModalOpen && file.length > 0 ? (
+                    file.map((f: any, index) => {
                       return (
-                        <img key={index}
-                          src={URL.createObjectURL(f)}
-                          alt="image"
-                          className={`upload-image ${imageIndex === index ? "active" : ""}`}
-                          onClick={() => {
-                            setImageIndex(file.indexOf(f))
-                            // set an active classname
-                            console.log("file.indexOf(f)", file.indexOf(f))
-                          }}
-                        />
+                        <div className="image-container">
+                          <img
+                            key={index}
+                            src={URL.createObjectURL(f)}
+                            alt="image"
+                            className={`upload-image ${imageIndex === index ? "active" : ""
+                              }`}
+                            onClick={() => {
+                              setImageIndex(file.indexOf(f));
+                              // set an active classname
+                              console.log("file.indexOf(f)", file.indexOf(f));
+                            }}
+                          />
+                        </div>
                       );
                     })
-                    : <div></div>
-                  }
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
 
@@ -408,8 +437,7 @@ const ManageItems = () => {
         </button>
       </div>
       <div className="manage-items-body custom-scrollbar">
-        {items &&
-          items.length > 0 &&
+        {items && items.length > 0 ? (
           items.map((item) => {
             return (
               <div key={item._id} className="manage-items-card">
@@ -450,7 +478,10 @@ const ManageItems = () => {
                   >
                     <div className="create-item-form-container">
                       <h3>Edit Item</h3>
-                      <form onSubmit={handleSubmit(onEditSubmit)}>
+                      <form
+                        onSubmit={handleSubmit(onEditSubmit)}
+                        className="create-item-form"
+                      >
                         <div className="create-item-form">
                           <label className="create-item-form-label">
                             Item Name:{" "}
@@ -469,13 +500,13 @@ const ManageItems = () => {
                               />
                             )}
                           />
-                          {errors.title && (
-                            <h5>{errors.title.message}</h5>
-                          )}
+                          {errors.title && <h5>{errors.title.message}</h5>}
                         </div>
 
                         <div className="create-item-form">
-                          <label className="create-item-form-label">Description: </label>
+                          <label className="create-item-form-label">
+                            Description:{" "}
+                          </label>
                           <Controller
                             name="description"
                             control={control}
@@ -490,11 +521,15 @@ const ManageItems = () => {
                               />
                             )}
                           />
-                          {errors.description && <h5>{errors.description.message}</h5>}
+                          {errors.description && (
+                            <h5>{errors.description.message}</h5>
+                          )}
                         </div>
 
                         <div className="create-item-form">
-                          <label className="create-item-form-label">Item Price: </label>
+                          <label className="create-item-form-label">
+                            Item Price:{" "}
+                          </label>
                           <Controller
                             name="price"
                             control={control}
@@ -513,25 +548,39 @@ const ManageItems = () => {
                         </div>
 
                         <div className="create-item-form">
-                          <label className="create-item-form-label">Category: </label>
+                          <label className="create-item-form-label">
+                            Category:{" "}
+                          </label>
                           <Controller
                             name="categoryID"
                             control={control}
                             rules={{
                               required: "Item category is required",
                             }}
-                            render={({ field }: { field: SelectOptionProps }) => (
-                              <select {...field} className="create-item-form-input">
+                            render={({
+                              field,
+                            }: {
+                              field: SelectOptionProps;
+                            }) => (
+                              <select
+                                {...field}
+                                className="create-item-form-input"
+                              >
                                 <option value="">Select a category</option>
                                 {categories.map((category) => (
-                                  <option key={category._id} value={category._id}>
+                                  <option
+                                    key={category._id}
+                                    value={category._id}
+                                  >
                                     {category.categoryName}
                                   </option>
                                 ))}
                               </select>
                             )}
                           />
-                          {errors.description && <h5>{errors.description.message}</h5>}
+                          {errors.description && (
+                            <h5>{errors.description.message}</h5>
+                          )}
                         </div>
 
                         <div className="create-item-form-upload">
@@ -541,33 +590,46 @@ const ManageItems = () => {
                               {isDragActive ? (
                                 <p>Drop the files here ...</p>
                               ) : (
-                                <img src="/upload.png" className="upload-icon" />
+                                <img
+                                  src="/upload.png"
+                                  className="upload-icon"
+                                />
                               )}
                             </div>
-                            <label>Select images and click on an image to make it the banner.</label>
+                            <label>
+                              Select images and click on an image to make it the
+                              banner.
+                            </label>
                           </div>
 
                           <div className="upload-image-container">
                             {/* Render existing images from the database */}
-                            {editModalItem && editModalItem.files && editModalItem.files.map((file, index) => (
-                              <div key={index} className="image-container">
-                                <img
-                                  src={`http://localhost:3000/uploads/${file}`}
-                                  alt="image"
-                                  className={`upload-image ${imageIndex === index ? "active" : ""}`}
-                                  onClick={() => {
-                                    setImageIndex(index);
-                                  }}
-                                />
-                                <div className="delete-icon"
-                                  onClick={() => {
-                                    handleDeleteImage(index);
-                                  }}
-                                >
-                                  <AiFillDelete />
+                            {editModalItem &&
+                              editModalItem.files &&
+                              editModalItem.files.map((file, index) => (
+                                <div key={index} className="image-container">
+                                  <img
+                                    src={`http://localhost:3000/uploads/${file}`}
+                                    alt="image"
+                                    className={`upload-image ${imageIndex === index ? "active" : ""
+                                      }`}
+                                    onClick={() => {
+                                      setImageIndex(index);
+                                      console.log("imageIndex", index)
+                                      // set an active classname
+                                      // console.log("file.indexOf(f)", file.indexOf(f));
+                                    }}
+                                  />
+                                  <div
+                                    className="delete-icon"
+                                    onClick={() => {
+                                      handleDeleteImage(index);
+                                    }}
+                                  >
+                                    <AiFillDelete />
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
                             {/* Render newly added images */}
                             {/* {file.length > 0 && file.map((f: any, index) => (
                               <div key={index + (editModalItem?.files?.length ?? 0)} className="image-container">
@@ -595,13 +657,16 @@ const ManageItems = () => {
                         </div>
                       </form>
                     </div>
-                    <CgCloseR className="close-button" onClick={closeEditModal} />
+                    <CgCloseR
+                      className="close-button"
+                      onClick={closeEditModal}
+                    />
                   </Modal>
                   <RiFileEditFill
                     className="edit-button"
                     onClick={() => {
                       setIsEditModalOpen(true);
-                      item?._id && openEditModal(item._id);
+                      openEditModal(item?._id ?? "");
                     }}
                   />
                   <Modal
@@ -624,9 +689,7 @@ const ManageItems = () => {
                   >
                     <div>
                       <h2>Delete Item</h2>
-                      <p>
-                        Are you sure you want to delete this item?
-                      </p>
+                      <p>Are you sure you want to delete this item?</p>
                       <div className="delete-modal-button">
                         <button
                           className="yes-button"
@@ -659,7 +722,10 @@ const ManageItems = () => {
                 </div>
               </div>
             );
-          })}
+          })
+        ) : (
+          <div>No items found</div>
+        )}
       </div>
     </div>
   );

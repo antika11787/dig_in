@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-// import '@splidejs/react-splide/css';
 import '@splidejs/react-splide/css/skyblue';
 import '@splidejs/react-splide/css/sea-green';
-// import '@splidejs/react-splide/css/core';
 import './index.scss';
 import CartIcon from "@/components/elements/cartIcon";
 import { Button } from "@/components/elements/button";
@@ -71,8 +69,6 @@ const HomePage = () => {
         setCategoryID(categoryId);
     };
 
-    console.log(categories.slice(0, 3).length)
-
     return (
         <div className="container">
             <div className="banner-container">
@@ -93,7 +89,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="category-container-home">
-                <h2 className="category-title">Categories</h2>
+                {/* <h2 className="category-title">Categories</h2> */}
                 <div className="category-tags">
                     <div className="category-names">
                         <Splide
@@ -103,7 +99,6 @@ const HomePage = () => {
                                 type: 'carousel',
                                 perPage: 3,
                                 perMove: 1,
-                                // gap: '1rem',
                                 marginRight: '0px',
                                 padding: '0 15px',
                                 pagination: false,
@@ -111,36 +106,40 @@ const HomePage = () => {
                                 drag: 'free',
                             }}
                         >
-                            {categories.map((category) => (
-                                <SplideSlide key={category._id}>
-                                    <div>
-                                        <p
-                                            className={`category-tag ${categoryID === category._id ? "active" : ""
-                                                }`}
-                                            onClick={() => handleCategoryClick(category._id)}
-                                        >
-                                            {category.categoryName}
-                                        </p>
-                                    </div>
-                                </SplideSlide>
-                            ))}
+                            {categories ? (
+                                categories.map((category) => (
+                                    <SplideSlide key={category._id}>
+                                        <div>
+                                            <p
+                                                className={`category-tag ${categoryID === category._id ? "active" : ""
+                                                    }`}
+                                                onClick={() => handleCategoryClick(category._id)}
+                                            >
+                                                {category.categoryName}
+                                            </p>
+                                        </div>
+                                    </SplideSlide>
+                                ))
+                            ) : (
+                                <div>No categories found</div>
+                            )}
                         </Splide>
                     </div>
-                    <div className="category-items">
+                    <div className="item-container">
                         {items ? (items.slice(0, 3).map((item) => {
                             return (
-                                <div key={item._id} className='item-card-home'>
+                                <div key={item._id} className='item-card'>
                                     <img src={`http://localhost:3000/uploads/${item.banner}`}
                                         alt="banner"
-                                        className='item-banner-home'
+                                        className='item-banner'
                                         onClick={() => router.push(`/items/${item._id}`)} />
-                                    <div className='item-details-home'>
+                                    <div className='item-details'>
                                         <div className='item-title-cart'>
-                                            <h4 className='item-title-home'>{item.title}</h4>
+                                            <h4 className='item-title'>{item.title}</h4>
                                             <CartIcon itemID={item._id || ''} quantity={1} showText={false} />
                                         </div>
-                                        <p className='item-description-home'>{truncateText(item.description || '', 60)}</p>
-                                        <p className='item-price-home'>Price: ${item.price}</p>
+                                        <p className='item-description'>{truncateText(item.description || '', 60)}</p>
+                                        <p className='item-price'>Price: ${item.price}</p>
                                     </div>
                                 </div>
                             )
@@ -172,7 +171,8 @@ const HomePage = () => {
                                         <h4>{blog.title}</h4>
                                         <p className="blog-card-content">
                                             {truncateText(blog.content ?? "", 60)}</p>
-                                        <Button type="button" value="Read More" additionalStyle="read-more-button" />
+                                        <Button type="button" value="Read More" additionalStyle="read-more-button"
+                                            onClick={() => router.push(`/blogs/${blog._id}`)} />
                                     </div>
                                 </div>
                             </div>

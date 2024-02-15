@@ -1,4 +1,5 @@
 @use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
 
 .container {
   margin-bottom: 50px;
@@ -64,6 +65,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    // padding-top: 40px;
 
     .category-title {
       font-size: 32px;
@@ -73,7 +75,7 @@
     .category-tags {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      // justify-content: center;
       align-items: center;
       gap: 15px;
       text-align: center;
@@ -85,6 +87,7 @@
 
         .slider {
           width: 300px;
+          padding: 20px 40px;
 
           .category-tag {
             cursor: pointer;
@@ -99,59 +102,8 @@
         }
       }
 
-      .category-items {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 40px;
-        justify-items: center;
-        align-items: center;
-
-        .no-items {
-          grid-column: span 3;
-          margin-bottom: -30px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .item-card-home {
-          width: 280px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-          border-radius: 5px;
-
-          .item-details-home {
-            padding: 0 20px;
-
-            .item-title-cart {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            }
-
-            .item-description-home {
-              font-size: 14px;
-              color: $color-dark;
-            }
-
-            .item-price-home {
-              font-weight: bold;
-              font-size: 14px;
-            }
-          }
-
-          .item-banner-home {
-            width: 100%;
-            height: 250px;
-            border-radius: 5px 5px 0 0;
-            object-fit: cover;
-            cursor: pointer;
-          }
-        }
+      .item-container {
+        @include item-container;
 
         .view-all-button {
           min-width: 200px;

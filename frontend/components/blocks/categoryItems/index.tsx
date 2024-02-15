@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import helper from "@/utils/helper";
 import CategoryList from "../../layout/categoryList";
+import Image from "next/image";
 import { BsCart3 } from "react-icons/bs";
 import { AddToCartApi } from "@/apiEndpoints/cart";
 import './index.scss';
@@ -30,17 +31,14 @@ const categoryItems = () => {
         <div className="category-wrapper">
             <CategoryList />
             {/* <h2 className="category-items-title">Category Items</h2> */}
-            <div className="items-container-category">
-                {/* {categoryItems && categoryItems?.length > 0 ? ( */}
-                {categoryItems && categoryItems.map((item) => {
+            <div className="item-container">
+                {categoryItems ? (categoryItems.map((item) => {
                     return (
-                        <div key={item._id} className='item-card'
-                        >
+                        <div key={item._id} className='item-card'>
                             <img src={`http://localhost:3000/uploads/${item.banner}`}
                                 alt="banner"
                                 className='item-banner'
-                                onClick={() => router.push(`/items/${item._id}`)}
-                            />
+                                onClick={() => router.push(`/items/${item._id}`)} />
                             <div className='item-details'>
                                 <div className='item-title-cart'>
                                     <h4 className='item-title'>{item.title}</h4>
@@ -51,10 +49,13 @@ const categoryItems = () => {
                             </div>
                         </div>
                     )
-                })}
-                {/* ) : (
-                    <p>No items found</p>
-                )} */}
+                })
+                ) : (
+                    <div className="no-items">
+                        <Image src={'/cross.png'} height={20} width={20} alt="loading" />
+                        <h4>No items found</h4>
+                    </div>
+                )}
             </div>
         </div>
     )

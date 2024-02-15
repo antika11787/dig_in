@@ -73,6 +73,27 @@
           cursor: pointer;
           padding: 10px;
         }
+
+        .manage-category-details {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+
+          .manage-category-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+          }
+
+          .manage-category-total {
+            font-size: 15px;
+            margin: 0;
+
+            .manage-category-total-number {
+              font-weight: bold;
+            }
+          }
+        }
       }
       .manage-category-button {
         display: flex;

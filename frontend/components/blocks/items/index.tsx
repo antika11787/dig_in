@@ -16,7 +16,7 @@ import CartIcon from "@/components/elements/cartIcon";
 import Pagination from "@/components/elements/pagination";
 import FoodFilter from "../itemFilter";
 import { BsFilterRight } from "react-icons/bs";
-import { set } from "react-hook-form";
+import Image from "next/image";
 
 const Items = () => {
   const router = useRouter();
@@ -58,7 +58,7 @@ const Items = () => {
         console.error("Error fetching items:", error);
         setItems([]);
       });
-      console.log("filter", filter);
+    console.log("filter", filter);
   }, [currentPage, sortParam, searchQuery, filter, limit]);
 
   return (
@@ -78,7 +78,6 @@ const Items = () => {
           />
         </div>
         <div>
-          {/* {items && items.length > 0 ? ( */}
           <div className="search-and-sort">
             <Search
               type="text"
@@ -99,36 +98,31 @@ const Items = () => {
               onChange={handleSortParam}
             />
           </div>
-          <div className="items-container">
-            {items.map((item) => {
+          <div className="item-container">
+            {items ? (items.map((item) => {
               return (
-                <div key={item._id} className="item-card">
-                  <img
-                    src={`http://localhost:3000/uploads/${item.banner}`}
+                <div key={item._id} className='item-card'>
+                  <img src={`http://localhost:3000/uploads/${item.banner}`}
                     alt="banner"
-                    className="item-banner"
-                    onClick={() => router.push(`/items/${item._id}`)}
-                  />
-                  <div className="item-details">
-                    <div className="item-title-cart">
-                      <h4 className="item-title">{item.title}</h4>
-                      <CartIcon
-                        itemID={item._id || ""}
-                        quantity={1}
-                        showText={false}
-                      />
+                    className='item-banner'
+                    onClick={() => router.push(`/items/${item._id}`)} />
+                  <div className='item-details'>
+                    <div className='item-title-cart'>
+                      <h4 className='item-title'>{item.title}</h4>
+                      <CartIcon itemID={item._id || ''} quantity={1} showText={false} />
                     </div>
-                    <p className="item-description">
-                      {truncateText(item.description || "", 60)}
-                    </p>
-                    <p className="item-price">Price: ${item.price}</p>
+                    <p className='item-description'>{truncateText(item.description || '', 60)}</p>
+                    <p className='item-price'>Price: ${item.price}</p>
                   </div>
                 </div>
-              );
-            })}
-            {/* ) : (
-                <p>No items found</p>
-            )} */}
+              )
+            })
+            ) : (
+              <div className="no-items">
+                <Image src={'/cross.png'} height={20} width={20} alt="loading" />
+                <h4>No items found</h4>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import './index.scss';
 import { useEffect, useState } from 'react';
 import { GetAllUsersApi, DeleteUsersApi, GetUserByIdApi, UpdateUserApi } from '@/apiEndpoints/user';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateContentState, CreateUserForm } from '@/types/interfaces';
+import { updateContentState, CreateUserForm, InputFieldProps, SelectOptionProps } from '@/types/interfaces';
 import { saveContentLength } from '@/redux/slices/ContentSlice';
 import { UserResponse } from '@/types/interfaces';
 import { AiFillDelete } from 'react-icons/ai';
@@ -107,7 +107,7 @@ const ManageUsers = () => {
                 <h3 className="manage-users-title">Manage Users</h3>
             </div>
             <div className='manage-users-body custom-scrollbar'>
-                {users &&
+                {users ? (
                     users.map((user) => (
                         <div key={user._id} className="manage-users-card">
                             <div className='manage-users-card-container'>
@@ -151,7 +151,7 @@ const ManageUsers = () => {
                                                     rules={{
                                                         required: "Username is required",
                                                     }}
-                                                    render={({ field }) => (
+                                                    render={({ field }: { field: InputFieldProps }) => (
                                                         <input
                                                             placeholder="Enter username"
                                                             {...field}
@@ -170,7 +170,7 @@ const ManageUsers = () => {
                                                     rules={{
                                                         required: "Address is required",
                                                     }}
-                                                    render={({ field }) => (
+                                                    render={({ field }: { field: InputFieldProps }) => (
                                                         <input
                                                             placeholder="Enter address"
                                                             {...field}
@@ -189,7 +189,7 @@ const ManageUsers = () => {
                                                     rules={{
                                                         required: "Role is required",
                                                     }}
-                                                    render={({ field }) => (
+                                                    render={({ field }: { field: SelectOptionProps }) => (
                                                         <select {...field} className="create-category-form-input">
                                                             <option value="">Select a role</option>
                                                             <option value="admin">Admin</option>
@@ -266,7 +266,10 @@ const ManageUsers = () => {
                                 />
                             </div>
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <div>No users found</div>
+                )}
             </div>
         </div>
     );

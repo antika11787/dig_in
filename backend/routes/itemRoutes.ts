@@ -41,5 +41,6 @@ routes.delete(
   isUserAdmin,
   itemController.removeImageFromItem
 );
+routes.get("/get-item-count/:id", itemController.categoryItemCount);
 
 export = routes;

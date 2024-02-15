@@ -150,7 +150,7 @@ const ManageOrders = () => {
                         )
                     })
                 ) : (
-                    <p>No orders found</p>
+                    <div>No orders found</div>
                 )}
             </div>
         </div>

@@ -17,11 +17,9 @@ const FoodFilter = (props: Props) => {
   }>({
     price: [],
     category: [],
-    tags: [],
   });
 
   const [categories, setCategories] = useState<CategoryResponse[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
 
   useEffect(() => {
 
@@ -33,8 +31,8 @@ const FoodFilter = (props: Props) => {
 
   useEffect(() => {
 
-   props.setFilter(selectedFilters);
-    
+    props.setFilter(selectedFilters);
+
   }, [selectedFilters]);
 
   const handleFilterChange = (filter: string, value: string) => {
@@ -53,56 +51,44 @@ const FoodFilter = (props: Props) => {
 
   return (
     <>
-    <div className="filter">
-      <div className="filter__card">
-        <p className="filter__heading">Price Range</p>
-        <div className="filter__slider">
-          <RangeSlider
-            min={0}
-            max={1000}
-            step={1}
-            onChange={(range:number[]) => {
-              setSelectedFilters({
-                ...selectedFilters,
-                price: range.map(String),
-              });
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="filter__card">
-        <p className="filter__heading">Categories</p>
-        <div className="filter__options">
-          {categories.map((category) => (
-            <Checkbox
-              key={category._id}
-              text={category.categoryName}
-              display="block"
-              onChange={() => {
-                handleFilterChange("category", category._id);
+      <div className="filter">
+        <div className="filter__card">
+          <p className="filter__heading">Price Range</p>
+          <div className="filter__slider">
+            <RangeSlider
+              min={0}
+              max={1000}
+              step={1}
+              onChange={(range: number[]) => {
+                setSelectedFilters({
+                  ...selectedFilters,
+                  price: range.map(String),
+                });
               }}
             />
-          ))}
+          </div>
         </div>
-      </div>
 
-      <div className="filter__card">
-        <p className="filter__heading">Tags</p>
-        <div className="filter__options">
-          {tags.map((tag) => (
-            <Checkbox
-              key={tag}
-              text={tag}
-              display="block"
-              onChange={() => {
-                handleFilterChange("tags", tag);
-              }}
-            />
-          ))}
+        <div className="filter__card">
+          <p className="filter__heading">Categories</p>
+          <div className="filter__options">
+            {categories ? (
+              categories.map((category) => (
+                <Checkbox
+                  key={category._id}
+                  text={category.categoryName}
+                  display="block"
+                  onChange={() => {
+                    handleFilterChange("category", category._id);
+                  }}
+                />
+              ))
+            ) : (
+              <div>No Categories found</div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
