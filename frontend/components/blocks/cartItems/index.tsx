@@ -5,10 +5,14 @@ import { BsCart3 } from 'react-icons/bs';
 import { GetMyCartApi, ClearCartApi, CheckoutApi } from '@/apiEndpoints/cart';
 import { CartResponse, ItemResponse } from '@/types/interfaces';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import './index.scss';
 
 const CartItems = () => {
     const router = useRouter();
+    const pathName = usePathname();
+    console.log("pathname", pathName)
     const [cartData, setCartData] = useState<CartResponse>();
 
     useEffect(() => {
@@ -30,19 +34,26 @@ const CartItems = () => {
                                     className='cart-item-image' />
                                 <div className="cart-item-details">
                                     <p className="cart-item-title">{typeof item.itemID === 'object' ? (item.itemID as { title: string }).title : ''}<span className='cart-item-quantity'> x {item.quantity}</span></p>
-                                    <p className="cart-item-price">Total: ${item.cost}</p>
+                                    <p className="cart-item-price">Total: BDT {item.cost}</p>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <div className='cart-buttons'>
-                        <p className='total-cost'>Total: ${cartData.totalAmount}</p>
-                        <button className='clear-cart-button'
-                            onClick={() => { ClearCartApi() }}>Clear Cart</button>
-                    </div>
+                    {pathName !== '/checkout' ? (
+                        <div className='cart-buttons'>
+                            <p className='total-cost'>Total: BDT {cartData.totalAmount}</p>
+                            <button className='clear-cart-button'
+                                onClick={() => { ClearCartApi() }}>Clear Cart</button>
+                        </div>
+                    ) : (
+                        <div></div>
+                    )}
                 </div>
             ) : (
-                <p className='no-items'>No items in cart</p>
+                <div>
+                    <Image src="/no-cart.png" alt="no items" width={300} height={300} />
+                    <p className='no-items'>No items in cart</p>
+                </div>
             )}
         </div>
     )

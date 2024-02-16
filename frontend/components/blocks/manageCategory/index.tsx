@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateContentState } from "@/types/interfaces";
 import { saveContentLength } from "@/redux/slices/ContentSlice";
 import { InputFieldProps } from "@/types/interfaces";
+import { Form } from "react-hook-form";
 
 const ManageCategory = () => {
   const dispatch = useDispatch();
@@ -154,26 +155,6 @@ const ManageCategory = () => {
     );
   };
 
-  // useEffect(() => {
-  //   const fetchItemCountForAllCategories = async () => {
-  //     const itemCountPromises = categories.map((category) => {
-  //       return CategoryItemCountApi(category._id);
-  //     });
-
-  //     const itemCounts = await Promise.all(itemCountPromises);
-  //     const updatedCategories = categories.map((category, index) => {
-  //       return {
-  //         ...category,
-  //         itemCount: itemCounts[index],
-  //       };
-  //     });
-
-  //     setCategories(updatedCategories);
-  //   };
-
-  //   fetchItemCountForAllCategories();
-  // }, [categories]);
-
   return (
     <div className="manage-category-container">
       <div className="manage-category-header">
@@ -184,10 +165,10 @@ const ManageCategory = () => {
           contentLabel="Example Modal"
           style={{
             overlay: {
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
             },
             content: {
-              width: "50%",
+              width: "45%",
               height: "55%",
               margin: "auto",
               borderRadius: "10px",
@@ -196,28 +177,16 @@ const ManageCategory = () => {
           }}
         >
           <div className="create-category-form-container">
-            <h3>Create Category</h3>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="create-category-form-item">
-                <label className="create-category-form-label">
-                  Category Name:{" "}
-                </label>
-                <Controller
-                  name="categoryName"
-                  control={control}
-                  rules={{
-                    required: "Category name is required",
-                  }}
-                  render={({ field }: { field: InputFieldProps }) => (
-                    <input
-                      placeholder="Enter category name"
-                      {...field}
-                      className="create-category-form-input"
-                    />
-                  )}
-                />
-                {errors.categoryName && <h5>{errors.categoryName.message}</h5>}
-              </div>
+            <h2 className="create-category-form-heading">Create Category</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="create-category-form">
+              <Form
+                label="Category Name"
+                nameProp="categoryName"
+                requiredProp="This field is required"
+                placeholder="Enter category name"
+                control={control}
+                errors={errors}
+              />
 
               <div className="create-category-form-upload">
                 <div className="upload">
@@ -285,7 +254,7 @@ const ManageCategory = () => {
                   contentLabel="Example Modal"
                   style={{
                     overlay: {
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      backgroundColor: "rgba(0, 0, 0, 0.2)",
                     },
                     content: {
                       width: "45%",
@@ -297,8 +266,8 @@ const ManageCategory = () => {
                   }}
                 >
                   <div className="create-category-form-container">
-                    <h3>Edit Category</h3>
-                    <form onSubmit={handleSubmit(onEditSubmit)}>
+                    <h2 className="create-category-form-heading">Edit Category</h2>
+                    <form onSubmit={handleSubmit(onEditSubmit)} className="create-category-form">
                       <div className="create-category-form-item">
                         <label className="create-category-form-label">
                           Category Name:{" "}
@@ -369,20 +338,20 @@ const ManageCategory = () => {
                   contentLabel="Example Modal"
                   style={{
                     overlay: {
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      backgroundColor: "rgba(0, 0, 0, 0.2)",
                     },
                     content: {
-                      width: "50%",
-                      height: "50%",
+                      width: "40%",
+                      height: "35%",
                       margin: "auto",
                       borderRadius: "10px",
                       overflow: "auto",
                     },
                   }}
                 >
-                  <div>
-                    <h2>Delete Category</h2>
-                    <p>
+                  <div className="delete-modal-container">
+                    <h2 className="delete-modal-heading">Delete Category</h2>
+                    <p className="delete-modal-description">
                       Are you sure you want to delete this category? All the
                       Items under this cateory will be deleted too.
                     </p>

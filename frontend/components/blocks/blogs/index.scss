@@ -1,11 +1,24 @@
 @use "../../../styles/colors" as *;
 
 .blog-wrapper {
-  margin-top: 70px;
+  margin-top: 90px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .search-and-sort {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+    .searchbar {
+      display: flex;
+      align-items: center;
+      min-width: 100%;
+    }
+  }
 
   .blog-container {
     display: grid;

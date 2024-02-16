@@ -63,7 +63,7 @@ const MyOrders = () => {
                                     <Image src={'/order.png'} alt="order image" width={50} height={50} className='my-orders-img' />
                                     <div className='my-orders-card-details'>
                                         <p className='my-orders-card-customer'>{order.userID.username}{" "} <span className='my-orders-card-ordered'>has ordered <span className='my-orders-card-customer'>{order.items.length}</span> items</span></p>
-                                        <p className='my-orders-card-price'>Total amount: <span className='my-orders-card-customer'>${order.totalAmount}</span></p>
+                                        <p className='my-orders-card-price'>Total amount: <span className='my-orders-card-customer'>BDT {order.totalAmount}</span></p>
                                         <p className='my-orders-card-date'>Date: {formatTimestamp(order.createdAt)}</p>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@ const MyOrders = () => {
                                                     <Image src={`http://localhost:3000/uploads/${item.itemID.banner}`} alt="product image" width={200} height={200} className='modal-img' />
                                                     <div className='modal-card-details'>
                                                         <p className='modal-card-title'>{item.itemID.title}<span className='modal-card-quantity'>{" x "}{item.quantity}</span></p>
-                                                        <p className='modal-card-cost'>Cost: ${item.cost}</p>
+                                                        <p className='modal-card-cost'>Cost: BDT {item.cost}</p>
                                                     </div>
                                                 </div>
                                             ))

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { FormData } from '@/types/interfaces';
+import { FormData, InputFieldProps, SelectOptionProps } from '@/types/interfaces';
 import { SignupApi } from '@/apiEndpoints/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -72,7 +72,7 @@ const SignUpForm = () => {
                                 message: 'Maximum length must be 30',
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <input
                                 placeholder="Enter username"
                                 {...field}
@@ -95,7 +95,7 @@ const SignUpForm = () => {
                                 message: 'Enter a valid email address.',
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <input
                                 placeholder="Enter email"
                                 {...field}
@@ -111,7 +111,7 @@ const SignUpForm = () => {
                     <Controller
                         name="role"
                         control={control}
-                        render={({ field }) => (
+                        render={({ field }: { field: SelectOptionProps }) => (
                             <select
                                 {...field}
                                 className='form-input'
@@ -131,7 +131,7 @@ const SignUpForm = () => {
                         rules={{
                             required: 'Address is required',
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <input
                                 placeholder="Enter address"
                                 {...field}
@@ -155,7 +155,7 @@ const SignUpForm = () => {
                                     'Password must contain at least one capital letter, one digit, one special character, and be 8 characters or more long.',
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <div className="password-input">
                                 <input
                                     placeholder="Enter password"
@@ -187,10 +187,10 @@ const SignUpForm = () => {
                         control={control}
                         rules={{
                             required: 'Confirm your password',
-                            validate: (value) =>
+                            validate: (value: string) =>
                                 value === watch('password') || 'Confirm password should match given password',
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <div className="password-input">
                                 <input
                                     placeholder="Confirm password"

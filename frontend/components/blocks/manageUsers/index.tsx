@@ -129,22 +129,22 @@ const ManageUsers = () => {
                                     contentLabel="Example Modal"
                                     style={{
                                         overlay: {
-                                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                            backgroundColor: "rgba(0, 0, 0, 0.2)",
                                         },
                                         content: {
-                                            width: "45%",
-                                            height: "55%",
+                                            width: "40%",
+                                            height: "60%",
                                             margin: "auto",
                                             borderRadius: "10px",
                                             overflow: "auto",
                                         },
                                     }}
                                 >
-                                    <div className="create-category-form-container">
-                                        <h3>Edit User</h3>
-                                        <form onSubmit={handleSubmit(onSubmit)}>
-                                            <div className="create-category-form-item">
-                                                <label className="create-category-form-label">Username: </label>
+                                    <div className="create-user-form-container">
+                                        <h2 className='create-user-form-heading'>Edit User</h2>
+                                        <form onSubmit={handleSubmit(onSubmit)} className='create-user-form'>
+                                            <div className="create-user-form-item">
+                                                <label className="create-user-form-label">Username: </label>
                                                 <Controller
                                                     name="username"
                                                     control={control}
@@ -155,15 +155,15 @@ const ManageUsers = () => {
                                                         <input
                                                             placeholder="Enter username"
                                                             {...field}
-                                                            className="create-category-form-input"
+                                                            className="create-user-form-input"
                                                         />
                                                     )}
                                                 />
                                                 {errors.username && <h5>{errors.username.message}</h5>}
                                             </div>
 
-                                            <div className="create-category-form-item">
-                                                <label className="create-category-form-label">Address: </label>
+                                            <div className="create-user-form-item">
+                                                <label className="create-user-form-label">Address: </label>
                                                 <Controller
                                                     name="address"
                                                     control={control}
@@ -174,15 +174,15 @@ const ManageUsers = () => {
                                                         <input
                                                             placeholder="Enter address"
                                                             {...field}
-                                                            className="create-category-form-input"
+                                                            className="create-user-form-input"
                                                         />
                                                     )}
                                                 />
                                                 {errors.address && <h5>{errors.address.message}</h5>}
                                             </div>
 
-                                            <div className="create-category-form-item">
-                                                <label className="create-category-form-label">Role: </label>
+                                            <div className="create-user-form-item">
+                                                <label className="create-user-form-label">Role: </label>
                                                 <Controller
                                                     name="role"
                                                     control={control}
@@ -190,7 +190,7 @@ const ManageUsers = () => {
                                                         required: "Role is required",
                                                     }}
                                                     render={({ field }: { field: SelectOptionProps }) => (
-                                                        <select {...field} className="create-category-form-input">
+                                                        <select {...field} className="create-user-form-input-select">
                                                             <option value="">Select a role</option>
                                                             <option value="admin">Admin</option>
                                                             <option value="customer">Customer</option>
@@ -222,20 +222,20 @@ const ManageUsers = () => {
                                     contentLabel="Example Modal"
                                     style={{
                                         overlay: {
-                                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                            backgroundColor: "rgba(0, 0, 0, 0.2)",
                                         },
                                         content: {
-                                            width: "50%",
-                                            height: "50%",
+                                            width: "40%",
+                                            height: "35%",
                                             margin: "auto",
                                             borderRadius: "10px",
                                             overflow: "auto",
                                         },
                                     }}
                                 >
-                                    <div>
-                                        <h2>Delete User</h2>
-                                        <p>
+                                    <div className="delete-modal-container">
+                                        <h2 className="delete-modal-title">Delete User</h2>
+                                        <p className="delete-modal-description">
                                             Are you sure you want to delete this user?
                                         </p>
                                         <div className="delete-modal-button">

@@ -45,7 +45,7 @@ const categoryItems = () => {
                                     <CartIcon itemID={item._id || ''} quantity={1} showText={false} />
                                 </div>
                                 <p className='item-description'>{truncateText(item.description || '', 60)}</p>
-                                <p className='item-price'>Price: ${item.price}</p>
+                                <p className='item-price'>Price: BDT {item.price}</p>
                             </div>
                         </div>
                     )

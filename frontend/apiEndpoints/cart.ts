@@ -112,7 +112,7 @@ export const ClearCartApi = async () => {
     if (responseData.success === false) {
       toast.error("Error: ", responseData.message);
     }
-    toast.success("Cart cleared");
+    // toast.success("Cart cleared");
     return responseData.data;
   } catch (error: any) {
     toast.error(
@@ -127,15 +127,17 @@ export const CheckoutApi = async ({
   house,
   area,
   street,
+  phone,
 }: {
   house: string;
   area: string;
   street: string;
+  phone: string;
 }) => {
   try {
     const response: AxiosResponse = await axiosInstanceToken.post(
       `/app/v1/cart/checkout`,
-      { house, area, street }
+      { house, area, street, phone }
     );
     const responseData = response.data;
 

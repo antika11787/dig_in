@@ -24,7 +24,7 @@ const SideBar = () => {
                     <h3 className='sidebar-header'>User dashboard</h3>
                     <div className='sidebar-links'>
                         <Link href={'/profile/user/myOrders'} className='sidebar-link'>My Orders</Link>
-                        <Link href={'/profile/user/myTransactions'} className='sidebar-link'>My Transactions</Link>
+                        {/* <Link href={'/profile/user/myCart'} className='sidebar-link'>My Cart</Link> */}
                     </div>
                 </>
             ) : role === 'author' ? (

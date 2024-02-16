@@ -50,8 +50,6 @@ class ItemController {
         files: pathParts,
       });
 
-      // item.files.push(pathParts);
-
       await item.save();
 
       const responseItem: ItemResponse = {

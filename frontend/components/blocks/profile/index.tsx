@@ -32,7 +32,12 @@ const Profile = () => {
                     <p className='profile-email'>Email: {profile?.email}</p>
                 </div>
             ) : role === 'author' ? (
-                <div>Author</div>
+                <div className='profile'>
+                    <img src={'/editor.png'} className='profile-image' />
+                    <p className='profile-name'>{profile?.username}</p>
+                    <p className='profile-role'>Role: {profile?.role}</p>
+                    <p className='profile-email'>Email: {profile?.email}</p>
+                </div>
             ) : null}
         </div>
     )

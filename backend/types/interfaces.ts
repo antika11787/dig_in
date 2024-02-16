@@ -59,7 +59,6 @@ interface IPayment extends Document {
 }
 
 interface IOrder extends Document {
-  // orderId: string;
   userID: Types.ObjectId;
   items: ICartItem[];
   totalAmount: number;
@@ -67,9 +66,7 @@ interface IOrder extends Document {
   house: string;
   street: string;
   area: string;
-  // paymentType: string;
-  // paymentStatus: string;
-  // paymentDetails: string;
+  phone: string;
 }
 
 interface IBlog extends Document {

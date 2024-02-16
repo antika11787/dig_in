@@ -118,7 +118,6 @@ const ManageItems = () => {
     await CreateItemsApi(formData);
     const response = await GetAllItemsApi(searchQuery);
     setItems(response?.items);
-    console.log("response after submit", response);
 
     dispatch(
       saveContentLength({ contentLength: response?.items?.length || 0 })
@@ -141,16 +140,7 @@ const ManageItems = () => {
     formData.append("description", data.description || "");
     formData.append("price", data.price.toString() || "");
     formData.append("categoryID", data.categoryID || "");
-    // console.log("index in oneditsubmit", imageIndex)
     formData.append("banner", imageIndex.toString() || "0");
-
-    // GetItemByIdApi(itemID).then((response) => {
-    //   const existingFiles = response?.files || [];
-    //   setFile(existingFiles);
-    // });
-    // if (file) {
-    //   formData.append("file", file);
-    // }
 
     await UpdateItemApi(
       itemID,
@@ -160,25 +150,15 @@ const ManageItems = () => {
     setItems(updatedItems);
     dispatch(saveContentLength({ contentLength: updatedItems?.length || 0 }));
 
-    console.log("cat", categories)
-
     reset();
-    // setFile([]);
     setIsEditModalOpen(false);
   };
 
   const handleImageUpload = async () => {
     try {
-      console.log("id out", itemID);
       if (file.length > 0) {
-        console.log("id in", itemID);
-        console.log("file in", file);
         const response = await UploadImageToItemApi(itemID, file);
-        console.log("resp", response);
-        // Handle response if needed
       } else {
-        console.log("id err", itemID);
-
         console.error("No file selected for upload.");
       }
     } catch (error) {
@@ -190,7 +170,6 @@ const ManageItems = () => {
     if (isEditModalOpen) {
       handleImageUpload().then(() => {
         GetItemByIdApi(itemID).then((response) => {
-          console.log("res-re", response);
           setEditModalItem(response);
         });
       });
@@ -201,10 +180,7 @@ const ManageItems = () => {
     setFile(acceptedFiles);
     setIsFileAvailable(true);
 
-    // Call handleImageUpload when files are dropped
   }, []);
-
-  console.log("file", file.length);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -270,8 +246,6 @@ const ManageItems = () => {
     dispatch(saveContentLength({ contentLength: updatedItems.length || 0 }));
   };
 
-  console.log("index", imageIndex);
-
   return (
     <div className="manage-items-container">
       <div className="manage-items-header">
@@ -282,7 +256,7 @@ const ManageItems = () => {
           contentLabel="Example Modal"
           style={{
             overlay: {
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
             },
             content: {
               width: "45%",
@@ -294,10 +268,10 @@ const ManageItems = () => {
           }}
         >
           <div className="create-item-form-container">
-            <h3>Create Item</h3>
+            <h2 className="create-item-form-heading">Create Item</h2>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="create-item-form"
+              className="create-item"
             >
               <div className="create-item-form">
                 <label className="create-item-form-label">Item Name: </label>
@@ -405,8 +379,6 @@ const ManageItems = () => {
                               }`}
                             onClick={() => {
                               setImageIndex(file.indexOf(f));
-                              // set an active classname
-                              console.log("file.indexOf(f)", file.indexOf(f));
                             }}
                           />
                         </div>
@@ -437,26 +409,35 @@ const ManageItems = () => {
         </button>
       </div>
       <div className="manage-items-body custom-scrollbar">
+        <div className="manage-items-card-table-header">
+          <p className="manage-items-card-table-name">Name</p>
+          <p className="manage-items-card-table-category">Category</p>
+          <p className="manage-items-card-table-price">Price</p>
+          <p className="manage-items-card-table-action">Action</p>
+        </div>
         {items && items.length > 0 ? (
           items.map((item) => {
             return (
               <div key={item._id} className="manage-items-card">
-                <div className="manage-items-image-title">
-                  <img
-                    src={`http://localhost:3000/uploads/${item.banner}`}
-                    className="manage-items-image"
-                    onClick={() => {
-                      router.push(`/items/${item._id}`);
-                    }}
-                  />
-                  <div className="manage-items-details">
+                {/* <div className="manage-items-card-container"> */}
+
+                <div className="manage-items-card-table">
+                  <div className="manage-items-image-title">
+                    <img
+                      src={`http://localhost:3000/uploads/${item.banner}`}
+                      className="manage-items-image"
+                      onClick={() => {
+                        router.push(`/items/${item._id}`);
+                      }}
+                    />
                     <p className="manage-items-name">{item.title}</p>
-                    <p className="manage-items-category">
-                      {item.categoryID?.categoryName}
-                    </p>
-                    <p className="manage-items-price">Price: ${item.price}</p>
                   </div>
+                  <p className="manage-items-category">
+                    {item.categoryID?.categoryName}
+                  </p>
+                  <p className="manage-items-price">BDT {item.price}</p>
                 </div>
+                {/* </div> */}
                 <div className="manage-items-button">
                   <Modal
                     isOpen={isEditModalOpen}
@@ -465,7 +446,7 @@ const ManageItems = () => {
                     contentLabel="Example Modal"
                     style={{
                       overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        backgroundColor: "rgba(0, 0, 0, 0.1)",
                       },
                       content: {
                         width: "45%",
@@ -477,10 +458,10 @@ const ManageItems = () => {
                     }}
                   >
                     <div className="create-item-form-container">
-                      <h3>Edit Item</h3>
+                      <h2 className="create-item-form-heading">Edit Item</h2>
                       <form
                         onSubmit={handleSubmit(onEditSubmit)}
-                        className="create-item-form"
+                        className="create-item"
                       >
                         <div className="create-item-form">
                           <label className="create-item-form-label">
@@ -603,7 +584,6 @@ const ManageItems = () => {
                           </div>
 
                           <div className="upload-image-container">
-                            {/* Render existing images from the database */}
                             {editModalItem &&
                               editModalItem.files &&
                               editModalItem.files.map((file, index) => (
@@ -615,9 +595,6 @@ const ManageItems = () => {
                                       }`}
                                     onClick={() => {
                                       setImageIndex(index);
-                                      console.log("imageIndex", index)
-                                      // set an active classname
-                                      // console.log("file.indexOf(f)", file.indexOf(f));
                                     }}
                                   />
                                   <div
@@ -630,26 +607,6 @@ const ManageItems = () => {
                                   </div>
                                 </div>
                               ))}
-                            {/* Render newly added images */}
-                            {/* {file.length > 0 && file.map((f: any, index) => (
-                              <div key={index + (editModalItem?.files?.length ?? 0)} className="image-container">
-                                <img
-                                  src={URL.createObjectURL(f)}
-                                  alt="image"
-                                  className={`upload-image ${imageIndex === (index + (editModalItem?.files?.length || 0)) ? "active" : ""}`}
-                                  onClick={() => {
-                                    setImageIndex(index + (editModalItem?.files?.length || 0));
-                                  }}
-                                />
-                                <div className="delete-icon"
-                                  onClick={() => {
-                                    removeImage(file, index);
-                                  }}
-                                >
-                                  <AiFillDelete />
-                                </div>
-                              </div>
-                            ))} */}
                           </div>
                         </div>
                         <div>
@@ -676,20 +633,20 @@ const ManageItems = () => {
                     contentLabel="Example Modal"
                     style={{
                       overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        backgroundColor: "rgba(0, 0, 0, 0.1)",
                       },
                       content: {
-                        width: "50%",
-                        height: "50%",
+                        width: "40%",
+                        height: "35%",
                         margin: "auto",
                         borderRadius: "10px",
                         overflow: "auto",
                       },
                     }}
                   >
-                    <div>
-                      <h2>Delete Item</h2>
-                      <p>Are you sure you want to delete this item?</p>
+                    <div className="delete-modal-container">
+                      <h2 className="delete-modal-heading">Delete Item</h2>
+                      <p className="delete-modal-description">Are you sure you want to delete this item?</p>
                       <div className="delete-modal-button">
                         <button
                           className="yes-button"

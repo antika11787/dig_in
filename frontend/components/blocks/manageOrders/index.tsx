@@ -83,7 +83,7 @@ const ManageOrders = () => {
                                     <Image src={'/order.png'} alt="order image" width={50} height={50} className='manage-orders-img' />
                                     <div className='manage-orders-card-details'>
                                         <p className='manage-orders-card-customer'>{order.userID.username}{" "} <span className='manage-orders-card-ordered'>has ordered <span className='manage-orders-card-customer'>{order.items.length}</span> items</span></p>
-                                        <p className='manage-orders-card-price'>Total amount: <span className='manage-orders-card-customer'>${order.totalAmount}</span></p>
+                                        <p className='manage-orders-card-price'>Total amount: <span className='manage-orders-card-customer'>BDT {order.totalAmount}</span></p>
                                         <p className='manage-orders-card-date'>Date: {formatTimestamp(order.createdAt)}</p>
                                     </div>
                                 </div>
@@ -100,10 +100,10 @@ const ManageOrders = () => {
                                     contentLabel="Example Modal"
                                     style={{
                                         overlay: {
-                                            backgroundColor: "rgba(0, 0, 0, 0.1)",
+                                            backgroundColor: "rgba(0, 0, 0, 0.2)",
                                         },
                                         content: {
-                                            width: "70%",
+                                            width: "50%",
                                             height: "60%",
                                             margin: "auto",
                                             borderRadius: "10px",
@@ -111,38 +111,40 @@ const ManageOrders = () => {
                                         },
                                     }}
                                 >
-                                    {/* <h3 className='modal-card-title'>Subtotal: ${singleOrder?.totalAmount}</h3> */}
-                                    <div className='modal-content'>
-                                        {singleOrder && singleOrder.items && singleOrder.items.length > 0 ? (
-                                            singleOrder.items.map((item) => (
-                                                <div key={item._id} className='modal-card'>
-                                                    <Image src={`http://localhost:3000/uploads/${item.itemID.banner}`} alt="product image" width={200} height={200} className='modal-img' />
-                                                    <div className='modal-card-details'>
-                                                        <p className='modal-card-title'>{item.itemID.title}<span className='modal-card-quantity'>{" x "}{item.quantity}</span></p>
-                                                        <p className='modal-card-cost'>Cost: ${item.cost}</p>
+                                    <div className='modal-content-container'>
+                                        <div className='modal-content'>
+                                            <h3 className='modal-card-title'>Ordered items</h3>
+                                            {singleOrder && singleOrder.items && singleOrder.items.length > 0 ? (
+                                                singleOrder.items.map((item) => (
+                                                    <div key={item._id} className='modal-card'>
+                                                        <Image src={`http://localhost:3000/uploads/${item.itemID.banner}`} alt="product image" width={200} height={200} className='modal-img' />
+                                                        <div className='modal-card-details'>
+                                                            <p className='modal-card-title'>{item.itemID.title}<span className='modal-card-quantity'>{" x "}{item.quantity}</span></p>
+                                                            <p className='modal-card-cost'>Cost: BDT {item.cost}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p>No items found</p>
-                                        )}
+                                                ))
+                                            ) : (
+                                                <p>No items found</p>
+                                            )}
 
-                                    </div>
-                                    <div className='modal-card-status-container'>
-                                        <select className='modal-card-status'
-                                            defaultValue={selectedStatus}
-                                            onChange={(e) => {
-                                                console.log(e.target.value)
-                                                SetStatusApi(orderId, e.target.value);
-                                                setSelectedStatus(e.target.value);
-                                                dispatch(saveContentLength({ contentLength: -1 }));
-                                                setIsModalOpen(false);
-                                            }}>
-                                            <option value="" className='modal-card-status-option' disabled={true}>Set Status</option>
-                                            <option value="Pending" className='modal-card-status-option'>Pending</option>
-                                            <option value="In-progress" className='modal-card-status-option'>In progress</option>
-                                            <option value="Delivered" className='modal-card-status-option'>Delivered</option>
-                                        </select>
+                                        </div>
+                                        <div className='modal-card-status-container'>
+                                            <select className='modal-card-status'
+                                                defaultValue={selectedStatus}
+                                                onChange={(e) => {
+                                                    console.log(e.target.value)
+                                                    SetStatusApi(orderId, e.target.value);
+                                                    setSelectedStatus(e.target.value);
+                                                    dispatch(saveContentLength({ contentLength: -1 }));
+                                                    setIsModalOpen(false);
+                                                }}>
+                                                <option value="" className='modal-card-status-option' disabled={true}>Set Status</option>
+                                                <option value="Pending" className='modal-card-status-option'>Pending</option>
+                                                <option value="In-progress" className='modal-card-status-option'>In progress</option>
+                                                <option value="Delivered" className='modal-card-status-option'>Delivered</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <CgCloseR className="close-button" onClick={closeModal} />
                                 </Modal>

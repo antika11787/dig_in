@@ -4,6 +4,8 @@ import { IAuthMiddleware } from "../types/interfaces";
 const { success, failure } = require("../utils/successError");
 const userModel = require("../model/user");
 const authModel = require("../model/auth");
+const orderModel = require("../model/order");
+const blogModel = require("../model/blog");
 
 class UserController {
   async getAllUsers(req: Request, res: Response): Promise<Response> {
@@ -82,12 +84,10 @@ class UserController {
         return res.status(404).send({ message: "User not found" });
       }
 
-      const existingUser = await userModel.findOne({ email });
+      const existingUser = await userModel.findOne({ username });
 
-      if (user && user._id.toString() !== id) {
-        return res
-          .status(400)
-          .send({ message: "User email address already exists" });
+      if (existingUser && existingUser._id.toString() !== id) {
+        return res.status(400).send({ message: "Username already exists" });
       }
 
       const updatedUser = await authModel
@@ -144,6 +144,27 @@ class UserController {
       if (!existingUser) {
         return res.status(400).send({ message: "Cannot delete user" });
       }
+
+      if (existingUser.role === "admin") {
+        return res.status(400).send({ message: "Cannot delete admin user" });
+      }
+
+      if (existingUser.role === "customer") {
+        const orders = await orderModel.find({ userID: user.userID });
+
+        if (orders) {
+          await orderModel.deleteMany({ userID: user.userID });
+        }
+      }
+
+      if (existingUser.role === "author") {
+        const blogs = await blogModel.find({ author: user.userID });
+
+        if (blogs) {
+          await orderModel.deleteMany({ userID: user.userID });
+        }
+      }
+
       const deletedUser = await authModel
         .findByIdAndDelete(id)
         .select("_id username email address role createdAt updatedAt");

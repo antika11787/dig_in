@@ -293,11 +293,13 @@ class CartController {
 
   async checkout(req: Request, res: Response): Promise<Response> {
     try {
-      const { house, street, area } = req.body;
+      const { house, street, area, phone } = req.body;
       const customRequest = req as IAuthMiddleware;
 
-      if (!house || !street || !area) {
-        return res.status(400).send(failure("Address is required"));
+      if (!house || !street || !area || !phone) {
+        return res
+          .status(400)
+          .send(failure("Address and phone no. is required"));
       }
 
       const cart = await cartModel
@@ -322,6 +324,7 @@ class CartController {
         house,
         street,
         area,
+        phone,
         totalAmount: estimatedCost,
       });
 

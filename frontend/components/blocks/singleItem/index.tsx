@@ -73,7 +73,7 @@ const SingleItem = () => {
               <h1 className="single-item-title">{item.title}</h1>
               <p className="single-item-description">{item.description}</p>
               <div className="price-and-quantity">
-                <p className="single-item-price">Price: ${item.price}</p>
+                <p className="single-item-price">Price: BDT {item.price}</p>
                 <div className="add-to-cart">
                   <CartIcon
                     itemID={item._id || ""}

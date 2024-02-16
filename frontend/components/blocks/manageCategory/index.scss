@@ -1,4 +1,5 @@
 @use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
 
 .manage-category-container {
   width: 70vw;
@@ -82,6 +83,7 @@
           .manage-category-name {
             font-size: 18px;
             font-weight: bold;
+            color: $color-dark;
             margin: 0;
           }
 
@@ -122,58 +124,87 @@
   flex-direction: column;
   // align-items: center;
 
-  .create-category-form-input {
-    width: 300px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: 1px solid $color-border;
-    font-size: 16px;
-    outline: none;
+  .create-category-form-heading {
+    font-size: 24px;
+    color: $color-dark;
+    text-align: center;
   }
 
-  .create-category-form-upload {
+  .create-category-form {
     display: flex;
     flex-direction: column;
-    // align-items: center;
-    gap: 10px;
+    align-items: center;
+    gap: 5px;
 
-    .upload {
+    .create-category-form-item {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      gap: 3px;
 
-      .upload-icon {
-        height: 40px;
-        width: 40px;
-        cursor: pointer;
+      .create-category-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: $color-dark;
+      }
+
+      .create-category-form-input {
+        width: 500px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        font-size: 16px;
+        outline: none;
       }
     }
-    .upload-image {
-      height: 100px;
-      width: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
+
+    .create-category-form-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .upload {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .upload-icon {
+          height: 40px;
+          width: 40px;
+          cursor: pointer;
+        }
+      }
+      .upload-image {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        margin: 0 auto;
+      }
+    }
+
+    .submit-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
     }
   }
+}
 
-  .submit-button {
-    height: 40%;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    padding: 10px 15px;
-    background-color: $color-activate;
-    color: $color-white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-
-    &:hover {
-      background-color: $color-activate-hover;
-    }
-  }
+.delete-modal-container {
+  @include delete-modal;
 }
 
 .close-button {

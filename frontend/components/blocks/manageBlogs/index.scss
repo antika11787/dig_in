@@ -1,4 +1,5 @@
 @use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
 
 .manage-blogs-container {
   width: 70vw;
@@ -120,4 +121,104 @@
       }
     }
   }
+}
+
+.create-blogs-form-container {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+
+  .create-blogs-form-heading {
+    font-size: 24px;
+    color: $color-dark;
+    text-align: center;
+  }
+
+  .create-blogs-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    .create-blogs-form-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .create-blogs-form-label {
+        font-size: 17px;
+        font-weight: bold;
+        color: $color-dark;
+      }
+
+      .create-blogs-form-input {
+        width: 500px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        font-size: 16px;
+        outline: none;
+      }
+    }
+
+    .create-blogs-form-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .upload {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .upload-icon {
+          height: 40px;
+          width: 40px;
+          cursor: pointer;
+        }
+      }
+      .upload-image {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        margin: 0 auto;
+      }
+    }
+
+    .submit-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+}
+
+.delete-modal-container {
+  @include delete-modal;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { AddressData, CartResponse } from '@/types/interfaces';
+import { AddressData, CartResponse, InputFieldProps } from '@/types/interfaces';
 import { CheckoutApi, GetMyCartApi } from '@/apiEndpoints/cart';
 import { loadStripe } from '@stripe/stripe-js';
 import appConfig from '@/config/constants';
@@ -23,7 +23,8 @@ const Checkout = () => {
         defaultValues: {
             house: '',
             street: '',
-            area: ''
+            area: '',
+            phone: '',
         },
     });
 
@@ -53,7 +54,7 @@ const Checkout = () => {
                         rules={{
                             required: 'House number/name is required',
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <input
                                 placeholder="Enter house no./name"
                                 {...field}
@@ -72,7 +73,7 @@ const Checkout = () => {
                         rules={{
                             required: 'Street is required',
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <input
                                 placeholder="Enter street/block"
                                 {...field}
@@ -91,7 +92,7 @@ const Checkout = () => {
                         rules={{
                             required: 'Area is required',
                         }}
-                        render={({ field }) => (
+                        render={({ field }: { field: InputFieldProps }) => (
                             <input
                                 placeholder="Enter your area"
                                 {...field}
@@ -100,6 +101,25 @@ const Checkout = () => {
                         )}
                     />
                     {errors.area && <h5 className='checkout-error-message'>{errors.area.message}</h5>}
+                </div>
+
+                <div className='checkout-form-item'>
+                    <label className='checkout-form-label'>Phone no.</label>
+                    <Controller
+                        name="phone"
+                        control={control}
+                        rules={{
+                            required: 'Phone number is required',
+                        }}
+                        render={({ field }: { field: InputFieldProps }) => (
+                            <input
+                                placeholder="Enter phone no."
+                                {...field}
+                                className='checkout-form-input'
+                            />
+                        )}
+                    />
+                    {errors.phone && <h5 className='checkout-error-message'>{errors.phone.message}</h5>}
                 </div>
 
                 <div className='checkout-submit-button-container'>

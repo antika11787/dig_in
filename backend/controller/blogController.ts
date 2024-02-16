@@ -2,6 +2,8 @@ import fs from "fs";
 import { Request, Response } from "express";
 import { IBlog, updateBlog } from "../types/interfaces";
 import { IAuthMiddleware } from "../types/interfaces";
+import { FilterType } from "../types/interfaces";
+import { ParsedQs } from "qs";
 
 const { success, failure } = require("../utils/successError");
 const blogModel = require("../model/blog");
@@ -56,16 +58,85 @@ class BlogController {
 
   async getAllBlogs(req: Request, res: Response): Promise<Response> {
     try {
-      const blogs = await blogModel.find().populate({
-        path: "author",
-        select: "_id username email",
-      });
+      let { sortParam, search } = req.query;
+      let page: string | string[] | ParsedQs | ParsedQs[] | undefined | number =
+        req.query.page;
+      let limit:
+        | string
+        | string[]
+        | ParsedQs
+        | ParsedQs[]
+        | undefined
+        | number = req.query.limit;
 
-      if (blogs.length === 0) {
-        return res.status(404).send({ message: "No blogs found" });
+      let result = 0;
+      const totalRecords = await blogModel.countDocuments({});
+
+      if (!page || !limit) {
+        page = 1;
+        limit = 100;
       }
 
-      return res.status(200).send(success("Blogs fetched successfully", blogs));
+      // sorting
+      if (
+        sortParam &&
+        sortParam !== "" &&
+        sortParam !== "createdAtAsc" &&
+        sortParam !== "createdAtDesc"
+      ) {
+        return res
+          .status(400)
+          .send(failure("Invalid sort parameters provided."));
+      }
+
+      // Filtering
+      const filter: FilterType = {};
+
+      // search
+      if (search) {
+        filter["$or"] = [
+          { title: { $regex: String(search), $options: "i" } },
+          { content: { $regex: String(search), $options: "i" } },
+          { tags: { $regex: String(search), $options: "i" } },
+        ];
+      }
+
+      // Pagination
+      result = await blogModel
+        .find(filter)
+        .sort(
+          sortParam
+            ? {
+                createdAtAsc: { createdAt: 1 },
+                createdAtDesc: { createdAt: -1 },
+              }[sortParam as string]
+            : { _id: 1 }
+        )
+        .skip(((page as number) - 1) * (limit as number))
+        .limit(limit)
+        .select("-__v")
+        .populate({
+          path: "author",
+          select: "_id username email",
+        });
+
+      if (Array.isArray(result) && result.length > 0) {
+        const paginationResult = {
+          blogs: result,
+          totalInCurrentPage: result.length,
+          currentPage: parseInt(page.toString()),
+          totalRecords: totalRecords,
+        };
+        return res
+          .status(200)
+          .send(success("Successfully received all items", paginationResult));
+      }
+
+      // if (result.blogs.length === 0) {
+      //   return res.status(404).send({ message: "No blogs found" });
+      // }
+
+      return res.status(400).send(failure("No blogs found", result));
     } catch (error) {
       console.log(error);
       return res.status(500).send(failure("Internal server error", error));

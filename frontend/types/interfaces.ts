@@ -127,6 +127,7 @@ interface AddressData {
   house: string;
   area: string;
   street: string;
+  phone: string;
 }
 
 interface ProfileInfo {

@@ -4,9 +4,8 @@ import './index.scss';
 import { useEffect, useState, useCallback } from 'react';
 import { GetBlogsByIdApi, GetBlogsApi, CreateBlogApi, DeleteBlogApi, UpdateBlogApi } from '@/apiEndpoints/blog'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateContentState, CreateUserForm, CreateBlogForm, CreateCategoryForm, BlogResponse, TextareaProps } from '@/types/interfaces';
+import { updateContentState, CreateBlogForm, CreateCategoryForm, BlogResponse, TextareaProps } from '@/types/interfaces';
 import { saveContentLength } from '@/redux/slices/ContentSlice';
-import { UserResponse } from '@/types/interfaces';
 import { AiFillDelete } from 'react-icons/ai';
 import { RiFileEditFill } from 'react-icons/ri';
 import { CgCloseR } from 'react-icons/cg';
@@ -14,7 +13,7 @@ import { useDropzone } from "react-dropzone";
 import { useForm, Controller } from 'react-hook-form';
 import Modal from 'react-modal';
 import { InputFieldProps } from '@/types/interfaces';
-import { GetServerSidePropsContext } from 'next';
+import Search from '@/components/elements/search';
 
 const ManageBlogs = () => {
     const dispatch = useDispatch();
@@ -28,6 +27,7 @@ const ManageBlogs = () => {
     const [file, setFile] = useState<any>(null);
     const [blogs, setBlogs] = useState<BlogResponse[]>([]);
     const [blogId, setBlogId] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     const {
         handleSubmit,
@@ -152,12 +152,12 @@ const ManageBlogs = () => {
 
     useEffect(() => {
         fetchBlogs();
-    }, [contentLength]);
+    }, [contentLength, searchQuery]);
 
     const fetchBlogs = async () => {
-        const response = await GetBlogsApi();
-        setBlogs(response);
-        dispatch(saveContentLength({ contentLength: response.length || 0 }));
+        const response = await GetBlogsApi(searchQuery || "");
+        setBlogs(response.blogs);
+        dispatch(saveContentLength({ contentLength: response?.blogs?.length || 0 }));
     };
 
     const deleteBlog = async (blogId: string) => {
@@ -177,7 +177,7 @@ const ManageBlogs = () => {
                     contentLabel="Example Modal"
                     style={{
                         overlay: {
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            backgroundColor: "rgba(0, 0, 0, 0.2)",
                         },
                         content: {
                             width: "45%",
@@ -189,8 +189,8 @@ const ManageBlogs = () => {
                     }}
                 >
                     <div className="create-blogs-form-container">
-                        <h3>Create Blog</h3>
-                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <h2 className='create-blogs-form-heading'>Create Blog</h2>
+                        <form onSubmit={handleSubmit(onSubmit)} className='create-blogs-form'>
                             <div className="create-blogs-form-item">
                                 <label className="create-blogs-form-label">Title: </label>
                                 <Controller
@@ -222,7 +222,7 @@ const ManageBlogs = () => {
                                         <textarea
                                             placeholder="Enter Content"
                                             {...field}
-                                            className="create-blogs-form-input"
+                                            className="create-blogs-form-input custom-scrollbar"
                                         />
                                     )}
                                 />
@@ -277,6 +277,12 @@ const ManageBlogs = () => {
                     <CgCloseR className="close-button" onClick={closeModal} />
                 </Modal>
                 <h3 className="manage-blogs-title">Manage Blogs</h3>
+                <Search
+                    type="text"
+                    placeholder="Search Blogs"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
                 <button className="create-blogs-button" onClick={openModal}>
                     Create Blog
                 </button>
@@ -307,7 +313,7 @@ const ManageBlogs = () => {
                                     contentLabel="Example Modal"
                                     style={{
                                         overlay: {
-                                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                            backgroundColor: "rgba(0, 0, 0, 0.2)",
                                         },
                                         content: {
                                             width: "45%",
@@ -319,8 +325,8 @@ const ManageBlogs = () => {
                                     }}
                                 >
                                     <div className="create-blogs-form-container">
-                                        <h3>Edit Blog</h3>
-                                        <form onSubmit={handleSubmit(onEditSubmit)}>
+                                        <h2 className='create-blogs-form-heading'>Edit Blog</h2>
+                                        <form onSubmit={handleSubmit(onEditSubmit)} className='create-blogs-form'>
                                             <div className="create-blogs-form-item">
                                                 <label className="create-blogs-form-label">Title: </label>
                                                 <Controller
@@ -352,7 +358,7 @@ const ManageBlogs = () => {
                                                         <textarea
                                                             placeholder="Enter Content"
                                                             {...field}
-                                                            className="create-blogs-form-input"
+                                                            className="create-blogs-form-input custom-scrollbar"
                                                         />
                                                     )}
                                                 />
@@ -429,20 +435,20 @@ const ManageBlogs = () => {
                                     contentLabel="Example Modal"
                                     style={{
                                         overlay: {
-                                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                            backgroundColor: "rgba(0, 0, 0, 0.2)",
                                         },
                                         content: {
-                                            width: "50%",
-                                            height: "50%",
+                                            width: "40%",
+                                            height: "35%",
                                             margin: "auto",
                                             borderRadius: "10px",
                                             overflow: "auto",
                                         },
                                     }}
                                 >
-                                    <div>
-                                        <h2>Delete blogs</h2>
-                                        <p>
+                                    <div className="delete-modal-container">
+                                        <h2 className="delete-modal-heading">Delete Blog</h2>
+                                        <p className="delete-modal-description">
                                             Are you sure you want to delete this blog?
                                         </p>
                                         <div className="delete-modal-button">

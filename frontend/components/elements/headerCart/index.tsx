@@ -6,6 +6,7 @@ import { GetMyCartApi, ClearCartApi, CheckoutApi } from "@/apiEndpoints/cart";
 import { CartResponse, CartState, ItemResponse } from "@/types/interfaces";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 import "./index.scss";
 import { saveNumberOfItems } from "@/redux/slices/CartSlice";
 
@@ -45,11 +46,10 @@ const HeaderCart = () => {
                 <div>
                   <div key={item._id} className="cart-item">
                     <img
-                      src={`http://localhost:3000/uploads/${
-                        typeof item.itemID === "object"
-                          ? (item.itemID as { banner: string }).banner
-                          : ""
-                      }`}
+                      src={`http://localhost:3000/uploads/${typeof item.itemID === "object"
+                        ? (item.itemID as { banner: string }).banner
+                        : ""
+                        }`}
                       alt={item.title}
                       className="cart-item-image"
                     />
@@ -63,13 +63,13 @@ const HeaderCart = () => {
                           x {item.quantity}
                         </span>
                       </p>
-                      <p className="cart-item-price">Total: ${item.cost}</p>
+                      <p className="cart-item-price">Total: BDT {item.cost}</p>
                     </div>
                   </div>
                 </div>
               ))}
               <div className="cart-buttons">
-                <p className="total-cost">Total: ${cartData.totalAmount}</p>
+                <p className="total-cost">Total: BDT {cartData.totalAmount}</p>
                 <button
                   className="checkout-button"
                   onClick={() => {
@@ -90,7 +90,10 @@ const HeaderCart = () => {
               </div>
             </div>
           ) : (
-            <p className="no-items">No items in cart</p>
+            <div className="no-cart">
+              <Image src="/no-cart.png" alt="no items" width={50} height={50} />
+              <p className='no-items'>No items in cart</p>
+            </div>
           )}
         </div>
       )}
