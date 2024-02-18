@@ -2,13 +2,13 @@ import './index.scss';
 import { Controller } from 'react-hook-form';
 import { InputFieldProps } from '@/types/interfaces';
 
-const Form = ({ label, nameProp, placeholder, requiredProp, controlProp, errorProp }: {
+const FormInput = ({ label, nameProp, placeholder, requiredProp, control, errors }: {
     label: string,
     nameProp: string,
     placeholder: string,
     requiredProp: string,
-    controlProp: any,
-    errorProp: any
+    control: any,
+    errors: any
 }) => {
 
 
@@ -19,7 +19,7 @@ const Form = ({ label, nameProp, placeholder, requiredProp, controlProp, errorPr
             </label>
             <Controller
                 name={nameProp}
-                control={controlProp}
+                control={control}
                 rules={{
                     required: { requiredProp },
                 }}
@@ -31,11 +31,11 @@ const Form = ({ label, nameProp, placeholder, requiredProp, controlProp, errorPr
                     />
                 )}
             />
-            {errorProp[nameProp] && (
-                <h5>{errorProp[nameProp].message}</h5>
+            {errors[nameProp] && (
+                <h5>{errors[nameProp].message}</h5>
             )}
         </div>
     )
 }
 
-export default Form;
+export default FormInput;

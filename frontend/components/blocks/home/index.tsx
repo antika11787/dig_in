@@ -53,7 +53,7 @@ const HomePage = () => {
 
     useEffect(() => {
         GetBlogsApi().then((response) => {
-            setBlogs(response.blogs);
+            setBlogs(response?.blogs);
         })
     }, []);
 
