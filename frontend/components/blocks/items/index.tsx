@@ -62,8 +62,6 @@ const Items = () => {
   }, [currentPage, sortParam, searchQuery, filter, limit]);
 
   return (
-    // <div className='items-page'>
-    //
     <div className="items-wrapper">
       <div className="items-page">
         <div className="items-filter">
@@ -96,6 +94,7 @@ const Items = () => {
               ]}
               selectedOption={sortParam}
               onChange={handleSortParam}
+              className="dropdown"
             />
           </div>
           <div className="item-container">
@@ -135,7 +134,6 @@ const Items = () => {
         />
       </div>
     </div>
-    // </div>
   );
 };
 

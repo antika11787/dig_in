@@ -11,8 +11,6 @@ import { useRouter } from "next/navigation";
 import { GetCategoriesApi } from "@/apiEndpoints/category";
 import { useEffect, useState } from "react";
 import { CategoryResponse, CartResponse } from "@/types/interfaces";
-import { BsCart3 } from "react-icons/bs";
-import { GetMyCartApi } from "@/apiEndpoints/cart";
 import HeaderCart from "@/components/elements/headerCart";
 
 const Header = () => {
@@ -30,12 +28,6 @@ const Header = () => {
             setCategories(response);
         })
     }, []);
-
-    // useEffect(() => {
-    //     GetMyCartApi().then((response) => {
-    //         setCart(response);
-    //     })
-    // }, [cart]);
 
     const logout = () => {
         dispatch(removeLogin());

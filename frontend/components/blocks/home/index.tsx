@@ -89,7 +89,6 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="category-container-home">
-                {/* <h2 className="category-title">Categories</h2> */}
                 <div className="category-tags">
                     <div className="category-names">
                         <Splide

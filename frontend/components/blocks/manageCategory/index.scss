@@ -51,52 +51,88 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
     overflow-y: auto;
+
+    .manage-category-card-table-header {
+      display: flex;
+      color: $color-dark;
+      justify-content: space-between;
+      margin-bottom: 7px;
+
+      .manage-category-card-table-name,
+      .manage-category-card-table-action {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      .manage-category-card-table-name {
+        min-width: 350px;
+        max-width: 350px;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 0 0 10px;
+        padding: 0;
+      }
+
+      .manage-category-card-table-action {
+        margin-right: 40px;
+      }
+    }
 
     .manage-category-card {
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       background-color: $color-black-box-shadow-light;
-      border-radius: 10px;
+      border-radius: 30px;
 
-      .manage-category-image-title {
+      .manage-category-card-table {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 10px;
 
-        .manage-category-image {
-          height: 80px;
-          width: 80px;
-          border-radius: 50%;
-          object-fit: cover;
-          cursor: pointer;
-          padding: 10px;
-        }
-
-        .manage-category-details {
+        .manage-category-image-title {
           display: flex;
-          flex-direction: column;
-          gap: 3px;
+          align-items: center;
+          gap: 10px;
 
-          .manage-category-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: $color-dark;
-            margin: 0;
+          .manage-category-image {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            padding: 10px;
           }
 
-          .manage-category-total {
-            font-size: 15px;
-            margin: 0;
+          .manage-category-details {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
 
-            .manage-category-total-number {
+            .manage-category-name {
+              // font-size: 18px;
               font-weight: bold;
+              color: $color-dark;
+              margin: 0;
+            }
+
+            .manage-category-total {
+              font-size: 15px;
+              margin: 0;
+
+              .manage-category-total-number {
+                font-weight: bold;
+              }
             }
           }
         }
       }
+
       .manage-category-button {
         display: flex;
         gap: 20px;

@@ -4,7 +4,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
-//   justify-items: center;
   align-items: center;
 
   .no-items {
@@ -18,14 +17,17 @@
     width: 280px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    height: 450px;
+
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
       rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     border-radius: 5px;
 
     .item-details {
       padding: 0 20px;
+      flex-grow: 1;
 
       .item-title-cart {
         display: flex;

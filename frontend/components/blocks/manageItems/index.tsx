@@ -419,8 +419,6 @@ const ManageItems = () => {
           items.map((item) => {
             return (
               <div key={item._id} className="manage-items-card">
-                {/* <div className="manage-items-card-container"> */}
-
                 <div className="manage-items-card-table">
                   <div className="manage-items-image-title">
                     <img
@@ -437,7 +435,6 @@ const ManageItems = () => {
                   </p>
                   <p className="manage-items-price">BDT {item.price}</p>
                 </div>
-                {/* </div> */}
                 <div className="manage-items-button">
                   <Modal
                     isOpen={isEditModalOpen}

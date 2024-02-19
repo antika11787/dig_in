@@ -70,21 +70,26 @@ const ManageCategory = () => {
         </button>
       </div>
       <div className="manage-category-body custom-scrollbar">
+        <div className="manage-category-card-table-header">
+          <p className="manage-category-card-table-name">Name</p>
+          <p className="manage-category-card-table-action">Action</p>
+        </div>
         {categories ? (
           categories.map((category) => (
             <div key={category._id} className="manage-category-card">
-              <div className="manage-category-image-title">
-                <img
-                  src={`http://localhost:3000/uploads/${category.file}`}
-                  className="manage-category-image"
-                />
-                <div className="manage-category-details">
-                  <p className="manage-category-name">
-                    {category.categoryName}
-                  </p>
+              <div className="manage-category-card-table">
+                <div className="manage-category-image-title">
+                  <img
+                    src={`http://localhost:3000/uploads/${category.file}`}
+                    className="manage-category-image"
+                  />
+                  <div className="manage-category-details">
+                    <p className="manage-category-name">
+                      {category.categoryName}
+                    </p>
+                  </div>
                 </div>
               </div>
-
               <div className="manage-category-button">
                 <RiFileEditFill
                   className="edit-button"

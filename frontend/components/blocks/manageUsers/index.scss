@@ -54,53 +54,88 @@
     gap: 10px;
     overflow-y: auto;
 
+    .manage-users-card-table-header {
+      display: flex;
+      color: $color-dark;
+      margin-bottom: 7px;
+      justify-content: space-between;
+
+      .manage-users-card-table-title,
+      .manage-users-card-table-email,
+      .manage-users-card-table-role,
+      .manage-users-card-table-action {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      .manage-users-card-table-title {
+        min-width: 250px;
+        max-width: 250px;
+      }
+
+      .manage-users-card-table-email,
+      .manage-users-card-table-role {
+        min-width: 200px;
+        max-width: 200px;
+      }
+
+      .manage-users-card-table-action {
+        margin-right: 40px;
+      }
+    }
+
     .manage-users-card {
       width: 100%;
       display: flex;
       align-items: center;
       gap: 10px;
       background-color: $color-black-box-shadow-light;
-      border-radius: 10px;
       justify-content: space-between;
+      border-radius: 30px;
 
-      .manage-users-card-container {
+      .manage-users-card-table {
         display: flex;
+        gap: 10px;
         align-items: center;
+        justify-content: space-between;
 
-        .manage-users-card-details {
+        .manage-users-card-name-image {
+          min-width: 250px;
+          max-width: 250px;
           display: flex;
-          flex-direction: column;
-          gap: 3px;
+          align-items: center;
 
-          .manage-users-card-title {
-            font-size: 17px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-
-            .manage-users-card-role {
-              font-size: 14px;
-              color: $color-dark;
-              font-weight: normal;
-            }
+          .manage-users-card-image {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            padding: 10px;
           }
 
-          .manage-users-card-email {
-            font-size: 13px;
+          .manage-users-card-title {
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+            font-weight: bold;
             color: $color-dark;
           }
         }
 
-        .manage-users-card-image {
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
-          object-fit: cover;
-          cursor: pointer;
-          padding: 10px;
+        .manage-users-card-role,
+        .manage-users-card-email {
+          min-width: 200px;
+          max-width: 200px;
+          margin: 0;
+          padding: 0;
+          font-size: 15px;
+          color: $color-dark;
         }
       }
+
       .manage-users-card-buttons {
         display: flex;
         gap: 20px;

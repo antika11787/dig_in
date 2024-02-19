@@ -22,7 +22,7 @@
     .search-and-sort {
       display: flex;
       gap: 10px;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
 
       .searchbar {
@@ -40,5 +40,9 @@
   .item-container {
     margin-top: 20px;
     @include item-container;
+  }
+
+  .item-pagination {
+    margin: 20px;
   }
 }

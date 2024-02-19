@@ -11,6 +11,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import { RiFileEditFill } from 'react-icons/ri';
 import { CgCloseR } from 'react-icons/cg';
 import { useForm, Controller } from 'react-hook-form';
+import Image from 'next/image';
 import Modal from 'react-modal';
 
 const ManageUsers = () => {
@@ -107,19 +108,22 @@ const ManageUsers = () => {
                 <h3 className="manage-users-title">Manage Users</h3>
             </div>
             <div className='manage-users-body custom-scrollbar'>
+                <div className="manage-users-card-table-header">
+                    <p className="manage-users-card-table-title">Name</p>
+                    <p className="manage-users-card-table-email">Email</p>
+                    <p className="manage-users-card-table-role">Role</p>
+                    <p className="manage-users-card-table-action">Action</p>
+                </div>
                 {users ? (
                     users.map((user) => (
                         <div key={user._id} className="manage-users-card">
-                            <div className='manage-users-card-container'>
-                                <img src='/profile.png' alt='profile' className="manage-users-card-image" />
-                                <div className='manage-users-card-details'>
-                                    <div className="manage-users-card-title">
-                                        {user.username} <span className="manage-users-card-role">({user.role})</span>
-                                    </div>
-                                    <div className="manage-users-card-email">
-                                        {user.email}
-                                    </div>
+                            <div className="manage-users-card-table">
+                                <div className='manage-users-card-name-image'>
+                                    <Image src={'/profile.png'} alt="user avatar" width={50} height={50} className='manage-users-card-image' />
+                                    <p className='manage-users-card-title'>{user.username}</p>
                                 </div>
+                                <p className='manage-users-card-email'>{user.email}</p>
+                                <p className='manage-users-card-role'>{user.role}</p>
                             </div>
                             <div className='manage-users-card-buttons'>
                                 <Modal

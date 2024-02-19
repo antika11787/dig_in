@@ -75,7 +75,6 @@
     .category-tags {
       display: flex;
       flex-direction: column;
-      // justify-content: center;
       align-items: center;
       gap: 15px;
       text-align: center;
@@ -91,13 +90,13 @@
 
           .category-tag {
             cursor: pointer;
-            // margin: 0;
           }
 
           .category-tag.active {
             text-decoration: underline solid $color-activate;
             text-decoration-thickness: 0.1em;
             text-underline-offset: 0.4em;
+            font-weight: bold;
           }
         }
       }

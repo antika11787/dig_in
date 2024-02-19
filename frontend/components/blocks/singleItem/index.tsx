@@ -12,15 +12,21 @@ import {
   GetMyCartApi,
   RemoveFromCartApi,
   UpdateQuantityApi,
+  SaveQuantityApi
 } from "@/apiEndpoints/cart";
 import { GetItemByIdApi } from "@/apiEndpoints/item";
-import CartIcon from "@/components/elements/cartIcon";
+import { saveNumberOfItems } from "@/redux/slices/CartSlice";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 
 const SingleItem = () => {
+  const state = useSelector((state: any) => state.user);
+  const router = useRouter();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [item, setItem] = useState<ItemResponse>();
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
   const [banner, setBanner] = useState<string>("");
 
   useEffect(() => {
@@ -32,10 +38,10 @@ const SingleItem = () => {
       ]);
       setItem(itemResponse);
       setBanner(itemResponse.banner);
-      const initialQuantity =
-        cartResponse?.items.find((item: any) => item.itemID._id === itemId)
-          ?.quantity || 0;
-      setQuantity(initialQuantity);
+      // const initialQuantity =
+      //   cartResponse?.items.find((item: any) => item.itemID._id === itemId)
+      //     ?.quantity || 1;
+      // setQuantity(initialQuantity);
     };
     fetchData();
   }, [id]);
@@ -43,15 +49,17 @@ const SingleItem = () => {
   const updateQuantity = (increment: number) => {
     const newQuantity = quantity + increment;
     setQuantity(newQuantity);
-    if (newQuantity === 0) {
-      RemoveFromCartApi(item?._id || "");
-      return;
-    }
-    if (newQuantity === 1) {
-      AddToCartApi({ itemID: item?._id || "", quantity: newQuantity });
-      return;
-    }
-    UpdateQuantityApi({ itemID: item?._id || "", quantity: newQuantity });
+    console.log("new", newQuantity);
+    console.log("quant", quantity)
+    // if (newQuantity === 0) {
+    //   RemoveFromCartApi(item?._id || "");
+    //   return;
+    // }
+    // if (newQuantity === 1) {
+    //   AddToCartApi({ itemID: item?._id || "", quantity: newQuantity });
+    //   return;
+    // }
+    // UpdateQuantityApi({ itemID: item?._id || "", quantity: newQuantity });
   };
 
   return (
@@ -59,7 +67,6 @@ const SingleItem = () => {
       {item && (
         <>
           <div className="single-item-banner-details">
-            {/* <div className="single-item-banner-container"> */}
             <Image
               src={`http://localhost:3000/uploads/${banner}`}
               className="single-item-banner"
@@ -67,25 +74,17 @@ const SingleItem = () => {
               width={400}
               alt="banner"
             />
-            {/* </div> */}
 
             <div className="single-item-details">
               <h1 className="single-item-title">{item.title}</h1>
               <p className="single-item-description">{item.description}</p>
               <div className="price-and-quantity">
                 <p className="single-item-price">Price: BDT {item.price}</p>
-                <div className="add-to-cart">
-                  <CartIcon
-                    itemID={item._id || ""}
-                    quantity={1}
-                    showText={true}
-                  />
-                </div>
                 <div className="quantity-increment">
                   <button
                     className="quantity-button"
                     onClick={() => updateQuantity(-1)}
-                    disabled={quantity === 0}
+                    disabled={quantity === 1}
                   >
                     -
                   </button>
@@ -98,11 +97,28 @@ const SingleItem = () => {
                     +
                   </button>
                 </div>
+                <div className="add-to-cart">
+                  <button className="save-quantity-button"
+                    onClick={async () => {
+                      if (state.token) {
+                        const response = await AddToCartApi({ itemID: item?._id ?? '', quantity: quantity });
+                        if (response) {
+                          dispatch(saveNumberOfItems({
+                            numberOfItems: -1
+                          }))
+                          setQuantity(1);
+                        }
+                      }
+                      else {
+                        router.push('/login');
+                      }
+                    }}
+                  >Add to Cart</button>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* <div className="single-item-images-cart"> */}
           <div className="single-item-images">
             {item.files && item.files.length > 0 ? (
               <Splide

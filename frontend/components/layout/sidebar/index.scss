@@ -11,9 +11,12 @@
 
   .sidebar-header {
     margin-top: 50px;
+    font-size: 20px;
+    color: $color-dark;
   }
 
   .sidebar-links {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,5 +28,14 @@
     color: $color-dark;
     text-decoration: none;
     transition: color 0.2s ease-in-out;
+    text-align: center;
+  }
+
+  .sidebar-link.active {
+    border-left: 4px solid $color-activate;
+    font-weight: bold;
+    background-color: $color-activate-sidebar;
+    padding: 12px 0;
+    width: 99%;
   }
 }

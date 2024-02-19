@@ -49,6 +49,34 @@ export const AddToCartApi = async ({
   }
 };
 
+export const SaveQuantityApi = async ({
+  itemID,
+  quantity,
+}: {
+  itemID: string;
+  quantity: number;
+}) => {
+  try {
+    const response: AxiosResponse = await axiosInstanceToken.post(
+      `/app/v1/cart/save-quantity`,
+      { itemID, quantity }
+    );
+    const responseData = response.data;
+
+    if (responseData.success === false) {
+      toast.error("Error: ", responseData.message);
+    }
+    toast.success("Cart updated!");
+    return responseData.data;
+  } catch (error: any) {
+    toast.error(
+      error.response.data.message ||
+        "An unknown error occurred during fetching data"
+    );
+    console.error(error || "An unknown error occurred during fetching data");
+  }
+};
+
 export const UpdateQuantityApi = async ({
   itemID,
   quantity,

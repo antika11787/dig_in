@@ -51,7 +51,7 @@ body {
 .checkout-page {
   margin: 90px auto 30px auto;
   display: flex;
-  gap: 90px;
+  gap: 40px;
   justify-content: center;
   align-items: center;
 }
@@ -61,6 +61,14 @@ body {
   display: flex;
   padding: 30px;
   gap: 50px;
+
+  // .profile-sidebar {
+  //   margin-top: 70px;
+  // }
+
+  // .profile-body {
+  //   margin-top: 70px;
+  // }
 }
 
 .unauthenticated-conatiner {

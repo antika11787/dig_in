@@ -1,13 +1,12 @@
 import './index.scss';
 import { DropdownProps } from "@/types/interfaces";
 
-const Dropdown = ({ title, options, selectedOption, onChange }: DropdownProps) => {
+const Dropdown = ({ title, options, selectedOption, onChange, className }: DropdownProps) => {
     const defaultOption = { value: '', label: 'Sort Items', disabled: true };
     const updatedOptions = options ? [defaultOption, ...options] : [defaultOption];
 
     return (
         <div className="dropdown-container">
-            {/* <label>{title}</label> */}
             <select
                 value={selectedOption}
                 onChange={onChange}

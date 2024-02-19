@@ -9,7 +9,7 @@
     box-shadow: rgba(0, 0, 0, 0.14) 0px 3px 8px;
     padding: 10px;
     border-radius: 5px;
-    width: 35vw;
+    min-width: 35vw;
     display: flex;
     justify-content: space-between;
     transition: box-shadow 0.3s ease;

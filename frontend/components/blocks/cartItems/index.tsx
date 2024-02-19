@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { BsCart3 } from 'react-icons/bs';
-import { GetMyCartApi, ClearCartApi, CheckoutApi } from '@/apiEndpoints/cart';
+import { GetMyCartApi, ClearCartApi, CheckoutApi, AddToCartApi, UpdateQuantityApi, RemoveFromCartApi } from '@/apiEndpoints/cart';
 import { CartResponse, ItemResponse } from '@/types/interfaces';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
@@ -12,14 +12,29 @@ import './index.scss';
 const CartItems = () => {
     const router = useRouter();
     const pathName = usePathname();
-    console.log("pathname", pathName)
+    const [item, setItem] = useState<ItemResponse>();
+    const [quantity, setQuantity] = useState<number>(1);
     const [cartData, setCartData] = useState<CartResponse>();
+
+    const updateQuantity = (increment: number) => {
+        const newQuantity = quantity + increment;
+        setQuantity(newQuantity);
+        if (newQuantity === 0) {
+            RemoveFromCartApi(item?._id || "");
+            return;
+        }
+        if (newQuantity === 1) {
+            AddToCartApi({ itemID: item?._id || "", quantity: newQuantity });
+            return;
+        }
+        UpdateQuantityApi({ itemID: item?._id || "", quantity: newQuantity });
+    };
 
     useEffect(() => {
         GetMyCartApi().then((response) => {
             setCartData(response);
         });
-    }, []);
+    }, [quantity]);
 
     return (
         <div className="cart-dropdown custom-scrollbar">
@@ -27,14 +42,27 @@ const CartItems = () => {
             {cartData && cartData.items.length > 0 ? (
                 <div className="cart-items" key={cartData._id}>
                     {cartData.items.map((item: ItemResponse) => (
-                        <div>
+                        <div key={item._id}>
                             <div key={item._id} className="cart-item">
                                 <img src={`http://localhost:3000/uploads/${typeof item.itemID === 'object' ? (item.itemID as { banner: string }).banner : ''}`}
                                     alt={item.title}
                                     className='cart-item-image' />
                                 <div className="cart-item-details">
-                                    <p className="cart-item-title">{typeof item.itemID === 'object' ? (item.itemID as { title: string }).title : ''}<span className='cart-item-quantity'> x {item.quantity}</span></p>
-                                    <p className="cart-item-price">Total: BDT {item.cost}</p>
+                                    <div className='cart-item-title-container'>
+                                        <p className="cart-item-title">
+                                            {typeof item.itemID === 'object' ? (item.itemID as { title: string }).title : ''}
+                                            <span className='cart-item-quantity'> x {item.quantity}</span>
+                                        </p>
+
+                                    </div>
+                                    <div className='cart-item-price-container'>
+                                        <p className="cart-item-price">Item price: BDT {" "}
+                                            <span style={{ fontWeight: "bold" }}>
+                                                {typeof item.itemID === 'object' ? (item.itemID as { price: number }).price : ''}
+                                            </span>
+                                        </p>
+                                        <p className='cart-item-price'>Total cost: BDT <span style={{ fontWeight: "bold" }}>{item.cost}</span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
