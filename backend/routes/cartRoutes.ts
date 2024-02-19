@@ -17,6 +17,14 @@ routes.post(
   cartController.createValidation,
   cartController.addToCart
 );
+routes.post(
+  "/save-quantity",
+  isUserLoggedIn,
+  isUserCustomer,
+  cartValidators.addToCart,
+  cartController.createValidation,
+  cartController.saveQuantity
+);
 routes.get(
   "/get-all-carts",
   isUserLoggedIn,

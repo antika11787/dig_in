@@ -68,7 +68,7 @@ class CartController {
               cost,
             },
           ],
-          totalAmount: cost, // Set totalAmount when creating new cart
+          totalAmount: cost,
         });
 
         await cart.save();
@@ -95,6 +95,104 @@ class CartController {
           },
           {
             $inc: {
+              "items.$.quantity": quantity,
+              "items.$.cost": cost,
+            },
+          }
+        );
+
+        updatedCart = await cartModel.findById(existingCart._id);
+      } else {
+        await cartModel.findOneAndUpdate(
+          { _id: existingCart._id },
+          {
+            $push: {
+              items: {
+                itemID,
+                quantity,
+                cost,
+              },
+            },
+          }
+        );
+
+        updatedCart = await cartModel.findById(existingCart._id);
+      }
+
+      // Calculate totalAmount
+      updatedCart.totalAmount = updatedCart.items.reduce(
+        (total: number, item: ICartItem) => total + (item.cost ?? 0),
+        0
+      );
+
+      // Save the updated cart
+      await updatedCart.save();
+
+      return res.status(200).send(success("Item added to cart", updatedCart));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(failure("Internal server error", error));
+    }
+  }
+
+  async saveQuantity(req: Request, res: Response): Promise<Response> {
+    try {
+      const { itemID, quantity } = req.body;
+      const customRequest = req as IAuthMiddleware;
+
+      if (!itemID) {
+        return res.status(400).send(failure("All fields are required"));
+      }
+
+      const existingItem = await itemModel.findOne({ _id: itemID });
+
+      if (!existingItem) {
+        return res.status(404).send(failure("Item not found"));
+      }
+
+      const cost = existingItem.price * quantity;
+
+      const existingCart = await cartModel.findOne({
+        userID: customRequest.user,
+      });
+
+      if (!existingCart) {
+        const cart = new cartModel({
+          userID: customRequest.user,
+          items: [
+            {
+              itemID,
+              quantity,
+              cost,
+            },
+          ],
+          totalAmount: cost,
+        });
+
+        await cart.save();
+
+        return res.status(200).send(success("Item added to cart", cart));
+      }
+
+      const existingCartItem = existingCart.items.find(
+        (item: ICartItem) => item.itemID.toString() === itemID
+      );
+
+      let updatedCart;
+
+      if (existingCartItem) {
+        if (existingCartItem.quantity + quantity > 50) {
+          return res
+            .status(400)
+            .send(failure("Quantity cannot be greater than 50."));
+        }
+        await cartModel.findOneAndUpdate(
+          {
+            _id: existingCart._id,
+            "items.itemID": itemID,
+          },
+          {
+            $set: {
               "items.$.quantity": quantity,
               "items.$.cost": cost,
             },
