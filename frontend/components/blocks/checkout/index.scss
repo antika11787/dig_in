@@ -1,0 +1,81 @@
+@use "../../../styles/colors" as *;
+
+.checkout-form-container {
+  min-width: 200px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 60vh;
+}
+
+.checkout-header {
+  font-size: 28px;
+  font-weight: bold;
+  color: $color-dark;
+  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.checkout-form {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkout-form-label {
+  font-size: 15px;
+  font-weight: bold;
+  color: $color-dark;
+}
+
+.checkout-form-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.checkout-form-input {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid $color-border;
+  font-size: 16px;
+  outline: none;
+}
+
+.checkout-error-message {
+  color: $color-danger;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.checkout-submit-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkout-submit-button {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  background-color: $color-activate;
+  color: $color-white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-bottom: 5px;
+}

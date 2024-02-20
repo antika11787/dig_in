@@ -1,0 +1,234 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.container {
+  margin-bottom: 50px;
+
+  .banner-container {
+    position: relative;
+
+    .image-wrapper {
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .text-container {
+      position: absolute;
+      top: 50%;
+      left: 70px;
+      transform: translateY(-50%);
+      color: $color-white;
+      z-index: 1;
+
+      .banner-title {
+        font-size: 40px;
+      }
+
+      .banner-tag {
+        font-size: 18px;
+        margin-top: -10px;
+      }
+
+      .explore-button {
+        margin-top: 20px;
+        padding: 15px 40px;
+        background-color: transparent;
+        border: 2px solid $color-white;
+        color: $color-white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      .explore-button:hover {
+        border: 2px solid $color-white;
+        color: $color-dark;
+        background-color: $color-white;
+      }
+    }
+  }
+
+  .category-container-home {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // padding-top: 40px;
+
+    .category-title {
+      font-size: 32px;
+      margin-bottom: 0px;
+    }
+
+    .category-tags {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      text-align: center;
+
+      .category-names {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+
+        .slider {
+          width: 300px;
+          padding: 20px 40px;
+
+          .category-tag {
+            cursor: pointer;
+          }
+
+          .category-tag.active {
+            text-decoration: underline solid $color-activate;
+            text-decoration-thickness: 0.1em;
+            text-underline-offset: 0.4em;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .item-container {
+        @include item-container;
+
+        .view-all-button {
+          min-width: 200px;
+          width: 20%;
+          border: none;
+          outline: none;
+          border-radius: 10px;
+          padding: 10px;
+          background-color: $color-activate;
+          color: $color-white;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.2s ease-in-out;
+          grid-column: span 3;
+          justify-self: center;
+
+          &:hover {
+            background-color: $color-activate-hover;
+          }
+        }
+      }
+    }
+  }
+
+  .blog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .blog-title {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .blog-text {
+      font-size: 18px;
+    }
+
+    .blog-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      justify-content: center;
+
+      .blog-card {
+        width: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+          rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        .blog-details {
+          padding: 0 20px;
+          margin-top: 5px;
+
+          .blog-card-content {
+            font-size: 14px;
+          }
+
+          h4,
+          p {
+            margin-top: 0px;
+            padding: 0;
+          }
+        }
+
+        .banner-image {
+          width: 100%;
+          height: 250px;
+          border-radius: 5px 5px 0 0;
+          object-fit: cover;
+        }
+
+        .blog-icon {
+          width: 22px;
+          height: 22px;
+          animation: floatAnimation 1s infinite alternate;
+        }
+
+        .read-more-button {
+          background-color: transparent;
+          color: $color-dark-light;
+          cursor: pointer;
+          padding-bottom: 10px;
+        }
+
+        .read-more-button::after {
+          content: " ↗";
+        }
+      }
+
+      .view-all-button {
+        min-width: 200px;
+        width: 20%;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: $color-activate;
+        color: $color-white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+        grid-column: span 3;
+        justify-self: center;
+
+        &:hover {
+          background-color: $color-activate-hover;
+        }
+      }
+    }
+  }
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(20px);
+  }
+}

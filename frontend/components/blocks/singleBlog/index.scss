@@ -1,0 +1,72 @@
+@use "../../../styles/colors" as *;
+
+.single-blog-container {
+  position: relative;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+
+  .single-blog-banner-container {
+    margin-top: 62px;
+
+    .single-blog-banner {
+      width: 100vw;
+      height: 300px;
+      object-fit: cover;
+    }
+  }
+
+  .single-blog-details {
+    height: 160px;
+    width: 600px;
+    position: absolute;
+    top: 340px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $color-background;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    z-index: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px 40px 20px;
+
+    .single-blog-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: $color-dark;
+    }
+
+    .single-blog-line {
+      width: 25%;
+      border: 1px solid $color-black;
+    }
+
+    .single-blog-username,
+    .single-blog-email {
+      margin: 0;
+      padding: 0;
+      color: $color-dark;
+    }
+
+    .single-blog-email {
+      font-size: 14px;
+      color: $color-dark;
+    }
+
+    .single-blog-username {
+      font-weight: bold;
+    }
+  }
+
+  .single-blog-content {
+    // margin-top: 70px;
+    padding: 100px 250px 60px 250px;
+    line-height: 30px;
+  }
+}

@@ -1,0 +1,116 @@
+@use "../styles/colors" as *;
+
+@mixin item-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  align-items: center;
+
+  .no-items {
+    grid-column: span 3;
+    margin-bottom: -30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .item-card {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 450px;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border-radius: 5px;
+
+    .item-details {
+      padding: 0 20px;
+      flex-grow: 1;
+
+      .item-title-cart {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .item-description {
+        font-size: 14px;
+        color: $color-dark;
+      }
+
+      .item-price {
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+
+    .item-banner {
+      width: 100%;
+      height: 250px;
+      border-radius: 5px 5px 0 0;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+}
+
+@mixin delete-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  .delete-modal-heading {
+    font-weight: bold;
+    color: $color-dark;
+  }
+
+  .delete-modal-description {
+    padding: 0px 50px;
+    margin: 0;
+  }
+
+  .delete-modal-button {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+
+    .yes-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+
+    .no-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-danger;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-danger-hover;
+      }
+    }
+  }
+}

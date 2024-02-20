@@ -1,0 +1,297 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.manage-items-container {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  .manage-items-header {
+    width: 100%;
+    min-height: 70px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+
+    .manage-items-title {
+      font-size: 24px;
+      color: $color-dark;
+    }
+
+    .create-items-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+
+  .manage-items-body {
+    width: 100%;
+    max-height: 290px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+
+    .manage-items-card-table-header {
+      display: flex;
+      color: $color-dark;
+      margin-bottom: 7px;
+
+      .manage-items-card-table-name,
+      .manage-items-card-table-category,
+      .manage-items-card-table-price,
+      .manage-items-card-table-action {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      .manage-items-card-table-name {
+        min-width: 350px;
+        max-width: 350px;
+      }
+
+      .manage-items-card-table-category,
+      .manage-items-card-table-price {
+        min-width: 200px;
+        max-width: 200px;
+      }
+
+      .manage-items-card-table-action {
+        margin-left: 40px;
+      }
+    }
+
+    .manage-items-card {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: $color-black-box-shadow-light;
+      border-radius: 30px;
+
+      .manage-items-card-table {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .manage-items-image-title {
+          min-width: 350px;
+          max-width: 350px;
+          display: flex;
+          align-items: center;
+
+          .manage-items-name {
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+            font-weight: bold;
+            color: $color-dark;
+          }
+
+          .manage-items-image {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            padding: 10px;
+          }
+        }
+
+        .manage-items-price,
+        .manage-items-category {
+          min-width: 200px;
+          max-width: 200px;
+          margin: 0;
+          padding: 0;
+          font-size: 15px;
+          color: $color-dark;
+        }
+      }
+
+      .manage-items-button {
+        display: flex;
+        gap: 20px;
+        margin-right: 40px;
+        align-items: center;
+
+        .edit-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-activate;
+
+          &:hover {
+            color: $color-activate-hover;
+          }
+        }
+
+        .delete-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-danger;
+
+          &:hover {
+            color: $color-danger-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+.create-item-form-container {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+
+  .create-item-form-heading {
+    font-size: 24px;
+    color: $color-dark;
+    text-align: center;
+  }
+
+  .create-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    .create-item-form {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .create-item-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: $color-dark;
+      }
+
+      .create-item-form-input {
+        width: 500px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        font-size: 16px;
+        outline: none;
+      }
+    }
+
+    .create-item-form-upload {
+      display: flex;
+      flex-direction: column;
+      // align-items: center;
+      gap: 10px;
+
+      .upload {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .upload-icon {
+          height: 40px;
+          width: 40px;
+          cursor: pointer;
+        }
+      }
+
+      .upload-image-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        position: relative;
+
+        .image-container {
+          position: relative;
+          display: inline-block;
+          margin-right: 10px;
+
+          .upload-image {
+            height: 90px;
+            width: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+          }
+
+          .upload-image.active {
+            border: 3px solid $color-activate;
+          }
+
+          .delete-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            padding: 5px;
+            cursor: pointer;
+          }
+
+          .delete-icon:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+          }
+        }
+      }
+    }
+
+    .submit-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+}
+
+.delete-modal-container {
+  @include delete-modal;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+}
