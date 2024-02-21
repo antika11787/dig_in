@@ -115,7 +115,7 @@ class ItemController {
         | number = req.query.limit;
 
       let result = 0;
-      const totalRecords = await itemModel.countDocuments({});
+      let totalRecords = 0;
 
       if (!page || !limit) {
         page = 1;
@@ -198,6 +198,20 @@ class ItemController {
           path: "categoryID",
           select: "_id categoryName",
         });
+
+        totalRecords = await itemModel
+        .find(filter)
+        .sort(
+          sortParam
+            ? {
+                priceAsc: { price: 1 },
+                updatedAtAsc: { updatedAt: 1 },
+                updatedAtDesc: { updatedAt: -1 },
+                priceDesc: { price: -1 },
+              }[String(sortParam)]
+            : { _id: 1 }
+        )
+        .countDocuments();
 
       if (Array.isArray(result) && result.length > 0) {
         const paginationResult = {

@@ -79,27 +79,27 @@ const HeaderCart = () => {
         <div className="cart-count">{cartData.items.length}</div>
       )}
       {showCart && (
-        <div className="cart-dropdown custom-scrollbar">
+        <div className="header-cart-dropdown custom-scrollbar">
           {cartData && cartData.items.length > 0 ? (
-            <div className="cart-items" key={cartData._id}>
+            <div className="header-cart-items" key={cartData._id}>
               {cartData.items.map((item: ItemResponse) => (
                 <div key={item._id}>
-                  <div key={item._id} className="cart-item">
+                  <div key={item._id} className="header-cart-item">
                     <img
                       src={`http://localhost:3000/uploads/${typeof item.itemID === "object"
                         ? (item.itemID as { banner: string }).banner
                         : ""
                         }`}
                       alt={item.title}
-                      className="cart-item-image"
+                      className="header-cart-item-image"
                     />
-                    <div className="cart-item-details">
-                      <div className='cart-item-title-container'>
-                        <p className="cart-item-title">
+                    <div className="header-cart-item-details">
+                      <div className='header-cart-item-title-container'>
+                        <p className="header-cart-item-title">
                           {typeof item.itemID === 'object' ? (item.itemID as { title: string }).title : ''}
-                          <span className='cart-item-quantity'> x {item.quantity}</span>
+                          <span className='header-cart-item-quantity'> x {item.quantity}</span>
                         </p>
-                        <div className="cart-item-quantity-container">
+                        <div className="header-cart-item-quantity-container">
                           <div className="quantity-increment-header">
                             <button
                               className="quantity-button-header"
@@ -107,7 +107,7 @@ const HeaderCart = () => {
                                 if (typeof item.itemID === 'object') {
                                   setItemId((item.itemID as { _id: string })._id);
                                   // updateQuantity(-1, (item.itemID as { _id: string })._id);
-                                  UpdateQuantityApi({ itemID: (item.itemID as { _id: string })._id, quantity: quantity - 1 })
+                                  UpdateQuantityApi({ itemID: (item.itemID as { _id: string })._id,  quantity: item.quantity as number - 1 })
                                     .then((response) => {
                                       dispatch(
                                         saveNumberOfItems({ numberOfItems: -1 })
@@ -126,7 +126,7 @@ const HeaderCart = () => {
                                 if (typeof item.itemID === 'object') {
                                   setItemId((item.itemID as { _id: string })._id);
                                   // updateQuantity(1, (item.itemID as { _id: string })._id);
-                                  UpdateQuantityApi({ itemID: (item.itemID as { _id: string })._id, quantity: quantity + 1 })
+                                  UpdateQuantityApi({ itemID: (item.itemID as { _id: string })._id, quantity: item.quantity as number + 1 })
                                     .then((response) => {
                                       dispatch(
                                         saveNumberOfItems({ numberOfItems: -1 })

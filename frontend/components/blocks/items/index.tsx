@@ -16,6 +16,7 @@ import CartIcon from "@/components/elements/cartIcon";
 import Pagination from "@/components/elements/pagination";
 import FoodFilter from "../itemFilter";
 import { BsFilterRight } from "react-icons/bs";
+import ItemSkeleton from "@/components/elements/itemSkeleton";
 import Image from "next/image";
 
 const Items = () => {
@@ -49,7 +50,7 @@ const Items = () => {
   }, []);
 
   useEffect(() => {
-    GetAllItemsApi(searchQuery, filter, limit, currentPage, sortParam,)
+    GetAllItemsApi(searchQuery, filter, limit, currentPage, sortParam)
       .then((response) => {
         setItems(response.items);
         setTotalRecords(response.totalRecords);
@@ -58,7 +59,6 @@ const Items = () => {
         console.error("Error fetching items:", error);
         setItems([]);
       });
-    console.log("filter", filter);
   }, [currentPage, sortParam, searchQuery, filter, limit]);
 
   return (
@@ -98,30 +98,47 @@ const Items = () => {
             />
           </div>
           <div className="item-container">
-            {items ? (items.map((item) => {
-              return (
-                <div key={item._id} className='item-card'>
-                    <img src={`http://localhost:3000/uploads/${item.banner}`}
-                      alt="banner"
-                      className='item-banner'
-                      onClick={() => router.push(`/items/${item._id}`)} />
-                  <div className='item-details'>
-                    <div className='item-title-cart'>
-                      <h4 className='item-title'>{item.title}</h4>
-                      <CartIcon itemID={item._id || ''} quantity={1} showText={false} />
+            <Suspense fallback={<ItemSkeleton />}>
+              {/* {items && items.length > 0 ? ( */}
+                {items.map((item) => {
+                  return (
+                    <div key={item._id} className="item-card">
+                      <img
+                        src={`http://localhost:3000/uploads/${item.banner}`}
+                        alt="banner"
+                        className="item-banner"
+                        onClick={() => router.push(`/items/${item._id}`)}
+                      />
+                      <div className="item-details">
+                        <div className="item-title-cart">
+                          <h4 className="item-title">{item.title}</h4>
+                          <CartIcon
+                            itemID={item._id || ""}
+                            quantity={1}
+                            showText={false}
+                          />
+                        </div>
+                        <p className="item-description">
+                          {truncateText(item.description || "", 60)}
+                        </p>
+                        <p className="item-price">Price: BDT {item.price}</p>
+                      </div>
                     </div>
-                    <p className='item-description'>{truncateText(item.description || '', 60)}</p>
-                    <p className='item-price'>Price: BDT {item.price}</p>
-                  </div>
-                </div>
-              )
-            })
-            ) : (
-              <div className="no-items">
-                <Image src={'/cross.png'} height={20} width={20} alt="loading" />
-                <h4>No items found</h4>
-              </div>
-            )}
+                  );
+                })
+              // ) : (
+              //   <div className="no-items">
+              //     <Image
+              //       src={"/cross.png"}
+              //       height={20}
+              //       width={20}
+              //       alt="loading"
+              //     />
+              //     <h4>No items found</h4>
+              //   </div>
+              // )
+              }
+            </Suspense>
           </div>
         </div>
       </div>
