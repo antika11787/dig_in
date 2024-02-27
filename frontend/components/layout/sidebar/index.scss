@@ -1,0 +1,77 @@
+@use "../../../styles/colors" as *;
+
+.sidebar-container {
+  width: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // position: fixed;
+  // top: 70px;
+  // left: 0;
+  // bottom: 0;
+  // width: 200px;
+  // // background-color: $color-sidebar-light;
+  // // box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+  // //   rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  // width: 20%;
+  // min-height: 100%;
+
+  .sidebar-header-container {
+    margin-top: 45px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    .dashboard-icon {
+      font-size: 24px;
+      color: $color-activate;
+    }
+
+    .sidebar-header {
+      font-size: 20px;
+      color: $color-dark;
+    }
+  }
+
+  .sidebar-links {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: flex-start;
+    gap: 20px;
+
+    .sidebar-link-container {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+
+      .sidebar-link-icon {
+        font-size: 18px;
+        color: $color-dark;
+      }
+
+      .sidebar-link {
+        cursor: pointer;
+        color: $color-dark;
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+        text-align: center;
+      }
+    }
+    .sidebar-link-container.active {
+      border-left: 4px solid $color-activate;
+      font-weight: bold;
+      background-color: $color-activate-sidebar;
+      padding: 12px 0;
+      width: 98%;
+
+      .sidebar-link-icon {
+        color: $color-activate;
+      }
+    }
+  }
+}

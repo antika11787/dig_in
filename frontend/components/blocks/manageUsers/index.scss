@@ -1,0 +1,253 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.manage-users-container {
+  @include cms-container;
+
+  .manage-users-header {
+    @include cms-header;
+
+    .manage-users-title {
+      font-size: 24px;
+      color: $color-dark;
+    }
+
+    .create-users-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+
+  .manage-users-body {
+    @include cms-body;
+
+    .manage-users-card-table-header {
+      display: flex;
+      color: $color-dark;
+      margin-bottom: 7px;
+      justify-content: space-between;
+
+      .manage-users-card-table-title,
+      .manage-users-card-table-email,
+      .manage-users-card-table-role,
+      .manage-users-card-table-action {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      .manage-users-card-table-title .manage-users-card-table-email {
+        width: 200px;
+      }
+
+      .manage-users-card-table-email {
+        margin-left: 90px;
+      }
+
+      .manage-users-card-table-role {
+        width: 100px;
+        margin-left: 50px;
+      }
+
+      .manage-users-card-table-action {
+        margin-right: 40px;
+      }
+    }
+
+    .manage-users-card {
+      @include cms-card;
+
+      .manage-users-card-name-image {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        .manage-users-card-image-container {
+          position: relative;
+
+          .verified-icon {
+            color: $color-activate;
+            font-size: 20px;
+            position: absolute;
+          }
+        }
+
+        .manage-users-card-image {
+          height: 30px;
+          width: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+          cursor: pointer;
+          padding: 10px;
+        }
+
+        .manage-users-card-title {
+          width: 200px;
+          margin: 0;
+          padding: 0;
+          font-size: 15px;
+          font-weight: bold;
+          color: $color-dark;
+        }
+      }
+
+      .manage-users-card-role {
+        width: 100px;
+      }
+
+      .manage-users-card-email {
+        width: 200px;
+      }
+
+      .manage-users-card-role,
+      .manage-users-card-email {
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        color: $color-dark;
+        flex: 1;
+      }
+
+      .manage-users-card-role {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        margin-left: 55px;
+
+        .verify-button {
+          font-size: 14px;
+          cursor: pointer;
+          color: $color-white;
+          background-color: $color-light-blue;
+          padding: 1px 5px;
+          border-radius: 5px;
+        }
+
+        .verified-button {
+          font-size: 14px;
+          color: $color-white;
+          background-color: $color-activate;
+          padding: 1px 5px;
+          border-radius: 5px;
+        }
+      }
+
+      .manage-users-card-buttons {
+        display: flex;
+        gap: 20px;
+        margin-right: 40px;
+        align-items: center;
+
+        .edit-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-activate;
+        }
+
+        .delete-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-danger;
+        }
+      }
+    }
+  }
+}
+
+.create-user-form-container {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+
+  .create-user-form-heading {
+    font-size: 24px;
+    color: $color-dark;
+    text-align: center;
+  }
+
+  .create-user-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    .create-user-form-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .create-user-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: $color-dark;
+      }
+
+      .create-user-form-input {
+        width: 460px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        font-size: 16px;
+        outline: none;
+      }
+
+      .create-user-form-input-select {
+        width: 490px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        font-size: 16px;
+        outline: none;
+      }
+    }
+
+    .submit-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+      margin-top: 10px;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+}
+
+.delete-modal-container {
+  @include delete-modal;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+}

@@ -1,0 +1,15 @@
+@use "../../../styles/colors" as *;
+
+.cart-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  .cart-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: $color-dark;
+    transition: color 0.2s ease-in-out;
+  }
+}

@@ -1,0 +1,45 @@
+@use "../../../styles/colors" as *;
+
+.skeleton-container-single-item {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  margin-bottom: 90px;
+  justify-content: center;
+  align-items: center;
+
+  .skeleton-banner {
+    width: 750px;
+    height: 350px;
+    background-color: $color-black-box-shadow;
+    border-radius: 5px;
+  }
+
+  .skeleton-details {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+
+    .skeleton-title {
+      width: 70%;
+      height: 20px;
+      background-color: $color-black-box-shadow;
+      border-radius: 10px;
+    }
+
+    .skeleton-description {
+      width: 90%;
+      height: 15px;
+      background-color: $color-black-box-shadow;
+      border-radius: 10px;
+    }
+
+    .skeleton-price {
+      width: 40%;
+      height: 20px;
+      background-color: $color-black-box-shadow;
+      border-radius: 10px;
+    }
+  }
+}
