@@ -109,7 +109,6 @@ const HeaderCart = () => {
                               onClick={() => {
                                 if (typeof item.itemID === 'object') {
                                   setItemId((item.itemID as { _id: string })._id);
-                                  // updateQuantity(-1, (item.itemID as { _id: string })._id);
                                   UpdateQuantityApi({ itemID: (item.itemID as { _id: string })._id, quantity: item.quantity as number - 1 })
                                     .then((response) => {
                                       dispatch(
@@ -128,7 +127,6 @@ const HeaderCart = () => {
                               onClick={() => {
                                 if (typeof item.itemID === 'object') {
                                   setItemId((item.itemID as { _id: string })._id);
-                                  // updateQuantity(1, (item.itemID as { _id: string })._id);
                                   UpdateQuantityApi({ itemID: (item.itemID as { _id: string })._id, quantity: item.quantity as number + 1 })
                                     .then((response) => {
                                       dispatch(
@@ -190,7 +188,7 @@ const HeaderCart = () => {
           ) : (
             <div className="no-cart">
               <Image src="/no-cart.png" alt="no items" width={50} height={50} />
-              <p className='no-items'>No items in cart</p>
+              <h4 className='no-items'>No items in cart</h4>
             </div>
           )}
         </div>

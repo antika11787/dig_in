@@ -99,7 +99,6 @@ const MyOrders = () => {
                                         },
                                     }}
                                 >
-                                    {/* <h3 className='modal-card-title'>Subtotal: ${singleOrder?.totalAmount}</h3> */}
                                     <div className='modal-content'>
                                         {singleOrder && singleOrder.items && singleOrder.items.length > 0 ? (
                                             singleOrder.items.map((item) => (

@@ -38,7 +38,6 @@ const SingleItem = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const itemId = Array.isArray(id) ? id[0] : id;
       const [itemResponse, cartResponse] = await Promise.all([
         GetItemByIdApi(itemId),
@@ -50,21 +49,6 @@ const SingleItem = () => {
     };
     fetchData();
   }, [id, quantity]);
-
-  // useEffect(() => {
-  //   const itemId = Array.isArray(id) ? id[0] : id;
-  //   GetItemByIdApi(itemId)
-  //     .then((response) => {
-  //       setItem(response.data);
-  //       setBanner(response.data.banner);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching items:", error);
-  //       // setItem([]);
-  //       setLoading(false);
-  //     });
-  // }, [id, quantity])
 
 
   const updateQuantity = (increment: number) => {
@@ -115,7 +99,6 @@ const SingleItem = () => {
                     <button className="save-quantity-button"
                       onClick={async () => {
                         if (state.token) {
-                          // setLoading(true);
                           const response = await AddToCartApi({ itemID: item?._id ?? '', quantity: quantity });
                           if (response) {
                             dispatch(saveNumberOfItems({
