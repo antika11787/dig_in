@@ -16,6 +16,7 @@ import { CategoryResponse, BlogResponse, ItemResponse } from "@/types/interfaces
 import helper from "@/utils/helper";
 import { PiHamburgerFill } from "react-icons/pi";
 import appConfig from "@/config/constants";
+import ItemSkeleton from "@/components/elements/itemSkeleton";
 
 const HomePage = () => {
     const router = useRouter();
@@ -24,6 +25,7 @@ const HomePage = () => {
     const [categoryID, setCategoryID] = useState<string>("");
     const [items, setItems] = useState<ItemResponse[]>([]);
     const [blogs, setBlogs] = useState<BlogResponse[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const handleScroll = () => {
         const scrollTop = window.scrollY;
@@ -55,13 +57,23 @@ const HomePage = () => {
     useEffect(() => {
         GetBlogsApi().then((response) => {
             setBlogs(response?.blogs);
+            setLoading(false);
         })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            })
     }, []);
 
     useEffect(() => {
         if (categoryID) {
             GetItemsByCategoryIDApi(categoryID).then((response) => {
                 setItems(response);
+                setLoading(false);
+            }).catch((error) => {
+                console.log(error);
+                setItems([]);
+                setLoading(false);
             })
         }
     }, [categoryID]);
@@ -106,52 +118,58 @@ const HomePage = () => {
                                 drag: 'free',
                             }}
                         >
-                            {categories ? (
-                                categories.map((category) => (
-                                    <SplideSlide key={category._id}>
-                                        <div>
-                                            <p
-                                                className={`category-tag ${categoryID === category._id ? "active" : ""
-                                                    }`}
-                                                onClick={() => handleCategoryClick(category._id)}
-                                            >
-                                                {category.categoryName}
-                                            </p>
-                                        </div>
-                                    </SplideSlide>
-                                ))
-                            ) : (
-                                <div>No categories found</div>
-                            )}
+                            {
+                                categories && categories.length > 0 ? (
+                                    categories.map((category) => (
+                                        <SplideSlide key={category._id}>
+                                            <div>
+                                                <p
+                                                    className={`category-tag ${categoryID === category._id ? "active" : ""
+                                                        }`}
+                                                    onClick={() => handleCategoryClick(category._id)}
+                                                >
+                                                    {category.categoryName}
+                                                </p>
+                                            </div>
+                                        </SplideSlide>
+                                    ))
+                                ) : (
+                                    <div>No categories found</div>
+                                )}
                         </Splide>
                     </div>
                     <div className="item-container">
-                        {items ? (items.slice(0, 3).map((item) => {
-                            return (
-                                <div key={item._id} className='item-card'>
-                                    <Image src={`${appConfig.nextPublicApiBaseUrl}/uploads/${item.banner}`}
-                                        alt="banner"
-                                        width={300}
-                                        height={250}
-                                        className='item-banner'
-                                        onClick={() => router.push(`/items/${item._id}`)} />
-                                    <div className='item-details'>
-                                        <div className='item-title-cart'>
-                                            <h4 className='item-title'>{item.title}</h4>
-                                            <CartIcon itemID={item._id || ''} quantity={1} showText={false} />
+                        {loading ? (
+                            [...Array(3)].map((_, index) => (
+                                <ItemSkeleton key={index} />
+                            ))
+                        ) :
+                            items && items.length > 0 ? (items.slice(0, 3).map((item) => {
+                                return (
+                                    <div key={item._id} className='item-card'>
+                                        <Image src={`${appConfig.nextPublicApiBaseUrl}/uploads/${item.banner}`}
+                                            alt="banner"
+                                            width={300}
+                                            height={250}
+                                            className='item-banner'
+                                            onClick={() => router.push(`/items/${item._id}`)} />
+                                        <div className='item-details'>
+                                            <div className='item-title-cart'>
+                                                <h4 className='item-title'>{item.title}</h4>
+                                                <CartIcon itemID={item._id || ''} quantity={1} showText={false} />
+                                            </div>
+                                            <p className='item-description'>{truncateText(item.description || '', 60)}</p>
+                                            <p className='item-price'>Price: BDT {item.price}</p>
                                         </div>
-                                        <p className='item-description'>{truncateText(item.description || '', 60)}</p>
-                                        <p className='item-price'>Price: BDT {item.price}</p>
                                     </div>
+                                )
+                            })
+                            ) : (
+                                <div className="no-items">
+                                    <Image src={'/cross.png'} height={20} width={20} alt="loading" />
+                                    <h4>No items found</h4>
                                 </div>
-                            )
-                        })
-                        ) : (
-                            <div className="no-items">
-                                <Image src={'/cross.png'} height={20} width={20} alt="loading" />
-                                <h4>No items found</h4>
-                            </div>
-                        )}
+                            )}
                         <button className="view-all-button"
                             onClick={() => router.push('/items')}>
                             View All Items
@@ -161,29 +179,36 @@ const HomePage = () => {
             </div>
             <div className="blog-container">
                 <h2 className="blog-title">Our Stories</h2>
-                <p className="blog-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <p className="blog-text">Dig in invites you to delve into the rich tapestry of our culinary adventures,
+                    from the farm-fresh ingredients to the chef's meticulous craftsmanship.
+                    Discover the inspirations behind each dish and share your own memorable dining experiences with us.</p>
                 <div className="blog-cards">
-                    {blogs && blogs.slice(0, 3).map((blog) => {
-                        return (
-                            <div key={blog._id}>
-                                <div className="blog-card">
-                                    <Image src={`${appConfig.nextPublicApiBaseUrl}/uploads/${blog.banner}`}
-                                        alt="banner"
-                                        width={300}
-                                        height={250}
-                                        className="banner-image" />
-                                    <div className="blog-details">
-                                        <PiHamburgerFill className="blog-icon" />
-                                        <h4>{blog.title}</h4>
-                                        <p className="blog-card-content">
-                                            {truncateText(blog.content ?? "", 60)}</p>
-                                        <Button type="button" value="Read More" additionalStyle="read-more-button"
-                                            onClick={() => router.push(`/blogs/${blog._id}`)} />
+                    {
+                        loading ? (
+                            [...Array(3)].map((_, index) => (
+                                <ItemSkeleton key={index} />
+                            ))
+                        ) : blogs && blogs.slice(0, 3).map((blog) => {
+                            return (
+                                <div key={blog._id}>
+                                    <div className="blog-card">
+                                        <Image src={`${appConfig.nextPublicApiBaseUrl}/uploads/${blog.banner}`}
+                                            alt="banner"
+                                            width={300}
+                                            height={250}
+                                            className="banner-image" />
+                                        <div className="blog-details">
+                                            <PiHamburgerFill className="blog-icon" />
+                                            <h4>{blog.title}</h4>
+                                            <p className="blog-card-content">
+                                                {truncateText(blog.content ?? "", 60)}</p>
+                                            <Button type="button" value="Read More" additionalStyle="read-more-button"
+                                                onClick={() => router.push(`/blogs/${blog._id}`)} />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
                     <button className="view-all-button"
                         onClick={() => router.push('/blogs')}>
                         View All Blogs
