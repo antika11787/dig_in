@@ -92,7 +92,7 @@ const ManageItems = () => {
         setItems([]);
         setLoading(false);
       });
-  }, [contentLength, dispatch, currentPage, searchQuery, limit]);
+  }, [contentLength, filter, dispatch, currentPage, searchQuery, limit]);
 
   return (
     <div className="manage-items-container">
