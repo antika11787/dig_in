@@ -17,8 +17,7 @@ const upload: Multer = multer({
       file: Express.Multer.File,
       callback: (error: Error | null, destination: string) => void
     ) {
-      callback(null, path.join(__dirname, "../uploads"));
-      console.log("dirname", __dirname);
+      callback(null, path.join("/uploads"));
     },
     filename: function (
       req: Request,
