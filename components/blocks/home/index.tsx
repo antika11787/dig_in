@@ -180,8 +180,9 @@ const HomePage = () => {
             <div className="blog-container">
                 <h2 className="blog-title">Our Stories</h2>
                 <p className="blog-text">Dig in invites you to delve into the rich tapestry of our culinary adventures,
-                    from the farm-fresh ingredients to the chef's meticulous craftsmanship.
+                    from the farm-fresh ingredients to the chef&apos;s meticulous craftsmanship.
                     Discover the inspirations behind each dish and share your own memorable dining experiences with us.</p>
+
                 <div className="blog-cards">
                     {
                         loading ? (
