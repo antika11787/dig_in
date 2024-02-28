@@ -11,7 +11,10 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static("/opt/render/project/src/uploads"));
+app.use(
+  "/opt/render/project/src/uploads",
+  express.static("/opt/render/project/src/uploads")
+);
 app.use(handleSyntaxError);
 app.use("/api/v1/", indexRouter);
 
