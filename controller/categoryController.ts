@@ -23,6 +23,8 @@ class CategoryController {
         return res.status(400).send({ message: "Category already exists" });
       }
 
+      console.log("pathhhhh", file?.path);
+
       const pathParts = file?.path.split(`\\`).pop();
 
       const category = new categoryModel({

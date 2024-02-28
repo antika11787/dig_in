@@ -238,7 +238,7 @@ class BlogController {
 
       const imagePath: string = blog.banner;
 
-      fs.unlink(`/${imagePath}`, async (err) => {
+      fs.unlink(`${appConfig.dirname}/${imagePath}`, async (err) => {
         if (err) {
           console.log(err);
           return res.status(500).send(failure("Internal server error", err));
