@@ -1,0 +1,230 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.manage-category-container {
+  @include cms-container;
+
+  .manage-category-header {
+    @include cms-header;
+
+    .manage-category-title {
+      font-size: 24px;
+      color: $color-dark;
+    }
+
+    .create-category-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+
+  .manage-category-body {
+    @include cms-body;
+
+    .manage-category-card-table-header {
+      display: flex;
+      color: $color-dark;
+      justify-content: space-between;
+      margin-bottom: 7px;
+
+      .manage-category-card-table-name,
+      .manage-category-card-table-action {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      .manage-category-card-table-name {
+        width: 350px;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 0 0 10px;
+        padding: 0;
+      }
+
+      .manage-category-card-table-action {
+        margin-right: 50px;
+      }
+    }
+
+    .manage-category-card {
+      @include cms-card;
+
+      .manage-category-card-table {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .manage-category-image-title {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .manage-category-image {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            padding: 10px;
+          }
+
+          .manage-category-details {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            .manage-category-name {
+              // font-size: 18px;
+              font-weight: bold;
+              color: $color-dark;
+              margin: 0;
+            }
+
+            .manage-category-total {
+              font-size: 15px;
+              margin: 0;
+
+              .manage-category-total-number {
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+
+      .manage-category-button {
+        display: flex;
+        gap: 20px;
+        margin-right: 40px;
+        align-items: center;
+
+        .edit-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-activate;
+        }
+
+        .delete-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-danger;
+        }
+      }
+    }
+  }
+}
+
+.create-category-form-container {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+
+  .create-category-form-heading {
+    font-size: 24px;
+    color: $color-dark;
+    text-align: center;
+  }
+
+  .create-category-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    // .create-category-form-item {
+    //   display: flex;
+    //   flex-direction: column;
+    //   gap: 3px;
+
+    //   .create-category-form-label {
+    //     font-size: 16px;
+    //     font-weight: bold;
+    //     color: $color-dark;
+    //   }
+
+    //   .create-category-form-input {
+    //     width: 500px;
+    //     padding: 10px 15px;
+    //     border-radius: 10px;
+    //     border: 1px solid $color-border;
+    //     font-size: 16px;
+    //     outline: none;
+    //   }
+    // }
+
+    .create-category-form-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .upload {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .upload-icon {
+          height: 40px;
+          width: 40px;
+          cursor: pointer;
+        }
+      }
+      .upload-image {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        margin: 0 auto;
+      }
+    }
+
+    .submit-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+}
+
+.delete-modal-container {
+  @include delete-modal;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+}

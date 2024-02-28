@@ -1,0 +1,201 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.single-item-container {
+  margin: 110px 80px 10px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+
+  .single-item-banner-details {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+
+    .single-item-banner {
+      border-radius: 5px;
+      object-fit: cover;
+      width: 450px;
+      height: 350px;
+    }
+
+    .single-item-details {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      width: 50%;
+      top: 38%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+
+      .price-and-quantity {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 70px;
+
+        .add-to-cart {
+          border: 2px solid $color-activate;
+          border-radius: 5px;
+          padding: 2px 10px;
+          cursor: pointer;
+
+          .save-quantity-button {
+            cursor: pointer;
+            align-self: center;
+            border: none;
+            outline: none;
+            background-color: transparent;
+          }
+        }
+
+        .quantity-increment {
+          display: flex;
+          gap: 15px;
+
+          .quantity {
+            font-size: 18px;
+          }
+
+          .quantity-button {
+            cursor: pointer;
+            align-self: center;
+            border: none;
+            outline: none;
+            background-color: $color-activate;
+            padding: 5px 10px;
+            color: $color-white;
+            font-size: 16px;
+            border-radius: 2px;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+
+        .single-item-price {
+          font-weight: bold;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .single-item-images {
+    // margin-top: -20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    margin-left: 70px;
+
+    .slider {
+      width: 400px;
+      // margin-bottom: 0;
+
+      .single-item-image {
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.more-item-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .more-item-heading {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: $color-dark;
+  }
+
+  .more-items-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .more-item-container {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      align-items: center;
+
+      .no-items {
+        grid-column: span 3;
+        margin-bottom: -30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        width: 71vw;
+        min-height: 440px;
+      }
+
+      .more-item-card {
+        width: 400px;
+        height: 170px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px,
+          rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        border-radius: 5px;
+
+        .more-item-details {
+          padding: 0 20px;
+          flex-grow: 1;
+
+          .more-item-title-cart {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .more-item-description {
+            font-size: 14px;
+            color: $color-dark;
+          }
+
+          .more-item-price {
+            font-weight: bold;
+            font-size: 14px;
+          }
+        }
+
+        .more-item-image-container {
+          width: 300px;
+          height: 150px;
+          overflow: hidden;
+
+          .more-item-banner {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .more-slider {
+        width: 900px;
+        height: 150px;
+        padding: 0;
+        grid-column: span 3;
+        margin-bottom: 50px;
+      }
+    }
+  }
+}

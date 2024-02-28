@@ -1,0 +1,233 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.manage-blogs-container {
+  @include cms-container;
+
+  .manage-blogs-header {
+    @include cms-header;
+
+    .manage-blogs-title {
+      font-size: 24px;
+      color: $color-dark;
+    }
+
+    .create-blogs-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+
+  .manage-blogs-body {
+    @include cms-body;
+
+    .manage-blogs-card-table-header {
+      display: flex;
+      color: $color-dark;
+      margin-bottom: 7px;
+      justify-content: space-between;
+
+      .manage-blogs-card-table-title,
+      .manage-blogs-card-table-author,
+      .manage-blogs-card-table-date,
+      .manage-blogs-card-table-action {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      .manage-blogs-card-table-title,
+      .manage-blogs-card-table-author,
+      .manage-blogs-card-table-date {
+        width: 200px;
+      }
+
+      .manage-blogs-card-table-action {
+        margin-right: 40px;
+      }
+    }
+
+    .manage-blogs-card {
+      @include cms-card;
+
+      .manage-blogs-card-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .manage-blogs-card-image-title {
+          width: 250px;
+          display: flex;
+          align-items: center;
+
+          .manage-blogs-card-image {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            padding: 10px;
+          }
+
+          .manage-blogs-card-title {
+            width: 200px;
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+            font-weight: bold;
+            color: $color-dark;
+          }
+        }
+
+        .manage-blogs-card-date,
+        .manage-blogs-card-author {
+          width: 200px;
+          margin: 0;
+          padding: 0;
+          font-size: 15px;
+          color: $color-dark;
+        }
+
+        .manage-blogs-card-author {
+          margin-left: 20px;
+        }
+
+        .manage-blogs-card-date {
+          margin-left: 55px;
+        }
+      }
+      .manage-blogs-card-buttons {
+        display: flex;
+        gap: 20px;
+        margin-right: 40px;
+        align-items: center;
+
+        .edit-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-activate;
+        }
+
+        .delete-button {
+          font-size: 22px;
+          cursor: pointer;
+          color: $color-danger;
+        }
+      }
+    }
+  }
+}
+
+.create-blogs-form-container {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+
+  .create-blogs-form-heading {
+    font-size: 24px;
+    color: $color-dark;
+    text-align: center;
+  }
+
+  .create-blogs-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    .create-blogs-form-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .create-blogs-form-label {
+        font-size: 17px;
+        font-weight: bold;
+        color: $color-dark;
+      }
+
+      .create-blogs-form-input {
+        width: 500px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        font-size: 16px;
+        outline: none;
+      }
+    }
+
+    .create-blogs-form-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .upload {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .upload-icon {
+          height: 40px;
+          width: 40px;
+          cursor: pointer;
+        }
+      }
+      .upload-image {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        margin: 0 auto;
+      }
+    }
+
+    .submit-button {
+      height: 40%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background-color: $color-activate;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-activate-hover;
+      }
+    }
+  }
+}
+
+.delete-modal-container {
+  @include delete-modal;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+}

@@ -1,0 +1,189 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.my-orders-container {
+  @include cms-container;
+
+  .my-orders-header {
+    @include cms-header;
+
+    .my-orders-title {
+      font-size: 24px;
+      color: $color-dark;
+    }
+
+    .my-orders-sort {
+      margin-right: 20px;
+    }
+  }
+
+  .my-orders-body {
+    @include cms-body;
+
+    .my-orders-card {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      border-radius: 10px;
+      padding: 10px 0;
+
+      .my-orders-img-details {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .my-orders-img {
+          padding: 10px;
+        }
+
+        .my-orders-card-details {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+
+          .my-orders-card-customer,
+          .my-orders-card-price,
+          .my-orders-card-items,
+          .my-orders-card-date {
+            margin: 0;
+            padding: 0;
+          }
+
+          .my-orders-card-customer {
+            font-size: 15px;
+            font-weight: bold;
+
+            .my-orders-card-ordered {
+              font-weight: normal;
+            }
+          }
+
+          .my-orders-card-date {
+            font-size: 14px;
+            color: $color-dark;
+          }
+        }
+      }
+
+      .my-orders-card-actions {
+        .my-orders-card-status {
+          margin: 0;
+          padding: 5px;
+          border-radius: 5px;
+        }
+
+        .my-orders-card-status.Pending {
+          background-color: $color-danger-light;
+        }
+        .my-orders-card-status.In-progress {
+          background-color: $color-warning;
+        }
+        .my-orders-card-status.Delivered {
+          background-color: $color-activate-light;
+        }
+      }
+
+      .eye-button {
+        font-size: 20px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: $color-dark;
+        margin-right: 10px;
+        cursor: pointer;
+        margin-right: 50px;
+      }
+    }
+  }
+}
+
+.modal-card-title {
+  text-align: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  .modal-card {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+    width: 250px;
+    background-color: $color-black-box-shadow-light;
+    padding: 10px;
+    border-radius: 5px;
+
+    .modal-img {
+      width: 55px;
+      height: 55px;
+      object-fit: cover;
+      margin-right: 12px;
+      border-radius: 50%;
+    }
+
+    .modal-card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .modal-card-title {
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        font-weight: bold;
+
+        .modal-card-quantity {
+          font-size: 14px;
+          color: $color-dark;
+          font-weight: normal;
+        }
+      }
+
+      .modal-card-cost {
+        font-size: 13px;
+        margin: 0;
+        padding: 0;
+        color: $color-text-copyright;
+      }
+    }
+  }
+}
+
+.modal-card-status-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-card-status {
+    width: 30%;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: $color-black-box-shadow;
+
+    .modal-card-status-option {
+      font-size: 15px;
+    }
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: $color-dark;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 23px;
+}

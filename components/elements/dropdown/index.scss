@@ -1,0 +1,21 @@
+@use "../../../styles/colors.scss" as *;
+
+.dropdown-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .dropdown-menu {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        box-shadow: rgba(0, 0, 0, 0.14) 0px 3px 8px;
+        padding: 10px;
+        border-radius: 5px;
+
+        &:focus-within {
+            box-shadow: rgba(0, 0, 0, 0.26) 0px 3px 8px;
+          }
+    }
+}

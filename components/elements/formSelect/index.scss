@@ -1,0 +1,27 @@
+@use "../../../styles/colors" as *;
+@use "../../../styles/mixins" as *;
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  .form-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: $color-dark;
+  }
+
+  .form-select {
+    width: 530px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid $color-border;
+    font-size: 16px;
+    outline: none;
+
+    .form-select-option {
+      color: $color-dark;
+    }
+  }
+}

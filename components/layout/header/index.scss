@@ -1,0 +1,79 @@
+@use "../../../styles/colors" as *;
+
+.header-container {
+  max-width: 100%;
+  padding: 10px 50px;
+  background-color: $color-background;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+
+  .header-ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+
+    .header-li {
+      .header-link {
+        text-decoration: none;
+        color: $color-dark;
+      }
+
+      .header-link.active {
+        text-decoration: underline solid $color-activate;
+        text-decoration-thickness: 0.1em;
+        text-underline-offset: 0.4em;
+        font-weight: bold;
+      }
+
+      // .header-link:hover {
+      //   text-decoration: underline solid $color-activate;
+      //   text-decoration-thickness: 0.1em;
+      //   text-underline-offset: 0.4em;
+      // }
+    }
+  }
+
+  .header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .cart-icon {
+      color: $color-box-shadow-pure-black;
+      cursor: pointer;
+      height: 25px;
+      width: 25px;
+    }
+
+    .profile-image {
+      cursor: pointer;
+    }
+
+    .login-button,
+    .signup-button,
+    .logout-button {
+      padding: 10px 15px;
+      font-size: 15px;
+      font-weight: normal;
+      border: 1px solid $color-dark;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: $color-background;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .login-button:hover,
+    .signup-button:hover,
+    .logout-button:hover {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+  }
+}
